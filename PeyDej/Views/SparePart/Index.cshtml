@@ -1,0 +1,48 @@
+@model IEnumerable<PeyDej.Models.Bases.SparePart>
+
+@{
+    ViewData["Title"] = "لیست قطعات";
+}
+
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+@functions {
+
+    private string? GetAntiXsrfRequestToken()
+    {
+        return Xsrf.GetAndStoreTokens(Context).RequestToken;
+    }
+}
+
+<div class="row">
+    <div class="col-12 offset-0">
+        <h3>@ViewData["Title"]</h3>
+        <hr />
+        <p>
+            <a class="btn btn-primary" asp-action="Create">ایجاد قطعه جدید</a>
+        </p>
+        <hr />
+        <style>
+            .gCol {
+                text-align: center;
+            }
+        </style>
+        @Html.AjaxGrid(Url.Action("Index") ?? string.Empty)
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    function DeleteItem(id){
+        if (confirm("برای حذف این آیتم مطمئن هستید؟")){
+            var token="@GetAntiXsrfRequestToken()";
+            $.post("@Url.Action("Delete")",{id:id , __RequestVerificationToken:token},
+                function (data){
+                    if (data.hasError == true){
+                        alert(data.error);
+                    }else {
+                        location.reload();
+                    }
+                },"JSON");
+            }
+        }
+</script>

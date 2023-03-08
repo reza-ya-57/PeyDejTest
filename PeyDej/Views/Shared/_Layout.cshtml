@@ -53,7 +53,7 @@
                 @* <h6 class="collapse-header">Custom Components:</h6> *@
                 <a asp-action="Index" asp-controller="SparePart" class="collapse-item">قطعات یدکی</a>
                 <a asp-action="Index" asp-controller="Motor" class="collapse-item">موتورها</a>
-                <a class="collapse-item" href="#">ماشین آلات</a>
+                <a asp-action="Index" asp-controller="Machine" class="collapse-item">ماشین آلات</a>
             </div>
         </div>
     </li>
@@ -369,19 +369,14 @@
 </div>
 
 <!-- Bootstrap core JavaScript-->
-<script src="vendor/jquery/jquery.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
+<script src="~/vendor/jquery/jquery.min.js"></script>
+<script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- Core plugin JavaScript-->
-<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
+<script src="~/vendor/jquery-easing/jquery.easing.min.js"></script>
 <!-- Custom scripts for all pages-->
 <script src="~/js/sb-admin-2.min.js"></script>
 @await RenderSectionAsync("Scripts", required: false)
-
 <script src="~/js/site.js" asp-append-version="true"></script>
-<script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
-
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
 <script src="~/lib/select2/js/select2.min.js" asp-append-version="true"></script>
 <script src="~/lib/persian-date-time-picker/bootstrap-datepicker.min.js" asp-append-version="true"></script>

@@ -8,9 +8,10 @@ namespace PeyDej.Models.Bases;
 [Table(name: "Machine", Schema = "Base")]
 public class Machine
 {
+    [Key]
     public long Id { get; set; }
 
-    public DateTime InsDate { get; set; }
+    public DateTime InsDate { get; set; } = DateTime.Now;
 
     [Display(Name = "نام ماشین")]
     [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]
@@ -22,111 +23,95 @@ public class Machine
     [Required(ErrorMessage = "مقدار {0} را وارد کنید")]
     public string Model { get; set; } = null!;
 
-    /// <summary>
-    /// دپارتمان
-    /// </summary>
     [Display(Name = "دپارتمان")]
+    [Range(typeof(int), "0", "65536", ErrorMessage = "مقدار {0} باید بین {1} تا این {2} باشد")]
+    [Required(ErrorMessage = "مقدار {0} را وارد کنید")]
+    public int? Department { get; set; }
+
+    [Display(Name = "شماره سریال")]
     [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]
     [Required(ErrorMessage = "مقدار {0} را وارد کنید")]
-    public int Department { get; set; }
-
-    /// <summary>
-    /// شماره سریال
-    /// </summary>
     public string SerialNumber { get; set; } = null!;
 
-    /// <summary>
-    /// کشور سازنده
-    /// </summary>
+    [Display(Name = "کشور سازنده")]
+    [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]
     public string? Country { get; set; }
 
-    /// <summary>
-    /// شرکت سازنده
-    /// </summary>
+    [Display(Name = "شرکت سازنده")]
+    [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]
     public string? Company { get; set; }
 
-    /// <summary>
-    /// فرآیند
-    /// </summary>
-    public int Process { get; set; }
+    [Display(Name = "فرآیند")]
+    [Range(typeof(int), "0", "65536", ErrorMessage = "مقدار {0} باید بین {1} تا این {2} باشد")]
+    [Required(ErrorMessage = "مقدار {0} را وارد کنید")]
+    public int? Process { get; set; }
 
-    /// <summary>
-    /// وضعیت در زمان خرید
-    /// </summary>
+    [Display(Name = "وضعیت در زمان خرید")]
+    [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]
     public string? PurchaseStatus { get; set; }
 
-    /// <summary>
-    /// تاریخ بهره برداری
-    /// </summary>
+    [Display(Name = "تاریخ بهره برداری")]
+    [Range(typeof(long), "0", "65536", ErrorMessage = "مقدار {0} باید بین {1} تا این {2} باشد")]
     public long? UtilizationDate { get; set; }
 
-    /// <summary>
-    /// آدرس کمپانی
-    /// </summary>
+    [Display(Name = "آدرس کمپانی")]
+    [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]
     public string? CompanyAddress { get; set; }
 
-    /// <summary>
-    /// آدرس نمایندگی
-    /// </summary>
+    [Display(Name = "آدرس نمایندگی")]
+    [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]
     public string? AgencyAddress { get; set; }
 
-    /// <summary>
-    /// نوع انرژی
-    /// </summary>
+    [Display(Name = "نوع انرژی")]
+    [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]
     public string? EnergyType { get; set; }
 
-    /// <summary>
-    /// میزان مصرف
-    /// </summary>
+    [Display(Name = "میزان مصرف")]
+    [Range(typeof(long), "0", "65536", ErrorMessage = "مقدار {0} باید بین {1} تا این {2} باشد")]
     public long? EnergyConsumption { get; set; }
 
-    /// <summary>
-    /// نوع روغن
-    /// </summary>
+    [Display(Name = "نوع روغن")]
+    [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]
     public string? OilType { get; set; }
 
-    /// <summary>
-    /// میزان مصرف روعن
-    /// </summary>
+    [Display(Name = "میزان مصرف روغن")]
+    [Range(typeof(long), "0", "65536", ErrorMessage = "مقدار {0} باید بین {1} تا این {2} باشد")]
     public long? OilConsumption { get; set; }
 
-    /// <summary>
-    /// دروه تعویض روغن
-    /// </summary>
+    [Display(Name = "دوره تعویض روغن")]
+    [Range(typeof(long), "0", "65536", ErrorMessage = "مقدار {0} باید بین {1} تا این {2} باشد")]
     public long? OilReplacementPeriod { get; set; }
 
-    /// <summary>
-    /// نوع گریس
-    /// </summary>
+    [Display(Name = "نوع گیریس")]
+    [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]
     public string? GreaseType { get; set; }
 
-    /// <summary>
-    /// محل روغن کاری
-    /// </summary>
+    [Display(Name = "محل روغن کاری")]
+    [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]
     public string? OilLocation { get; set; }
 
-    /// <summary>
-    /// میزان مصرف گریس
-    /// </summary>
+    [Display(Name = "میزان مصرف گیریس")]
+    [Range(typeof(long), "0", "65536", ErrorMessage = "مقدار {0} باید بین {1} تا این {2} باشد")]
     public long? GreaseConsumption { get; set; }
 
-    /// <summary>
-    /// دوره تعویض گریس
-    /// </summary>
+    [Display(Name = "دوره تعویض گیریس")]
+    [Range(typeof(long), "0", "65536", ErrorMessage = "مقدار {0} باید بین {1} تا این {2} باشد")]
     public long? GreaseReplacementPeriod { get; set; }
 
-    /// <summary>
-    /// محل گریسکاری
-    /// </summary>
+    [Display(Name = "محل گیریس کاری")]
+    [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]
     public string? GreaseLocation { get; set; }
 
-    /// <summary>
-    /// تعداد گریس خور
-    /// </summary>
+    [Display(Name = "تعداد گیریس خور")]
+    [Range(typeof(int), "0", "65536", ErrorMessage = "مقدار {0} باید بین {1} تا این {2} باشد")]
     public int? GreaseCount { get; set; }
 
+    [Display(Name = "دوره بازرسی")]
+    [Range(typeof(long), "0", "65536", ErrorMessage = "مقدار {0} باید بین {1} تا این {2} باشد")]
     public long? InspectionCycle { get; set; }
 
+    [Display(Name = "چرخه روغن کاری")]
+    [Range(typeof(long), "0", "65536", ErrorMessage = "مقدار {0} باید بین {1} تا این {2} باشد")]
     public long? LubricationCycle { get; set; }
 
     public GeneralStatus GeneralStatusId { get; set; } = GeneralStatus.Active;

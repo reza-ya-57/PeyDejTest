@@ -11,24 +11,24 @@ using PeyDej.Models.Bases;
 
 namespace PeyDej.Controllers
 {
-    public class MotorController : Controller
+    public class MachineController : Controller
     {
         private readonly PeyDejContext _context;
 
-        public MotorController(PeyDejContext context)
+        public MachineController(PeyDejContext context)
         {
             _context = context;
         }
 
-        // GET: Motor
+        // GET: Machine
         public async Task<IActionResult> Index()
         {
             if (HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
-                return PartialView("_Index", _context.Motors.Where(m => m.GeneralStatusId == GeneralStatus.Active).ToList());
+                return PartialView("_Index", _context.Machines.Where(m => m.GeneralStatusId == GeneralStatus.Active).ToList());
             return View();
         }
 
-        // GET: Motor/Details/5
+        // GET: Machine/Details/5
         public async Task<IActionResult> Details(long? id)
         {
             if (id == null)
@@ -36,70 +36,70 @@ namespace PeyDej.Controllers
                 return NotFound();
             }
 
-            var motor = await _context.Motors
+            var machine = await _context.Machines
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (motor == null)
+            if (machine == null)
             {
                 return NotFound();
             }
 
-            return View(motor);
+            return View(machine);
         }
 
-        // GET: Motor/Create
+        // GET: Machine/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Motor/Create
+        // POST: Machine/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(
             [Bind(
-                "Id,InsDate,SerialNumber,Emplacement,Manufacturer,Kw,V,BeltSerial,BeltCount,Fooli,ChainSerial,Type,Gear,MachineId,InspectionCycle,Description,GeneralStatusId")]
-            Motor motor)
+                "Id,InsDate,Name,Model,Department,SerialNumber,Country,Company,Process,PurchaseStatus,UtilizationDate,CompanyAddress,AgencyAddress,EnergyType,EnergyConsumption,OilType,OilConsumption,OilReplacementPeriod,GreaseType,OilLocation,GreaseConsumption,GreaseReplacementPeriod,GreaseLocation,GreaseCount,InspectionCycle,LubricationCycle,GeneralStatusId")]
+            Machine machine)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(motor);
+                _context.Add(machine);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(motor);
+            return View(machine);
         }
 
-        // GET: Motor/Edit/5
+        // GET: Machine/Edit/5
         public async Task<IActionResult> Edit(long? id)
         {
-            if (id == null || _context.Motors == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var motor = await _context.Motors.FindAsync(id);
-            if (motor == null)
+            var machine = await _context.Machines.FindAsync(id);
+            if (machine == null)
             {
                 return NotFound();
             }
 
-            return View(motor);
+            return View(machine);
         }
 
-        // POST: Motor/Edit/5
+        // POST: Machine/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(long id,
             [Bind(
-                "Id,InsDate,SerialNumber,Emplacement,Manufacturer,Kw,V,BeltSerial,BeltCount,Fooli,ChainSerial,Type,Gear,MachineId,InspectionCycle,Description,GeneralStatusId")]
-            Motor motor)
+                "Id,InsDate,Name,Model,Department,SerialNumber,Country,Company,Process,PurchaseStatus,UtilizationDate,CompanyAddress,AgencyAddress,EnergyType,EnergyConsumption,OilType,OilConsumption,OilReplacementPeriod,GreaseType,OilLocation,GreaseConsumption,GreaseReplacementPeriod,GreaseLocation,GreaseCount,InspectionCycle,LubricationCycle,GeneralStatusId")]
+            Machine machine)
         {
-            if (id != motor.Id)
+            if (id != machine.Id)
             {
                 return NotFound();
             }
@@ -108,12 +108,12 @@ namespace PeyDej.Controllers
             {
                 try
                 {
-                    _context.Update(motor);
+                    _context.Update(machine);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MotorExists(motor.Id))
+                    if (!MachineExists(machine.Id))
                     {
                         return NotFound();
                     }
@@ -126,29 +126,28 @@ namespace PeyDej.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(motor);
+            return View(machine);
         }
 
-
-        // POST: Motor/Delete/5
+        // POST: Machine/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
-            var motor = await _context.Motors.FindAsync(id);
-            if (motor != null)
+            var machine = await _context.Machines.FindAsync(id);
+            if (machine != null)
             {
-                motor.GeneralStatusId = GeneralStatus.Deleted;
-                _context.Motors.Update(motor);
+                machine.GeneralStatusId = GeneralStatus.Deleted;
+                _context.Machines.Update(machine);
             }
 
             await _context.SaveChangesAsync();
             return Json(new { hasError = false, message = "" });
         }
 
-        private bool MotorExists(long id)
+        private bool MachineExists(long id)
         {
-            return (_context.Motors?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Machines?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

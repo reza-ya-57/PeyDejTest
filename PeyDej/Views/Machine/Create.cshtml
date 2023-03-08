@@ -1,0 +1,221 @@
+@model PeyDej.Models.Bases.Machine
+
+@{
+    ViewData["Title"] = "معرفی ماشین جدید";
+}
+
+
+<div class="row">
+    <div class="col-6 offset-3">
+        <h3 xmlns="http://www.w3.org/1999/html">@ViewData["Title"]</h3>
+        <hr/>
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control"/>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="Model" class="control-label"></label>
+                        <input asp-for="Model" class="form-control"/>
+                        <span asp-validation-for="Model" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="Department" class="control-label"></label>
+                        <input asp-for="Department" class="form-control"/>
+                        <span asp-validation-for="Department" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="SerialNumber" class="control-label"></label>
+                        <input asp-for="SerialNumber" class="form-control"/>
+                        <span asp-validation-for="SerialNumber" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="Country" class="control-label"></label>
+                        <input asp-for="Country" class="form-control"/>
+                        <span asp-validation-for="Country" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="Company" class="control-label"></label>
+                        <input asp-for="Company" class="form-control"/>
+                        <span asp-validation-for="Company" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="Process" class="control-label"></label>
+                        <input asp-for="Process" class="form-control"/>
+                        <span asp-validation-for="Process" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="PurchaseStatus" class="control-label"></label>
+                        <input asp-for="PurchaseStatus" class="form-control"/>
+                        <span asp-validation-for="PurchaseStatus" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="UtilizationDate" class="control-label"></label>
+                        <input asp-for="UtilizationDate" class="form-control"/>
+                        <span asp-validation-for="UtilizationDate" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="CompanyAddress" class="control-label"></label>
+                        <input asp-for="CompanyAddress" class="form-control"/>
+                        <span asp-validation-for="CompanyAddress" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="AgencyAddress" class="control-label"></label>
+                        <input asp-for="AgencyAddress" class="form-control"/>
+                        <span asp-validation-for="AgencyAddress" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="EnergyType" class="control-label"></label>
+                        <input asp-for="EnergyType" class="form-control"/>
+                        <span asp-validation-for="EnergyType" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="EnergyConsumption" class="control-label"></label>
+                        <input asp-for="EnergyConsumption" class="form-control"/>
+                        <span asp-validation-for="EnergyConsumption" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="OilType" class="control-label"></label>
+                        <input asp-for="OilType" class="form-control"/>
+                        <span asp-validation-for="OilType" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="OilConsumption" class="control-label"></label>
+                        <input asp-for="OilConsumption" class="form-control"/>
+                        <span asp-validation-for="OilConsumption" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="OilReplacementPeriod" class="control-label"></label>
+                        <input asp-for="OilReplacementPeriod" class="form-control"/>
+                        <span asp-validation-for="OilReplacementPeriod" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="GreaseType" class="control-label"></label>
+                        <input asp-for="GreaseType" class="form-control"/>
+                        <span asp-validation-for="GreaseType" class="text-danger"></span>
+                    </div>
+            
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="OilLocation" class="control-label"></label>
+                        <input asp-for="OilLocation" class="form-control"/>
+                        <span asp-validation-for="OilLocation" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="GreaseConsumption" class="control-label"></label>
+                        <input asp-for="GreaseConsumption" class="form-control"/>
+                        <span asp-validation-for="GreaseConsumption" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="GreaseReplacementPeriod" class="control-label"></label>
+                        <input asp-for="GreaseReplacementPeriod" class="form-control"/>
+                        <span asp-validation-for="GreaseReplacementPeriod" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="GreaseLocation" class="control-label"></label>
+                        <input asp-for="GreaseLocation" class="form-control"/>
+                        <span asp-validation-for="GreaseLocation" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="GreaseCount" class="control-label"></label>
+                        <input asp-for="GreaseCount" class="form-control"/>
+                        <span asp-validation-for="GreaseCount" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="InspectionCycle" class="control-label"></label>
+                        <input asp-for="InspectionCycle" class="form-control"/>
+                        <span asp-validation-for="InspectionCycle" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="LubricationCycle" class="control-label"></label>
+                        <input asp-for="LubricationCycle" class="form-control"/>
+                        <span asp-validation-for="LubricationCycle" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <input type="submit" value="ذخیره" class="btn btn-primary"/>
+                        <a asp-action="Index" asp-controller="Machine" class="btn btn-danger">انصراف</a>
+                    </div>
+                </div>
+                <div class="col-6">
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>

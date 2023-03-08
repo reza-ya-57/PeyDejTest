@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Data" />
+      <Folder Include="Data\Tmp" />
       <Folder Include="Models\Bases" />
     </ItemGroup>
 

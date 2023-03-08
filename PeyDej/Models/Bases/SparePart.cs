@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace PeyDej.Models.Bases;
 
 [Table(name: "SparePart", Schema = "Base")]
-public partial class SparePart
+public class SparePart
 {
     public long Id { get; set; }
 

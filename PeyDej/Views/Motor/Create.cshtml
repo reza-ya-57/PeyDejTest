@@ -1,0 +1,139 @@
+@model PeyDej.Models.Bases.Motor
+
+@{
+    ViewData["Title"] = "معرفی موتور جدید";
+}
+
+<div class="row">
+    <div class="col-6 offset-3">
+        <h3 xmlns="http://www.w3.org/1999/html">@ViewData["Title"]</h3>
+        <hr/>
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="SerialNumber" class="control-label"></label>
+                        <input asp-for="SerialNumber" class="form-control"/>
+                        <span asp-validation-for="SerialNumber" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="Emplacement" class="control-label"></label>
+                        <input asp-for="Emplacement" class="form-control"/>
+                        <span asp-validation-for="Emplacement" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="Manufacturer" class="control-label"></label>
+                        <input asp-for="Manufacturer" class="form-control"/>
+                        <span asp-validation-for="Manufacturer" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="BeltSerial" class="control-label"></label>
+                        <input asp-for="BeltSerial" class="form-control"/>
+                        <span asp-validation-for="BeltSerial" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="Kw" class="control-label"></label>
+                        <input asp-for="Kw" class="form-control"/>
+                        <span asp-validation-for="Kw" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="V" class="control-label"></label>
+                        <input asp-for="V" class="form-control"/>
+                        <span asp-validation-for="V" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="BeltCount" class="control-label"></label>
+                        <input asp-for="BeltCount" class="form-control"/>
+                        <span asp-validation-for="BeltCount" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="Fooli" class="control-label"></label>
+                        <input asp-for="Fooli" class="form-control"/>
+                        <span asp-validation-for="Fooli" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="ChainSerial" class="control-label"></label>
+                        <input asp-for="ChainSerial" class="form-control"/>
+                        <span asp-validation-for="ChainSerial" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="Type" class="control-label"></label>
+                        <input asp-for="Type" class="form-control"/>
+                        <span asp-validation-for="Type" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="Gear" class="control-label"></label>
+                        <input asp-for="Gear" class="form-control"/>
+                        <span asp-validation-for="Gear" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="MachineId" class="control-label"></label>
+                        <input asp-for="MachineId" class="form-control"/>
+                        <span asp-validation-for="MachineId" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="InspectionCycle" class="control-label"></label>
+                        <input asp-for="InspectionCycle" class="form-control"/>
+                        <span asp-validation-for="InspectionCycle" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="Description" class="control-label"></label>
+                        <input asp-for="Description" class="form-control"/>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <input type="submit" value="ذخیره" class="btn btn-primary"/>
+                        <a asp-action="Index" class="btn btn-danger">بازگشت</a>
+                    </div>
+                </div>
+                <div class="col-6">
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

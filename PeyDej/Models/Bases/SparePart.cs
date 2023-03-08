@@ -8,6 +8,7 @@ namespace PeyDej.Models.Bases;
 [Table(name: "SparePart", Schema = "Base")]
 public class SparePart
 {
+    [Key]
     public long Id { get; set; }
 
     public DateTime InsDate { get; set; } = DateTime.Now;
@@ -34,5 +35,5 @@ public class SparePart
     [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]
     public string? Description { get; set; }
 
-    public int GeneralStatusId { get; set; } = 1;
+    public GeneralStatus GeneralStatusId { get; set; } = GeneralStatus.Active;
 }

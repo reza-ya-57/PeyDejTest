@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PeyDej.Data;
+using PeyDej.Models;
 using PeyDej.Models.Bases;
 
 namespace PeyDej.Controllers
@@ -23,7 +24,7 @@ namespace PeyDej.Controllers
         public IActionResult Index()
         {
             if (HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
-                return PartialView("_Index", _context.Set<SparePart>());
+                return PartialView("_Index", _context.SpareParts.Where(m => m.GeneralStatusId == GeneralStatus.Active));
             return View();
         }
 
@@ -134,7 +135,8 @@ namespace PeyDej.Controllers
             var sparePart = await _context.SpareParts.FindAsync(id);
             if (sparePart != null)
             {
-                _context.SpareParts.Remove(sparePart);
+                sparePart.GeneralStatusId = GeneralStatus.Deleted;
+                _context.SpareParts.Update(sparePart);
             }
 
             await _context.SaveChangesAsync();

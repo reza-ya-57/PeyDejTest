@@ -12,4 +12,5 @@ public partial class PeyDejContext : DbContext
 
     public virtual DbSet<SparePart> SpareParts { get; set; }
     public virtual DbSet<Motor> Motors { get; set; }
+    public virtual DbSet<Machine> Machines { get; set; }
 }

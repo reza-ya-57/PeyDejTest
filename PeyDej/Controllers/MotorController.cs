@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PeyDej.Data;
+using PeyDej.Models;
 using PeyDej.Models.Bases;
 
 namespace PeyDej.Controllers
@@ -23,7 +24,7 @@ namespace PeyDej.Controllers
         public async Task<IActionResult> Index()
         {
             if (HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
-                return PartialView("_Index", _context.Motors.Where(m => m.GeneralStatusId == 1).ToList());
+                return PartialView("_Index", _context.Motors.Where(m => m.GeneralStatusId == GeneralStatus.Active).ToList());
             return View();
         }
 
@@ -128,42 +129,21 @@ namespace PeyDej.Controllers
             return View(motor);
         }
 
-        // GET: Motor/Delete/5
-        public async Task<IActionResult> Delete(long? id)
-        {
-            if (id == null || _context.Motors == null)
-            {
-                return NotFound();
-            }
-
-            var motor = await _context.Motors
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (motor == null)
-            {
-                return NotFound();
-            }
-
-            return View(motor);
-        }
 
         // POST: Motor/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
-            if (_context.Motors == null)
-            {
-                return Problem("Entity set 'PeyDejContext.Motors'  is null.");
-            }
-
             var motor = await _context.Motors.FindAsync(id);
             if (motor != null)
             {
-                _context.Motors.Remove(motor);
+                motor.GeneralStatusId = GeneralStatus.Deleted;
+                _context.Motors.Update(motor);
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return Json(new { hasError = false, message = "" });
         }
 
         private bool MotorExists(long id)

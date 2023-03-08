@@ -10,7 +10,7 @@ public class SparePart
 {
     public long Id { get; set; }
 
-    public DateTime InsDate { get; set; }
+    public DateTime InsDate { get; set; } = DateTime.Now;
 
     [Display(Name = "نام قطعه")]
     [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]

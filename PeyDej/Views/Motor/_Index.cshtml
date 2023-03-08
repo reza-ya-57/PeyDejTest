@@ -1,0 +1,38 @@
+@using PeyDej.Tools
+@model IEnumerable<PeyDej.Models.Bases.Motor>
+
+
+@(Html
+    .Grid(Model)
+    .Build(columns =>
+    {
+        columns.Add(model => model.SerialNumber).Titled(@Html.DisplayNameFor(model => model.SerialNumber));
+        columns.Add(model => model.Type).Titled(@Html.DisplayNameFor(model => model.Type));
+        columns.Add(model => model.Emplacement).Titled(@Html.DisplayNameFor(model => model.Emplacement));
+        columns.Add(model => model.BeltCount).Titled(@Html.DisplayNameFor(model => model.BeltCount));
+        columns.Add().Titled("ویرایش").Encoded(false).RenderedAs(model =>
+            Html.ActionLink("ویرایش", "Edit", "Motor", new { id = model.Id },
+                new { @class = "btn btn-warning btn-sm" })
+            );
+        columns.Add().Titled("ویرایش").Encoded(false).RenderedAs(model =>
+            Html.ActionLink("جزییات", "Details", "Motor", new { id = model.Id },
+                new { @class = "btn btn-success btn-sm" }));
+        columns.Add().Titled("حذف").Encoded(false).RenderedAs(model =>
+            PeyDejHelper.ActiveLinkAjax(
+                $"javascript:DeleteItem('{model.Id}');", "حذف", "btn btn-danger btn-sm")
+            );
+    })
+    .Empty("هیچ ایتمی وجود ندارد")
+    .Sortable()
+    .Filterable()
+    .Using(GridFilterMode.Row)
+    .Pageable(pager =>
+    {
+        pager.PageSizes = new Dictionary<Int32, String> { { 10, "10" }, { 20, "20" }, { 50, "50" }, { 0, "همه" } };
+        pager.ShowPageSizes = true;
+        pager.PagesToDisplay = 5;
+        pager.CurrentPage = 1;
+        pager.RowsPerPage = 10;
+    })
+    .Css("table table-secondary table-striped gCol")
+    )

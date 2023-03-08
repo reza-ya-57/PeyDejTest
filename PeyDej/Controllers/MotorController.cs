@@ -22,9 +22,9 @@ namespace PeyDej.Controllers
         // GET: Motor
         public async Task<IActionResult> Index()
         {
-              return _context.Motors != null ? 
-                          View(await _context.Motors.ToListAsync()) :
-                          Problem("Entity set 'PeyDejContext.Motors'  is null.");
+            if (HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                return PartialView("_Index", _context.Motors.Where(m => m.GeneralStatusId == 1).ToList());
+            return View();
         }
 
         // GET: Motor/Details/5
@@ -56,7 +56,10 @@ namespace PeyDej.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,InsDate,SerialNumber,Emplacement,Manufacturer,Kw,V,BeltSerial,BeltCount,Fooli,ChainSerial,Type,Gear,MachineId,InspectionCycle,Description,GeneralStatusId")] Motor motor)
+        public async Task<IActionResult> Create(
+            [Bind(
+                "Id,InsDate,SerialNumber,Emplacement,Manufacturer,Kw,V,BeltSerial,BeltCount,Fooli,ChainSerial,Type,Gear,MachineId,InspectionCycle,Description,GeneralStatusId")]
+            Motor motor)
         {
             if (ModelState.IsValid)
             {
@@ -64,6 +67,7 @@ namespace PeyDej.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             return View(motor);
         }
 
@@ -80,6 +84,7 @@ namespace PeyDej.Controllers
             {
                 return NotFound();
             }
+
             return View(motor);
         }
 
@@ -88,7 +93,10 @@ namespace PeyDej.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,InsDate,SerialNumber,Emplacement,Manufacturer,Kw,V,BeltSerial,BeltCount,Fooli,ChainSerial,Type,Gear,MachineId,InspectionCycle,Description,GeneralStatusId")] Motor motor)
+        public async Task<IActionResult> Edit(long id,
+            [Bind(
+                "Id,InsDate,SerialNumber,Emplacement,Manufacturer,Kw,V,BeltSerial,BeltCount,Fooli,ChainSerial,Type,Gear,MachineId,InspectionCycle,Description,GeneralStatusId")]
+            Motor motor)
         {
             if (id != motor.Id)
             {
@@ -113,8 +121,10 @@ namespace PeyDej.Controllers
                         throw;
                     }
                 }
+
                 return RedirectToAction(nameof(Index));
             }
+
             return View(motor);
         }
 
@@ -145,19 +155,20 @@ namespace PeyDej.Controllers
             {
                 return Problem("Entity set 'PeyDejContext.Motors'  is null.");
             }
+
             var motor = await _context.Motors.FindAsync(id);
             if (motor != null)
             {
                 _context.Motors.Remove(motor);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool MotorExists(long id)
         {
-          return (_context.Motors?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Motors?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

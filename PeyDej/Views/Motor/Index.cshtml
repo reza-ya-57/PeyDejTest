@@ -1,125 +1,48 @@
-@model IEnumerable<PeyDej.Models.Bases.Motor>
+@model IEnumerable<PeyDej.Models.Bases.SparePart>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "لیست موتورها";
 }
 
-<h1>Index</h1>
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+@functions {
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.InsDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SerialNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Emplacement)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Manufacturer)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Kw)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.V)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BeltSerial)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BeltCount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Fooli)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ChainSerial)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Type)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Gear)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MachineId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.InspectionCycle)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GeneralStatusId)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.InsDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SerialNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Emplacement)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Manufacturer)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Kw)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.V)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BeltSerial)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BeltCount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Fooli)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ChainSerial)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Type)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Gear)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MachineId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.InspectionCycle)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GeneralStatusId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+    private string? GetAntiXsrfRequestToken()
+    {
+        return Xsrf.GetAndStoreTokens(Context).RequestToken;
+    }
 }
-    </tbody>
-</table>
+
+<div class="row">
+    <div class="col-12 offset-0">
+        <h3>@ViewData["Title"]</h3>
+        <hr />
+        <p>
+            <a class="btn btn-primary" asp-action="Create">معرفی موتور جدید</a>
+        </p>
+        <hr />
+        <style>
+            .gCol {
+                text-align: center;
+            }
+        </style>
+        @Html.AjaxGrid(Url.Action("Index") ?? string.Empty)
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    function DeleteItem(id){
+        if (confirm("برای حذف این آیتم مطمئن هستید؟")){
+            var token="@GetAntiXsrfRequestToken()";
+            $.post("@Url.Action("Delete")",{id:id , __RequestVerificationToken:token},
+                function (data){
+                    if (data.hasError == true){
+                        alert(data.error);
+                    }else {
+                        location.reload();
+                    }
+                },"JSON");
+            }
+        }
+</script>

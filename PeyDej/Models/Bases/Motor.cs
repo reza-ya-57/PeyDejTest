@@ -11,61 +11,61 @@ public class Motor
     [Key]
     public long Id { get; set; }
 
-    public DateTime InsDate { get; set; }
+    public DateTime InsDate { get; set; } = DateTime.Now;
 
-    /// <summary>
-    /// شماره سریال
-    /// </summary>
+    [Display(Name = "شماره سریال")]
+    [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]
+    [Required(ErrorMessage = "مقدار {0} را وارد کنید")]
     public string SerialNumber { get; set; } = null!;
 
-    /// <summary>
-    /// محل نصب
-    /// </summary>
+    [Display(Name = "محل نصب")]
+    [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]
     public string? Emplacement { get; set; }
 
-    /// <summary>
-    /// سازنده
-    /// </summary>
+    [Display(Name = "سازنده")]
+    [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]
     public string? Manufacturer { get; set; }
 
+    [Display(Name = "توان مصرفی(KW)")]
+    [Range(typeof(long), "0", "65536", ErrorMessage = "مقدار {0} باید بین {1} تا این {2} باشد")]
     public long? Kw { get; set; }
 
+    [Display(Name = "ولتاژ مصرفی(V)")]
+    [Range(typeof(long), "0", "65536", ErrorMessage = "مقدار {0} باید بین {1} تا این {2} باشد")]
     public long? V { get; set; }
 
-    /// <summary>
-    /// شماره تسمه
-    /// </summary>
+    [Display(Name = "شماره تسمه")]
+    [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]
     public string? BeltSerial { get; set; }
 
-    /// <summary>
-    /// تعداد
-    /// </summary>
+    [Display(Name = "تعداد تسمه")]
+    [Range(typeof(int), "0", "65536", ErrorMessage = "مقدار {0} باید بین {1} تا این {2} باشد")]
     public int? BeltCount { get; set; }
 
+    [Display(Name = "فولی")]
+    [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]
     public string? Fooli { get; set; }
 
-    /// <summary>
-    /// شماره زنجیر
-    /// </summary>
+    [Display(Name = "شماره زنجیر")]
+    [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]
     public string? ChainSerial { get; set; }
 
-    /// <summary>
-    /// نوع
-    /// </summary>
+    [Display(Name = "نوع")]
+    [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]
     public string? Type { get; set; }
 
-    /// <summary>
-    /// دنده
-    /// </summary>
+    [Display(Name = "دنده")]
+    [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]
     public string? Gear { get; set; }
 
     public long? MachineId { get; set; }
 
+    [Display(Name = "چرخش بازرسی")]
+    [Range(typeof(int), "0", "65536", ErrorMessage = "مقدار {0} باید بین {1} تا این {2} باشد")]
     public long? InspectionCycle { get; set; }
 
-    /// <summary>
-    /// توضیحات
-    /// </summary>
+    [Display(Name = "توضیحات")]
+    [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]
     public string? Description { get; set; }
 
     public int GeneralStatusId { get; set; } = 1;

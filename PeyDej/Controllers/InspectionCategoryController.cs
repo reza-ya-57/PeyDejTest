@@ -10,69 +10,69 @@ using PeyDej.Models.Bases;
 
 namespace PeyDej.Controllers
 {
-    public class CategoryController : Controller
+    public class InspectionCategoryController : Controller
     {
         private readonly PeyDejContext _context;
 
-        public CategoryController(PeyDejContext context)
+        public InspectionCategoryController(PeyDejContext context)
         {
             _context = context;
         }
 
-        // GET: Category
+        // GET: InspectionCategory
         public IActionResult Index()
         {
             if (HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
-                return PartialView("_Index", _context.Set<Category>());
+                return PartialView("_Index", _context.Set<InspectionCategory>());
             return View();
         }
 
-        // GET: Category/Create
+        // GET: InspectionCategory/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Category/Create
+        // POST: InspectionCategory/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,InsDate,Name,Value")] Category category)
+        public async Task<IActionResult> Create([Bind("Id,InsDate,Caption")] InspectionCategory inspectionCategory)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(category);
+                _context.Add(inspectionCategory);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(category);
+            return View(inspectionCategory);
         }
 
-        // GET: Category/Edit/5
+        // GET: InspectionCategory/Edit/5
         public async Task<IActionResult> Edit(long? id)
         {
-            if (id == null)
+            if (id == null || _context.InspectionCategories == null)
             {
                 return NotFound();
             }
 
-            var category = await _context.Categories.FindAsync(id);
-            if (category == null)
+            var inspectionCategory = await _context.InspectionCategories.FindAsync(id);
+            if (inspectionCategory == null)
             {
                 return NotFound();
             }
-            return View(category);
+            return View(inspectionCategory);
         }
 
-        // POST: Category/Edit/5
+        // POST: InspectionCategory/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,InsDate,Name,Value")] Category category)
+        public async Task<IActionResult> Edit(long id, [Bind("Id,InsDate,Caption")] InspectionCategory inspectionCategory)
         {
-            if (id != category.Id)
+            if (id != inspectionCategory.Id)
             {
                 return NotFound();
             }
@@ -81,12 +81,12 @@ namespace PeyDej.Controllers
             {
                 try
                 {
-                    _context.Update(category);
+                    _context.Update(inspectionCategory);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CategoryExists(category.Id))
+                    if (!InspectionCategoryExists(inspectionCategory.Id))
                     {
                         return NotFound();
                     }
@@ -97,27 +97,27 @@ namespace PeyDej.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(category);
+            return View(inspectionCategory);
         }
 
-        // POST: Category/Delete/5
+        // POST: InspectionCategory/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
-            var category = await _context.Categories.FindAsync(id);
-            if (category != null)
+            var inspectionCategory = await _context.InspectionCategories.FindAsync(id);
+            if (inspectionCategory != null)
             {
-                _context.Categories.Remove(category);
+                _context.InspectionCategories.Remove(inspectionCategory);
             }
             
             await _context.SaveChangesAsync();
             return Json(new { hasError = false, message = "" });
         }
 
-        private bool CategoryExists(long id)
+        private bool InspectionCategoryExists(long id)
         {
-          return (_context.Categories?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.InspectionCategories?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

@@ -12,6 +12,10 @@ public class InspectionCategory
 
     public DateTime InsDate { get; set; } = DateTime.Now;
 
+    
+    [Display(Name = "عنوان")]
+    [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]
+    [Required(ErrorMessage = "مقدار {0} را وارد کنید")]
     public string Caption { get; set; } = null!;
 
     public virtual IEnumerable<InspectionSubCategory> InspectionSubCategories { get; } =

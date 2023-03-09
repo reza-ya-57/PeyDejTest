@@ -12,8 +12,16 @@ public class Category
 
     public DateTime InsDate { get; set; } = DateTime.Now;
 
+    
+    [Display(Name = "نام")]
+    [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]
+    [Required(ErrorMessage = "مقدار {0} را وارد کنید")]
     public string Name { get; set; } = null!;
 
+    
+    [Display(Name = "مقدار")]
+    [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]
+    [Required(ErrorMessage = "مقدار {0} را وارد کنید")]
     public string? Value { get; set; }
 
     public virtual IEnumerable<SubCategory> SubCategories { get; } = new List<SubCategory>();

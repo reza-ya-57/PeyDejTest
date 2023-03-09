@@ -14,7 +14,7 @@
             Html.ActionLink("ویرایش", "Edit", "Motor", new { id = model.Id },
                 new { @class = "btn btn-warning btn-sm" })
             );
-        columns.Add().Titled("ویرایش").Encoded(false).RenderedAs(model =>
+        columns.Add().Titled("جزییات").Encoded(false).RenderedAs(model =>
             Html.ActionLink("جزییات", "Details", "Motor", new { id = model.Id },
                 new { @class = "btn btn-success btn-sm" }));
         columns.Add().Titled("حذف").Encoded(false).RenderedAs(model =>

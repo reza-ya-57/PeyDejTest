@@ -15,7 +15,7 @@ public class SparePartMotor
 
     public long MotorId { get; set; }
 
-    public virtual ICollection<SparePartMotor> InverseSparePart { get; } = new List<SparePartMotor>();
+    public virtual IEnumerable<SparePartMotor> InverseSparePart { get; } = new List<SparePartMotor>();
 
     public virtual Motor Motor { get; set; } = null!;
 

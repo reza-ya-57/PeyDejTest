@@ -1,0 +1,29 @@
+@model PeyDej.Models.Bases.Category
+
+@{
+    ViewData["Title"] = "ایجاد دسته بندی جدید";
+}
+
+<div class="row">
+    <div class="col-6 offset-3">
+        <h3 xmlns="http://www.w3.org/1999/html">@ViewData["Title"]</h3>
+        <hr/>
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control"/>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Value" class="control-label"></label>
+                <input asp-for="Value" class="form-control"/>
+                <span asp-validation-for="Value" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="ذخیره" class="btn btn-primary"/>
+                <a asp-action="Index" class="btn btn-danger">انصراف</a>
+            </div>
+        </form>
+    </div>
+</div>

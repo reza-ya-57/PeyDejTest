@@ -8,8 +8,7 @@ namespace PeyDej.Models.Bases;
 [Table(name: "SparePart", Schema = "Base")]
 public class SparePart
 {
-    [Key]
-    public long Id { get; set; }
+    [Key] public long Id { get; set; }
 
     public DateTime InsDate { get; set; } = DateTime.Now;
 
@@ -34,6 +33,8 @@ public class SparePart
     [Display(Name = "توضیحات")]
     [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]
     public string? Description { get; set; }
+
+    public virtual IEnumerable<SparePartMachine> SparePartMachines { get; } = new List<SparePartMachine>();
 
     public GeneralStatus GeneralStatusId { get; set; } = GeneralStatus.Active;
 }

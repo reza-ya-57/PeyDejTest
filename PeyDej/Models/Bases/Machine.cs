@@ -8,8 +8,7 @@ namespace PeyDej.Models.Bases;
 [Table(name: "Machine", Schema = "Base")]
 public class Machine
 {
-    [Key]
-    public long Id { get; set; }
+    [Key] public long Id { get; set; }
 
     public DateTime InsDate { get; set; } = DateTime.Now;
 
@@ -113,6 +112,10 @@ public class Machine
     [Display(Name = "چرخه روغن کاری")]
     [Range(typeof(long), "0", "65536", ErrorMessage = "مقدار {0} باید بین {1} تا این {2} باشد")]
     public long? LubricationCycle { get; set; }
+
+    public virtual IEnumerable<Motor> Motors { get; } = new List<Motor>();
+
+    public virtual IEnumerable<SparePartMachine> SparePartMachines { get; } = new List<SparePartMachine>();
 
     public GeneralStatus GeneralStatusId { get; set; } = GeneralStatus.Active;
 }

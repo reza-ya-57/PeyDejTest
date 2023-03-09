@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -68,5 +68,10 @@ public class Motor
     [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]
     public string? Description { get; set; }
 
+    public virtual Machine? Machine { get; set; }
+
+    public virtual IEnumerable<SparePartMotor> SparePartMotors { get; } = new List<SparePartMotor>();
+    
     public GeneralStatus GeneralStatusId { get; set; } = GeneralStatus.Active;
+    
 }

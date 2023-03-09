@@ -1,0 +1,46 @@
+@model PeyDej.Models.Bases.InspectionSubCategory
+
+
+@{
+    ViewData["Title"] = "پیرایش دوره بازرسی ها";
+}
+
+<div class="row">
+    <div class="col-6 offset-3">
+        <h3 xmlns="http://www.w3.org/1999/html">@ViewData["Title"]</h3>
+        <hr/>
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Caption" class="control-label"></label>
+                <input asp-for="Caption" class="form-control"/>
+                <span asp-validation-for="Caption" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InspectionCategoryId" class="control-label"></label>
+                <select asp-for="InspectionCategoryId" class="form-control select-v2" asp-items="ViewBag.InspectionCategoryId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="InspectionCycle" class="control-label"></label>
+                <input asp-for="InspectionCycle" class="form-control"/>
+                <span asp-validation-for="InspectionCycle" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary"/>
+                <a asp-action="Index" asp-controller="Machine" class="btn btn-danger">انصراف</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(function(){
+            $(".select-v2").select2({
+                dir: "rtl",
+                multiple: false,
+            });
+        });
+    </script>
+}

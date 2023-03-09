@@ -11,7 +11,6 @@ public class InspectionCategory
     [Key] public long Id { get; set; }
 
     public DateTime InsDate { get; set; } = DateTime.Now;
-
     
     [Display(Name = "عنوان")]
     [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]

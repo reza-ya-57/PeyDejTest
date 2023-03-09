@@ -13,6 +13,8 @@
     <!-- Custom styles for this template-->
     <link href="~/css/sb-admin-2.min.css" rel="stylesheet" asp-append-version="true">
     <link href="~/css/mvc-grid/mvc-grid.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/lib/select2/css/select2.min.css"/>
+    <link rel="stylesheet" href="~/lib/persian-date-time-picker/bootstrap-datepicker.min.css"/>
 </head>
 
 <body id="page-top">
@@ -53,6 +55,7 @@
                 @* <h6 class="collapse-header">Custom Components:</h6> *@
                 <a asp-action="Index" asp-controller="Category" class="collapse-item">دسته بندی</a>
                 <a asp-action="Index" asp-controller="InspectionCategory" class="collapse-item">دسته بازرسی</a>
+                <a asp-action="Index" asp-controller="InspectionSubCategory" class="collapse-item">زیر دسته بازرسی</a>
                 <a asp-action="Index" asp-controller="SparePart" class="collapse-item">قطعات یدکی</a>
                 <a asp-action="Index" asp-controller="Motor" class="collapse-item">موتورها</a>
                 <a asp-action="Index" asp-controller="Machine" class="collapse-item">ماشین آلات</a>
@@ -371,24 +374,19 @@
 </div>
 
 <!-- Bootstrap core JavaScript-->
-<script src="~/vendor/jquery/jquery.min.js"></script>
-<script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="~/vendor/jquery/jquery.min.js" asp-append-version="true"></script>
+<script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
 <!-- Core plugin JavaScript-->
-<script src="~/vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="~/vendor/jquery-easing/jquery.easing.min.js" asp-append-version="true"></script>
 <!-- Custom scripts for all pages-->
-<script src="~/js/sb-admin-2.min.js"></script>
-@await RenderSectionAsync("Scripts", required: false)
+<script src="~/js/sb-admin-2.min.js" asp-append-version="true"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
 <script src="~/lib/select2/js/select2.min.js" asp-append-version="true"></script>
 <script src="~/lib/persian-date-time-picker/bootstrap-datepicker.min.js" asp-append-version="true"></script>
 <script src="~/lib/persian-date-time-picker/bootstrap-datepicker.fa.min.js" asp-append-version="true"></script>
-<script src="~/js/mvc-grid/mvc-grid.js"></script>
-
-@await RenderSectionAsync("Scripts", required: false)
+<script src="~/js/mvc-grid/mvc-grid.js" asp-append-version="true"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
-<script type="text/javascript">
-    </script>
-
+@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -1,4 +1,3 @@
-@page
 @using System.Globalization
 @model IEnumerable<PeyDej.Models.Inspection.MachineIS>
 
@@ -62,7 +61,8 @@ th,div{
     </div>
     <div class="row">
         <div class="col-4 offset-8">
-            <p>تاریخ گزارش:
+            <p>
+                تاریخ گزارش:
                 @{
                     var calendar = new PersianCalendar();
                     @(calendar.GetYear(DateTime.Now).ToString("0000") + "/" +
@@ -84,10 +84,11 @@ th,div{
             </tr>
             </thead>
             <tbody>
-            @foreach (var h in headers)
+            @foreach (var m in Model)
             {
                 <tr>
                     <th scope="row">@(++i)</th>
+                    <th scope="row">@m.Machines.FirstOrDefault(x => x.Id == m.Id)?.Name</th>
                     @foreach (var header in headers)
                     {
                         <th>
@@ -104,6 +105,11 @@ th,div{
 
 <script>
  window.print();
+ debugger
+ window.onafterprint = function (event) {
+     debugger
+     window.close;
+ };
 </script>
 
 </body>

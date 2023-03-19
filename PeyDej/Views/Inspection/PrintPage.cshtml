@@ -1,0 +1,110 @@
+@page
+@using System.Globalization
+@model IEnumerable<PeyDej.Models.Inspection.MachineIS>
+
+@{
+    Layout = null;
+    var i = 0;
+    var headers = new string[]
+    {
+        "زنجیر/ تسمه",
+        "دنده/ فولی",
+        "یاتاقان",
+        "بلبرینگ",
+        "رولیک",
+        "روغن کاری",
+        "گریس کاری",
+        "تعویض واسکازین"
+    };
+}
+
+
+<!DOCTYPE html>
+
+<html lang="fa">
+<head>
+    <title>لیست ماشین آلات نیاز به بازرسی</title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.rtl.min.css" rel="stylesheet" asp-append-version="true">
+    <link href="~/css/sb-admin-2.min.css" rel="stylesheet" asp-append-version="true">
+</head>
+<body dir="rtl">
+<style>
+@@media print {
+  @@page {
+    size: A4;
+    margin: 0;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 12pt;
+  }
+  
+  body {
+    margin: 1.27cm;
+  }
+  
+   h1 {
+    font-size: 16pt;
+   }
+}
+
+th,div{
+    text-align: center;
+}    
+
+</style>
+
+
+<div>
+
+    <div class="row">
+        <div class="col-10 offset-1">
+            <h3>لیست ماشین آلات نیاز به بازرسی</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4 offset-8">
+            <p>تاریخ گزارش:
+                @{
+                    var calendar = new PersianCalendar();
+                    @(calendar.GetYear(DateTime.Now).ToString("0000") + "/" +
+                      calendar.GetMonth(DateTime.Now).ToString("00") + "/" +
+                      calendar.GetDayOfMonth(DateTime.Now).ToString("00"))
+                }
+            </p>
+        </div>
+    </div>
+    <table class="table">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th scope="col">ردیف</th>
+                @foreach (var header in headers)
+                {
+                    <th scope="col">@header</th>
+                }
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var h in headers)
+            {
+                <tr>
+                    <th scope="row">@(++i)</th>
+                    @foreach (var header in headers)
+                    {
+                        <th>
+                            <input type="checkbox">
+                        </th>
+                    }
+                </tr>
+            }
+            </tbody>
+        </table>
+
+    </table>
+</div>
+
+<script>
+ window.print();
+</script>
+
+</body>
+</html>

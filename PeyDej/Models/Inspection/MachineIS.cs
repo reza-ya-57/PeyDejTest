@@ -14,22 +14,22 @@ public class MachineIS
 
     public DateTime InsDate { get; set; } = DateTime.Now;
 
+    [Display(Name = "نام ماشین")]
+    [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]
+    [Required(ErrorMessage = "مقدار {0} را وارد کنید")]
     public long MachineId { get; set; }
 
-    /// <summary>
-    /// the day that machine need to be inspected
-    /// </summary>
+    [Display(Name = "تاریخ بازرسی")]
+    [Required(ErrorMessage = "مقدار {0} را وارد کنید")]
     public DateTime InspectionDate { get; set; }
 
-    /// <summary>
-    /// save information of when inspection done and change status from 0 to 1 
-    /// </summary>
+    [Display(Name = "تاریخ پایان بازرسی")]
+    [Required(ErrorMessage = "مقدار {0} را وارد کنید")]
     public DateTime? InspectionFinishedDate { get; set; }
 
-    /// <summary>
-    /// is machine inspected?
-    /// </summary>
+    [Display(Name = "وضعیت بازرسی")]
+    [Required(ErrorMessage = "مقدار {0} را وارد کنید")]
     public InspectionStatus Status { get; set; } = InspectionStatus.NotOk;
 
-    public virtual IEnumerable<Machine> Motors { get; } = new List<Machine>();
+    public virtual IEnumerable<Machine> Machines { get; } = new List<Machine>();
 }

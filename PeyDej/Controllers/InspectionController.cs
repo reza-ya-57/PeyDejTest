@@ -14,11 +14,17 @@ public class InspectionController : Controller
         this._context = _context;
     }
 
-    public async Task<IActionResult> Motor(da)
+    public async Task<IActionResult> Motor()
     {
         var data = await _context.MachineISs
             .Where(m => m.Status == InspectionStatus.NotOk && m.InspectionDate >= DateTime.Today).ToListAsync();
-        ViewBag["listOfMachines"] = data;
-        return View();
+        return View(data);
+    }
+
+    public async Task<IActionResult> PrintPage()
+    {
+        var data = await _context.MachineISs
+            .Where(m => m.Status == InspectionStatus.NotOk && m.InspectionDate >= DateTime.Today).ToListAsync();
+        return View(data);
     }
 }

@@ -9,9 +9,9 @@ public class InspectionController : Controller
 {
     private readonly PeyDejContext _context;
 
-    public InspectionController(PeyDejContext _context)
+    public InspectionController(PeyDejContext context)
     {
-        this._context = _context;
+        this._context = context;
     }
 
     public async Task<IActionResult> Motor()

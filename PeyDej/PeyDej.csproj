@@ -8,7 +8,7 @@
 
     <ItemGroup>
       <Folder Include="Data\Tmp" />
-      <Folder Include="Models\Bases" />
+      <Folder Include="Models\Bases\Views" />
       <Folder Include="Models\Inspection" />
     </ItemGroup>
 

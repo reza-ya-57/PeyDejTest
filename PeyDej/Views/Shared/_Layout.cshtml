@@ -15,6 +15,7 @@
     <link href="~/css/mvc-grid/mvc-grid.css" rel="stylesheet">
     <link rel="stylesheet" href="~/lib/select2/css/select2.min.css"/>
     <link rel="stylesheet" href="~/lib/persian-date-time-picker/bootstrap-datepicker.min.css"/>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
 </head>
 
 <body id="page-top">
@@ -53,6 +54,7 @@
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 @* <h6 class="collapse-header">Custom Components:</h6> *@
+                <a asp-action="Index" asp-controller="Person" class="collapse-item">پرسنل</a>
                 <a asp-action="Index" asp-controller="Category" class="collapse-item">دسته بندی</a>
                 <a asp-action="Index" asp-controller="InspectionCategory" class="collapse-item">دسته بازرسی</a>
                 <a asp-action="Index" asp-controller="InspectionSubCategory" class="collapse-item">زیر دسته بازرسی</a>
@@ -66,12 +68,14 @@
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
             <i class="fas fa-fw fa-wrench"></i>
-            <span>گردش کار</span>
+            <span>بازرسی ها</span>
         </a>
         <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 @* <h6 class="collapse-header">Custom Utilities:</h6> *@
+                <a asp-action="Motor" asp-controller="Inspection" class="collapse-item">بازرسی موتور</a>
                 <a asp-action="Motor" asp-controller="Inspection" class="collapse-item">بازرسی ماشین آلات</a>
+                
             </div>
         </div>
     </li>

@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<PeyDejContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("PeyDejContext") ??
+    options.UseSqlServer(builder.Configuration.GetConnectionString("PeyDejContext_Online") ??
                          throw new InvalidOperationException("Connection string 'PeyDejContext' not found.")));
 
 var app = builder.Build();

@@ -1,20 +1,9 @@
-@using System.Globalization
-@model IEnumerable<PeyDej.Models.Inspection.MachineIS>
+@using PeyDej.Tools
+@model IEnumerable<PeyDej.Models.Bases.Motor>
 
 @{
     Layout = null;
     var i = 0;
-    var headers = new string[]
-    {
-        "زنجیر/ تسمه",
-        "دنده/ فولی",
-        "یاتاقان",
-        "بلبرینگ",
-        "رولیک",
-        "روغن کاری",
-        "گریس کاری",
-        "تعویض واسکازین"
-    };
 }
 
 
@@ -55,20 +44,24 @@ th,div{
 <div>
 
     <div class="row">
-        <div class="col-10 offset-1">
+        <div class="col-12 m-1">
             <h3>لیست ماشین آلات نیاز به بازرسی</h3>
         </div>
     </div>
+    <br/>
+    <br/>
     <div class="row">
         <div class="col-4 offset-8">
-            <p>
-                تاریخ گزارش:
-                @{
-                    var calendar = new PersianCalendar();
-                    @(calendar.GetYear(DateTime.Now).ToString("0000") + "/" +
-                      calendar.GetMonth(DateTime.Now).ToString("00") + "/" +
-                      calendar.GetDayOfMonth(DateTime.Now).ToString("00"))
-                }
+            <p class="text-left">
+                <span>تاریخ گزارش: </span>@PeyDejTools.GetCurPersianDate()
+            </p>
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-12">
+            <p class="text-left">
+                <span>نام و نام حانوادگی پرسنل بررسی کننده: ................................. </span>
             </p>
         </div>
     </div>
@@ -77,10 +70,10 @@ th,div{
             <thead>
             <tr>
                 <th scope="col">ردیف</th>
-                @foreach (var header in headers)
-                {
-                    <th scope="col">@header</th>
-                }
+                <th scope="col">نام موتور</th>
+                <th scope="col">وضعیت موتور</th>
+                <th scope="col">توضیحات</th>
+
             </tr>
             </thead>
             <tbody>
@@ -88,13 +81,11 @@ th,div{
             {
                 <tr>
                     <th scope="row">@(++i)</th>
-                    <th scope="row">@m.Machines.FirstOrDefault(x => x.Id == m.Id)?.Name</th>
-                    @foreach (var header in headers)
-                    {
-                        <th>
-                            <input type="checkbox">
-                        </th>
-                    }
+                    <th scope="row">@m.Name</th>
+                    <th scope="row">
+                        <input type="checkbox"/>
+                    </th>
+                    <th scope="row">..............................................................</th>
                 </tr>
             }
             </tbody>

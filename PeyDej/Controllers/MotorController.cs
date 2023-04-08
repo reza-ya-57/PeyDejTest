@@ -59,7 +59,7 @@ namespace PeyDej.Controllers
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(
         [Bind(
-                "Id,InsDate,SerialNumber,Emplacement,Manufacturer,Kw,V,BeltSerial,BeltCount,Fooli,ChainSerial,Type,Gear,MachineId,InspectionCycle,Description,GeneralStatusId")]
+                "Id,InsDate,Name,SerialNumber,Emplacement,Manufacturer,Kw,V,BeltSerial,BeltCount,Fooli,ChainSerial,Type,Gear,MachineId,InspectionCycle,Description,GeneralStatusId")]
             Motor motor)
     {
       if (ModelState.IsValid)
@@ -96,7 +96,7 @@ namespace PeyDej.Controllers
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(long id,
         [Bind(
-                "Id,InsDate,SerialNumber,Emplacement,Manufacturer,Kw,V,BeltSerial,BeltCount,Fooli,ChainSerial,Type,Gear,MachineId,InspectionCycle,Description,GeneralStatusId")]
+                "Id,InsDate,Name,SerialNumber,Emplacement,Manufacturer,Kw,V,BeltSerial,BeltCount,Fooli,ChainSerial,Type,Gear,MachineId,InspectionCycle,Description,GeneralStatusId")]
             Motor motor)
     {
       if (id != motor.Id)

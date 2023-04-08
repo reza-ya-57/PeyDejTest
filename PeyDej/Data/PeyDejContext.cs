@@ -1,11 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using PeyDej.Models.Bases;
 using PeyDej.Models.Bases.Views;
 using PeyDej.Models.Inspection;
+using PeyDej.Models.Users;
 
 namespace PeyDej.Data;
 
-public partial class PeyDejContext : DbContext
+public partial class PeyDejContext : IdentityDbContext<PeyDejUser>
 {
   public PeyDejContext(DbContextOptions<PeyDejContext> options)
       : base(options)

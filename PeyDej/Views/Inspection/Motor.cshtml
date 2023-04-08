@@ -1,32 +1,54 @@
 @using PeyDej.Tools
-@model IEnumerable<PeyDej.Models.Inspection.MachineIS>
+@model IEnumerable<PeyDej.Models.Bases.Motor>
 
 
 <div class="row">
-    <div class="col-8 offset-2">
+    <div class="col-12">
         <h3>لیست ماشین آلات نیاز به بازرسی</h3>
         <hr/>
         <p>
             <a target="_blank" class="btn btn-primary" asp-action="PrintPage">چاپ فرم</a>
         </p>
         <hr/>
-        <style>
-            .gCol {
-                text-align: center;
-            }
-        </style>
+    </div>
+</div>
 
+
+<div class="row">
+    <div class="col-6 offset-3">
+
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <span>جستجو</span>
+            </div>
+            <div class="card-body text-center">
+                <form asp-action="Motor" method="GET">
+                    <label class="text-left">از تاریخ: <input value="@ViewBag.startDate" readonly="readonly" id="start_date" name="start_date" class="form-control text-center" type="text"/></label>
+                    <label class="text-left">تا تاریخ: <input value="@ViewBag.endDate" readonly="readonly" id="end_date" name="end_date" class="form-control text-center" type="text"/></label>
+                    <input type="submit" value="جستجو" class="btn btn-primary"/>
+                </form>
+            </div>
+            <div class="card-footer">
+                <!-- Card footer content goes here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-8 offset-2">
         @(Html
             .Grid(Model)
             .Build(columns =>
             {
-                columns.Add(model => model.Machines.FirstOrDefault(x => x.Id == model.MachineId).Name).Titled(@Html.DisplayNameFor(model => model.MachineId));
-                columns.Add(model => model.InspectionDate).Titled(@Html.DisplayNameFor(model => model.InspectionDate));
-                columns.Add(model => model.InspectionFinishedDate).Titled(@Html.DisplayNameFor(model => model.InspectionFinishedDate));
-                columns.Add().Titled("ثبت نتایج").Encoded(false).RenderedAs(model =>
-                    Html.ActionLink("ثبت نتایج", "Edit", "Motor", new { id = model.Id },
-                        new { @class = "btn btn-warning btn-sm" })
-                    );
+                // columns.Add(model => model.Motors.FirstOrDefault(x => x.Id == model.MotorId).Name).Titled("نام موتور");
+                columns.Add(model => model.Name).Titled(@Html.DisplayNameFor(model => model.Name));
+                columns.Add(model => model.Description).Titled(@Html.DisplayNameFor(model => model.Description));
+                // columns.Add().Titled("ثبت نتایج").Encoded(false).RenderedAs(model =>
+                //     Html.ActionLink("ثبت نتایج", "Edit", "Motor", new { id = model.Id },
+                //         new { @class = "btn btn-warning btn-sm" })
+                //     );
             })
             .Empty("هیچ ایتمی وجود ندارد")
             .Sortable()
@@ -45,3 +67,18 @@
 
     </div>
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script type="text/javascript">
+    $(function(){
+        $('#start_date,#end_date').datepicker({
+            isRTL: true,
+            dateFormat: "yy/mm/dd"
+        });
+    });
+   
+</script>
+}

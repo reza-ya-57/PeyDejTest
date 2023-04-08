@@ -9,10 +9,11 @@
     <ItemGroup>
       <Folder Include="Data\Tmp" />
       <Folder Include="Models\Bases\Views" />
-      <Folder Include="Models\Inspection" />
+      <Folder Include="Models\Inspection\DataType" />
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.4" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.3">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

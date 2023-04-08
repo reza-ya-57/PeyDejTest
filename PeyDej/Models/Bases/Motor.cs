@@ -12,6 +12,11 @@ public class Motor
   public long Id { get; set; }
 
   public DateTime InsDate { get; set; } = DateTime.Now;
+  
+  [Display(Name = "نام ماشین")]
+  [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]
+  [Required(ErrorMessage = "مقدار {0} را وارد کنید")]
+  public string Name { get; set; } = null!;
 
   [Display(Name = "شماره سریال")]
   [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]

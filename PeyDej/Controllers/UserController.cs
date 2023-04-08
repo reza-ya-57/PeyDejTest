@@ -7,6 +7,7 @@ using PeyDej.Models.Users;
 
 namespace PeyDej.Controllers;
 
+[Authorize]
 public class UserController : Controller
 {
     private readonly PeyDejContext _context;
@@ -21,6 +22,7 @@ public class UserController : Controller
         _signInManager = signInManager;
     }
 
+    [AllowAnonymous]
     public IActionResult Login()
     {
         return View(new LoginPage());
@@ -93,5 +95,11 @@ public class UserController : Controller
 
         login.RememberMe = true;
         return View(login);
+    }
+    
+    public IActionResult Logout()
+    {
+        _signInManager.SignOutAsync();
+        return RedirectToAction("Login");
     }
 }

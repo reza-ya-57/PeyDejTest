@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PeyDej.Data;
@@ -5,6 +6,7 @@ using PeyDej.Models.Bases;
 
 namespace PeyDej.Controllers
 {
+    [Authorize]
     public class CategoryController : Controller
     {
         private readonly PeyDejContext _context;

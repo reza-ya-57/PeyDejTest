@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PeyDej.Data;
@@ -7,6 +8,7 @@ using PeyDej.Tools;
 
 namespace PeyDej.Controllers;
 
+[Authorize]
 public class InspectionController : Controller
 {
     private readonly PeyDejContext _context;

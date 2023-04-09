@@ -1,0 +1,133 @@
+@using PeyDej.Tools
+@model IEnumerable<PeyDej.Models.Bases.Motor>
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+@functions {
+
+    private string? GetAntiXsrfRequestToken()
+    {
+        return Xsrf.GetAndStoreTokens(Context).RequestToken;
+    }
+}
+
+<div class="row">
+    <div class="col-12">
+        <h3>لیست موتورها</h3>
+        <hr/>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-6 offset-3">
+
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <span>جستجو</span>
+            </div>
+            <div class="card-body text-center">
+                <form asp-action="Motor" method="GET">
+                    <label class="text-left">از تاریخ: <input value="@ViewBag.startDate" readonly="readonly" id="start_date" name="start_date" class="form-control text-center" type="text"/></label>
+                    <label class="text-left">تا تاریخ: <input value="@ViewBag.endDate" readonly="readonly" id="end_date" name="end_date" class="form-control text-center" type="text"/></label>
+                    <input type="submit" value="جستجو" class="btn btn-primary"/>
+                </form>
+            </div>
+            <div class="card-footer">
+                <!-- Card footer content goes here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-8 offset-2">
+
+        <div class="row mb-5">
+            <div class="col-12">
+                <label>پرسنل:</label>
+                <select id="person" asp-items="@ViewBag.person" class="form-select"></select>
+                <button onclick="save()" class="btn btn-success">ثبت نتایج</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+
+                @(Html
+                    .Grid(Model)
+                    .Build(columns =>
+                    {
+                        // columns.Add(model => model.Motors.FirstOrDefault(x => x.Id == model.MotorId).Name).Titled("نام موتور");
+                        columns.Add(model => model.Name).Titled(@Html.DisplayNameFor(model => model.Name));
+                        columns.Add(model => model.Description).Titled(@Html.DisplayNameFor(model => model.Description));
+                        columns.Add().Titled("تایید").Encoded(false).RenderedAs(model =>
+                            Html.RadioButton("status" + model.Id, 1, new { Checked = true })
+                            );
+                        columns.Add().Titled("رد").Encoded(false).RenderedAs(model =>
+                            Html.RadioButton("status" + model.Id, 0)
+                            );
+                    })
+                    .Empty("هیچ ایتمی وجود ندارد")
+                    .Sortable()
+                    .Filterable()
+                    .Using(GridFilterMode.Row)
+                    .Pageable(pager =>
+                    {
+                        pager.PageSizes = new Dictionary<Int32, String> { { 10, "10" }, { 20, "20" }, { 50, "50" }, { 0, "همه" } };
+                        pager.ShowPageSizes = true;
+                        pager.PagesToDisplay = 5;
+                        pager.CurrentPage = 1;
+                        pager.RowsPerPage = 20;
+                    })
+                    .Css("table table-secondary table-striped gCol")
+                    )
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script type="text/javascript">
+    $(function(){
+        $('#start_date,#end_date').datepicker({
+            isRTL: true,
+            dateFormat: "yy/mm/dd"
+        });
+    });
+    
+    function save(){
+        var ids=[@foreach (var itm in Model)
+                 {
+                     @(itm.Id + ",")
+                 }];
+        var data=[];
+       ids.forEach(function (value,i){
+           var radios =$("input:radio[name=status"+value+"]:checked");
+               data.push({
+                    Id: value,
+                    Status: radios.val() == 1,                 
+               });
+          });
+        var person=$("#person").val();
+        var token="@GetAntiXsrfRequestToken()";
+        $.post("@Url.Action("SaveMotorReport")",{ 
+                data: data, 
+                person: person,
+                __RequestVerificationToken: token 
+            },
+            function (e){
+            if (e.r){
+                alert("فرآیند ثبت اطلاعات با موفقیت به پابان رسید.");
+                location.reload();
+            }else{
+                alert("در هنگام پردازش اطلاعات خطایی رخ داد. دوباره سعی کنید."+"\n" + e.m);
+            }
+        },"JSON");
+    }
+   
+</script>
+}

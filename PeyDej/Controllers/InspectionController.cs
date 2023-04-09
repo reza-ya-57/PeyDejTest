@@ -57,4 +57,5 @@ public class InspectionController : Controller
         ViewBag.endDate = end_date;
         return View(result);
     }
+    
 }

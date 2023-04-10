@@ -31,14 +31,16 @@ public class InspectionReportController : Controller
                 m.InspectionDate <= PeyDejTools.PersianStringToDateTime(end_date)
             ).ToListAsync();
 
-        var motorIDs = data.Select(item => item.MotorId).ToList();
+        var motorIDs = data.Select(mis => mis.MotorId).ToList();
+
         var result = await _context.Motors.Where(m => motorIDs.Contains(m.Id)).ToListAsync();
         HttpContext.Session.SetString("start_date", start_date);
         HttpContext.Session.SetString("end_date", end_date);
 
         ViewBag.startDate = start_date;
         ViewBag.endDate = end_date;
-        var person = await _context.Persons.Select(m => new { m.Id, Name = m.FirstName + " " + m.LastName })
+        var person = await _context.Persons.Where(m => m.GeneralStatusId == GeneralStatus.Active)
+            .Select(m => new { m.Id, Name = m.FirstName + " " + m.LastName })
             .ToListAsync();
         ViewBag.person = new SelectList(person, "Id", "Name");
         return View(result);
@@ -64,7 +66,7 @@ public class InspectionReportController : Controller
                 query += ";\n";
             }
 
-            query += "EXEC [Inspection].[MotorSetInspection] @MotorInspection = @mi\n";
+            query += "EXEC [Inspection].[MotorSetInspection] @MotorInspection = @mi;\n";
 
             await _context.Database.ExecuteSqlRawAsync(query);
             return Json(new { r = true });

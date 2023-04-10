@@ -13,7 +13,7 @@ public class Motor
 
   public DateTime InsDate { get; set; } = DateTime.Now;
   
-  [Display(Name = "نام ماشین")]
+  [Display(Name = "نام موتور")]
   [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]
   [Required(ErrorMessage = "مقدار {0} را وارد کنید")]
   public string Name { get; set; } = null!;

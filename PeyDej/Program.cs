@@ -11,7 +11,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddSession(option => { option.IOTimeout = TimeSpan.FromMinutes(5); }); //you've configured session
 
 builder.Services.AddDbContext<PeyDejContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("PeyDejContext_Local") ??
+    options.UseSqlServer(builder.Configuration.GetConnectionString("PeyDejContext_Online") ??
                          throw new InvalidOperationException("Connection string 'PeyDejContext' not found.")));
 builder.Services.AddIdentity<PeyDejUser, IdentityRole>(options =>
     {

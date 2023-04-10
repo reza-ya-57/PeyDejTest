@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PeyDej.Data;
 using PeyDej.Models;
+using PeyDej.Models.ActiveModels;
 using PeyDej.Models.Parameters;
 using PeyDej.Models.Users;
 using PeyDej.Tools;
@@ -29,11 +30,13 @@ public class InspectionReportController : Controller
                 m.Status == InspectionStatus.NotOk &&
                 m.InspectionDate >= PeyDejTools.PersianStringToDateTime(start_date) &&
                 m.InspectionDate <= PeyDejTools.PersianStringToDateTime(end_date)
-            ).ToListAsync();
+            ).Join(_context.Motors, mIS => mIS.MotorId, mo => mo.Id, (mIS, motor) => new MotorReport
+            {
+                Id = mIS.Id,
+                Name = motor.Name,
+                Description = motor.Description
+            }).ToListAsync();
 
-        var motorIDs = data.Select(mis => mis.MotorId).ToList();
-
-        var result = await _context.Motors.Where(m => motorIDs.Contains(m.Id)).ToListAsync();
         HttpContext.Session.SetString("start_date", start_date);
         HttpContext.Session.SetString("end_date", end_date);
 
@@ -43,7 +46,7 @@ public class InspectionReportController : Controller
             .Select(m => new { m.Id, Name = m.FirstName + " " + m.LastName })
             .ToListAsync();
         ViewBag.person = new SelectList(person, "Id", "Name");
-        return View(result);
+        return View(data);
     }
 
     [HttpPost]

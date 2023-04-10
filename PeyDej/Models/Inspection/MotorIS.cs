@@ -30,5 +30,5 @@ public class MotorIS
   public InspectionStatus Status { get; set; } = InspectionStatus.NotOk;
 
   [NotMapped]
-  public virtual IEnumerable<Motor> Motors { get; } = new List<Motor>();
+  public virtual Motor Motor { get; set; }
 }

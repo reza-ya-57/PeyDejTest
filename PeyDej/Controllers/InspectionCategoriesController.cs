@@ -33,7 +33,7 @@ public class InspectionCategoriesController : Controller
         HttpContext.Session.SetInt32("id", id);
 
         ViewBag.title = _context.InspectionCategories.FirstOrDefault(m => m.Id == id)!.Caption;
-        HttpContext.Session.SetString("title", ViewBag.title);
+        SessionExtensions.SetString(HttpContext.Session, "title", ViewBag.title);
         ViewBag.startDate = start_date;
         ViewBag.endDate = end_date;
         return View(data);

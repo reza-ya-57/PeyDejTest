@@ -48,52 +48,51 @@
 
 <div class="row">
     <div class="col-12">
-        <label>نام و نام حانوادگی پرسنل بررسی کننده: <select asp-items="ViewBag.person" class="form-select"></select></label>
-         <input type="button" value="ذخیره" class="btn btn-success"/>
+        <label>نام و نام حانوادگی پرسنل بررسی کننده: <select asp-items="ViewBag.person" id="person" class="form-select"></select></label>
+        <input type="button" value="ذخیره" onclick="save()" class="btn btn-success"/>
     </div>
 </div>
-<table class="table">
-    <table class="table table-bordered">
-        <thead>
-        <tr>
-            <th scope="col">ردیف</th>
-            <th scope="col">نام ماشین</th>
-            <th scope="col">وضعیت ماشین</th>
-            <th scope="col">توضیحات</th>
-
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var m in Model)
-        {
+<form id="frm">
+    <table class="table">
+        <table class="table table-bordered">
+            <thead>
             <tr>
-                <th scope="row">@(++i)</th>
-                <th scope="row">
-                    <b>@m.Name</b>
-                </th>
-                <th></th>
-                <th scope="row">
-                    <input class="form-control"/>
-                </th>
+                <th scope="col">ردیف</th>
+                <th scope="col">نام ماشین</th>
+                <th scope="col">وضعیت ماشین</th>
+                <th scope="col">توضیحات</th>
+
             </tr>
-            @foreach (var item in ViewBag.items)
+            </thead>
+            <tbody>
+            @foreach (var m in Model)
             {
                 <tr>
-                    <th scope="row"></th>
-                    <th scope="row">@item.SubCategoryCaption</th>
+                    <th scope="row">@(++i)</th>
                     <th scope="row">
-                        <label class="m-2"><input name="chk[@{ @m.Id }][@{ @item.SubCategoryId }]" value="1" type="radio"/>&nbsp;تایید</label>
-                        <label class="m-2"><input name="chk[@{ @m.Id }][@{ @item.SubCategoryId }]" value="0" type="radio"/>&nbsp;رد</label>
+                        <b>@m.Name</b>
+                    </th>
+                    <th></th>
+                    <th scope="row">
+                        <input class="form-control" id="des_@{ @m.Id }"/>
                     </th>
                 </tr>
+                @foreach (var item in ViewBag.items)
+                {
+                    <tr>
+                        <th scope="row"></th>
+                        <th scope="row">@item.SubCategoryCaption</th>
+                        <th scope="row">
+                            <label class="m-2"><input checked="checked" name="chk_@{ @m.Id }_@{ @item.SubCategoryId }" value="1" type="radio"/>&nbsp;تایید</label>
+                            <label class="m-2"><input name="chk[@{ @m.Id }][@{ @item.SubCategoryId }]" value="0" type="radio"/>&nbsp;رد</label>
+                        </th>
+                    </tr>
+                }
             }
-        }
-        </tbody>
-
+            </tbody>
+        </table>
     </table>
-
-</table>
-
+</form>
 
 @section Scripts {
     @{
@@ -108,22 +107,25 @@
     });
     
     function save(){
-        var ids=[@foreach (var itm in Model)
-                 {
-                     @(itm.Id + ",")
-                 }];
-        var data=[];
-       ids.forEach(function (value,i){
-           var radios =$("input:radio[name=status"+value+"]:checked");
-               data.push({
-                    Id: value,
-                    Status: radios.val() == 1,                 
-               });
-          });
+        var finalData = [];
+        var data=$("#frm").serializeArray();
+        data.forEach(function(v){
+            items = v.name.split("_");
+            var desc = $("#des_"+items[1]).val();
+            finalData.push({
+                id: items[1],
+                subId: items[2],
+                value: v.value,
+                desc: desc,
+            });
+        });
+        
+        console.log(finalData);
+        
         var person=$("#person").val();
         var token="@GetAntiXsrfRequestToken()";
-        $.post("@Url.Action("SaveMotorReport")",{ 
-                data: data, 
+        $.post("@Url.Action("SaveMachineReport")",{ 
+                data: finalData, 
                 person: person,
                 __RequestVerificationToken: token 
             },

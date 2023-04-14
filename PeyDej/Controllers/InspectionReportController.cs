@@ -51,7 +51,7 @@ public class InspectionReportController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> SaveMotorReport(int person, ReportStatusParameter[] data)
+    public async Task<IActionResult> SaveMotorReport(int person, ReportMotorStatusParameter[] data)
     {
         try
         {
@@ -85,7 +85,7 @@ public class InspectionReportController : Controller
     {
         start_date ??= PeyDejTools.GetCurPersianDate();
         end_date ??= PeyDejTools.GetCurPersianDate();
-        
+
         var data = await _context.MachineISs
             .Where(m =>
                 m.Status == InspectionStatus.NotOk &&
@@ -100,9 +100,39 @@ public class InspectionReportController : Controller
             .ToListAsync();
         ViewBag.person = new SelectList(person, "Id", "Name");
         ViewBag.items = await _context.VwCategories.Where(m => m.CategoryId == 1).ToListAsync();
-        ViewBag.items = await _context.VwCategories.Where(m => m.CategoryId == 1).ToListAsync();
         ViewBag.startDate = start_date;
         ViewBag.endDate = end_date;
         return View(result);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> SaveMachineReport(int person, ReportMachineStatusParameter[] data)
+    {
+        try
+        {
+            var query = "DECLARE @mi Inspection.MachineInspectionTT;\n";
+            query += "INSERT INTO @mi (InspectionId,  CriteriaId, PersonId , [Status] , [Description]) Values ";
+            foreach (var item in data)
+            {
+                var status = (int)(item.value == 1 ? InspectionStatus.Ok : InspectionStatus.NotOk);
+                query += $"({item.Id},{item.subId},{person},{status},NULL), ";
+            }
+
+            if (data.Length > 0)
+            {
+                query = query[..^2];
+                query += ";\n";
+            }
+
+            query += "EXEC [Inspection].[MachineSetInspection] @MachineInspection = @mi;\n";
+
+            await _context.Database.ExecuteSqlRawAsync(query);
+            return Json(new { r = true });
+        }
+        catch (Exception ex)
+        {
+            return Json(new { r = false, m = ex.Message });
+        }
     }
 }

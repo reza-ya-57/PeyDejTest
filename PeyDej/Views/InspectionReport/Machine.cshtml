@@ -1,4 +1,3 @@
-@using PeyDej.Tools
 @model IEnumerable<PeyDej.Models.Bases.Machine>
 @inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
 
@@ -24,27 +23,28 @@
 </div>
 
 
-<div class="row">
-    <div class="col-6 offset-3">
+@* <div class="row"> *@
+@*     <div class="col-6 offset-3"> *@
+@* *@
+@*         <div class="card"> *@
+@*             <div class="card-header bg-primary text-white"> *@
+@*                 <span>جستجو</span> *@
+@*             </div> *@
+@*             <div class="card-body text-center"> *@
+@*                 <form asp-action="Machine" method="GET"> *@
+@*                     <label class="text-left">از تاریخ: <input value="@ViewBag.startDate" readonly="readonly" id="start_date" name="start_date" class="form-control text-center" type="text"/></label> *@
+@*                     <label class="text-left">تا تاریخ: <input value="@ViewBag.endDate" readonly="readonly" id="end_date" name="end_date" class="form-control text-center" type="text"/></label> *@
+@*                     <input type="submit" value="جستجو" class="btn btn-primary"/> *@
+@*                 </form> *@
+@*             </div> *@
+@*             <div class="card-footer"> *@
+@*                 <!-- Card footer content goes here --> *@
+@*             </div> *@
+@*         </div> *@
+@*     </div> *@
+@* </div> *@
+@* <br/> *@
 
-        <div class="card">
-            <div class="card-header bg-primary text-white">
-                <span>جستجو</span>
-            </div>
-            <div class="card-body text-center">
-                <form asp-action="Machine" method="GET">
-                    <label class="text-left">از تاریخ: <input value="@ViewBag.startDate" readonly="readonly" id="start_date" name="start_date" class="form-control text-center" type="text"/></label>
-                    <label class="text-left">تا تاریخ: <input value="@ViewBag.endDate" readonly="readonly" id="end_date" name="end_date" class="form-control text-center" type="text"/></label>
-                    <input type="submit" value="جستجو" class="btn btn-primary"/>
-                </form>
-            </div>
-            <div class="card-footer">
-                <!-- Card footer content goes here -->
-            </div>
-        </div>
-    </div>
-</div>
-<br/>
 
 <div class="row">
     <div class="col-12">
@@ -57,37 +57,28 @@
         <table class="table table-bordered">
             <thead>
             <tr>
-                <th scope="col">ردیف</th>
-                <th scope="col">نام ماشین</th>
-                <th scope="col">وضعیت ماشین</th>
-                <th scope="col">توضیحات</th>
-
+                <th scope="col">ماشین</th>
+                @foreach (var item in ViewBag.items)
+                {
+                    <th scope="col">@item.SubCategoryCaption</th>
+                }
             </tr>
             </thead>
             <tbody>
             @foreach (var m in Model)
             {
                 <tr>
-                    <th scope="row">@(++i)</th>
-                    <th scope="row">
+                    <td>
                         <b>@m.Name</b>
-                    </th>
-                    <th></th>
-                    <th scope="row">
-                        <input class="form-control" id="des_@{ @m.Id }"/>
-                    </th>
+                    </td>
+                    @foreach (var item in ViewBag.items)
+                    {
+                        <td>
+                            <label class="m-2"><input checked="checked" name="chk_@{ @m.Id }_@{ @item.SubCategoryId }" value="1" type="radio"/>&nbsp;&nbsp;تایید</label>
+                            <label class="m-2"><input name="chk_@{ @m.Id }_@{ @item.SubCategoryId }" value="0" type="radio"/>&nbsp;&nbsp;رد</label>
+                        </td>
+                    }
                 </tr>
-                @foreach (var item in ViewBag.items)
-                {
-                    <tr>
-                        <th scope="row"></th>
-                        <th scope="row">@item.SubCategoryCaption</th>
-                        <th scope="row">
-                            <label class="m-2"><input checked="checked" name="chk_@{ @m.Id }_@{ @item.SubCategoryId }" value="1" type="radio"/>&nbsp;تایید</label>
-                            <label class="m-2"><input name="chk[@{ @m.Id }][@{ @item.SubCategoryId }]" value="0" type="radio"/>&nbsp;رد</label>
-                        </th>
-                    </tr>
-                }
             }
             </tbody>
         </table>

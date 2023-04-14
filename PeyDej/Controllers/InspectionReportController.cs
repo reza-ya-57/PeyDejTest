@@ -21,10 +21,10 @@ public class InspectionReportController : Controller
         _context = context;
     }
 
-    public async Task<IActionResult> Motor(string start_date, string end_date)
+    public async Task<IActionResult> Motor()
     {
-        start_date ??= PeyDejTools.GetCurPersianDate();
-        end_date ??= PeyDejTools.GetCurPersianDate();
+        var start_date = HttpContext.Session.GetString("start_date");
+        var end_date = HttpContext.Session.GetString("end_date");
         var data = await _context.MotorISs
             .Where(m =>
                 m.Status == InspectionStatus.NotOk &&
@@ -81,10 +81,10 @@ public class InspectionReportController : Controller
     }
 
 
-    public async Task<IActionResult> Machine(string start_date, string end_date)
+    public async Task<IActionResult> Machine()
     {
-        start_date ??= PeyDejTools.GetCurPersianDate();
-        end_date ??= PeyDejTools.GetCurPersianDate();
+        var start_date = HttpContext.Session.GetString("start_date");
+        var end_date = HttpContext.Session.GetString("end_date");
 
         var data = await _context.MachineISs
             .Where(m =>

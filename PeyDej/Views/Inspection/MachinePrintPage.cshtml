@@ -65,41 +65,33 @@ th,div{
             </p>
         </div>
     </div>
-    <table class="table">
-        <table class="table table-bordered">
-            <thead>
-            <tr>
-                <th scope="col">ردیف</th>
-                <th scope="col">نام موتور</th>
-                <th scope="col">وضعیت موتور</th>
-                <th scope="col">توضیحات</th>
-
-            </tr>
-            </thead>
-            <tbody>
-            @foreach (var m in Model)
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th scope="col">ماشین</th>
+            @foreach (var item in ViewBag.items)
             {
-                <tr>
-                    <th scope="row">@(++i)</th>
-                    <th scope="row">@m.Name</th>
-                    <th scope="row">..............................................................</th>
-                </tr>
+                <th scope="col">@item.SubCategoryCaption</th>
+            }
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var m in Model)
+        {
+            <tr>
+                <td>
+                    <b>@m.Name</b>
+                </td>
                 @foreach (var item in ViewBag.items)
                 {
-                    <tr>
-                        <th scope="row"></th>
-                        <th scope="row">@item.SubCategoryCaption</th>
-                        <th scope="row">
-                            <label class="m-2"><input type="checkbox"/>&nbsp;تایید</label>
-                            <label class="m-2"><input type="checkbox"/>&nbsp;رد</label>
-                        </th>
-                    </tr>
+                    <td class="text-left">
+                        <label class="m-2"><input type="checkbox"/>&nbsp;تایید</label><br/>
+                        <label class="m-2"><input type="checkbox"/>&nbsp;رد</label>
+                    </td>
                 }
-            }
-            </tbody>
-
-        </table>
-
+            </tr>
+        }
+        </tbody>
     </table>
 </div>
 

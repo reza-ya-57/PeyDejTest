@@ -1,13 +1,13 @@
 @using PeyDej.Tools
-@model IEnumerable<PeyDej.Models.Bases.Motor>
+@model IEnumerable<PeyDej.Models.Bases.Machine>
 
 
 <div class="row">
     <div class="col-12">
-        <h3>لیست موتورهای نیاز به بازرسی</h3>
+        <h3>لیست ماشین آلات نیاز به بازرسی</h3>
         <hr/>
         <p>
-            <a target="_blank" class="btn btn-primary" asp-action="MotorPrintPage">چاپ فرم</a>
+            <a target="_blank" class="btn btn-primary" asp-action="MachinePrintPage">چاپ فرم</a>
         </p>
         <hr/>
     </div>
@@ -22,7 +22,7 @@
                 <span>جستجو</span>
             </div>
             <div class="card-body text-center">
-                <form asp-action="Motor" method="GET">
+                <form asp-action="Machine" method="GET">
                     <label class="text-left">از تاریخ: <input value="@ViewBag.startDate" readonly="readonly" id="start_date" name="start_date" class="form-control text-center" type="text"/></label>
                     <label class="text-left">تا تاریخ: <input value="@ViewBag.endDate" readonly="readonly" id="end_date" name="end_date" class="form-control text-center" type="text"/></label>
                     <input type="submit" value="جستجو" class="btn btn-primary"/>
@@ -44,7 +44,7 @@
             {
                 // columns.Add(model => model.Motors.FirstOrDefault(x => x.Id == model.MotorId).Name).Titled("نام موتور");
                 columns.Add(model => model.Name).Titled(@Html.DisplayNameFor(model => model.Name));
-                columns.Add(model => model.Description).Titled(@Html.DisplayNameFor(model => model.Description));
+                columns.Add(model => model.Model).Titled(@Html.DisplayNameFor(model => model.Model));
                 // columns.Add().Titled("ثبت نتایج").Encoded(false).RenderedAs(model =>
                 //     Html.ActionLink("ثبت نتایج", "Edit", "Motor", new { id = model.Id },
                 //         new { @class = "btn btn-warning btn-sm" })

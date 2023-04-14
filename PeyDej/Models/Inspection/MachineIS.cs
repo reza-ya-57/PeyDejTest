@@ -22,12 +22,12 @@ public class MachineIS
     public DateTime InspectionDate { get; set; }
 
     [Display(Name = "تاریخ پایان بازرسی")]
-    [Required(ErrorMessage = "مقدار {0} را وارد کنید")]
     public DateTime? InspectionFinishedDate { get; set; }
 
     [Display(Name = "وضعیت بازرسی")]
     [Required(ErrorMessage = "مقدار {0} را وارد کنید")]
     public InspectionStatus Status { get; set; } = InspectionStatus.NotOk;
 
+    [NotMapped]
     public virtual IEnumerable<Machine> Machines { get; } = new List<Machine>();
 }

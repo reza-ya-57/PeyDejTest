@@ -11,7 +11,7 @@
 
 <html lang="fa">
 <head>
-    <title>لیست ماشین آلات نیاز به بازرسی</title>
+    <title>لیست موتورهای نیاز به بازرسی</title>
     <link href="~/lib/bootstrap/dist/css/bootstrap.rtl.min.css" rel="stylesheet" asp-append-version="true">
     <link href="~/css/sb-admin-2.min.css" rel="stylesheet" asp-append-version="true">
 </head>
@@ -45,7 +45,7 @@ th,div{
 
     <div class="row">
         <div class="col-12 m-1">
-            <h3>لیست ماشین آلات نیاز به بازرسی</h3>
+            <h3>لیست موتورهای نیاز به بازرسی</h3>
         </div>
     </div>
     <br/>
@@ -83,7 +83,8 @@ th,div{
                     <th scope="row">@(++i)</th>
                     <th scope="row">@m.Name</th>
                     <th scope="row">
-                        <input type="checkbox"/>
+                        <label class="m-2"><input type="checkbox"/>&nbsp;تایید</label>
+                        <label class="m-2"><input type="checkbox"/>&nbsp;رد</label>
                     </th>
                     <th scope="row">..............................................................</th>
                 </tr>

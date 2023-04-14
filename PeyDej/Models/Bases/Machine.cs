@@ -113,9 +113,9 @@ public class Machine
   [Range(typeof(long), "0", "65536", ErrorMessage = "مقدار {0} باید بین {1} تا این {2} باشد")]
   public long? LubricationCycle { get; set; }
 
-  //   public virtual IEnumerable<Motor> Motors { get; } = new List<Motor>();
+  // public virtual IEnumerable<Motor> Motors { get; } = new List<Motor>();
 
-  public virtual IEnumerable<SparePartMachine> SparePartMachines { get; } = new List<SparePartMachine>();
+  // public virtual IEnumerable<SparePartMachine> SparePartMachines { get; set; } = new List<SparePartMachine>();
 
   public GeneralStatus GeneralStatusId { get; set; } = GeneralStatus.Active;
 }

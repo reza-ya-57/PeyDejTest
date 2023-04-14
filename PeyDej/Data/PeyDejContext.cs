@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using PeyDej.Models.Bases;
 using PeyDej.Models.Bases.Views;
 using PeyDej.Models.Inspection;
+using PeyDej.Models.Inspection.Views;
 using PeyDej.Models.Users;
 
 namespace PeyDej.Data;
@@ -28,4 +29,6 @@ public partial class PeyDejContext : IdentityDbContext<PeyDejUser>
   public virtual DbSet<MachineIS> MachineISs { get; set; } = null!;
   public virtual DbSet<Person> Persons { get; set; } = null!;
   public virtual DbSet<Categories> VwCategories { get; set; } = null!;
+  public virtual DbSet<VwInspectionSubCategoryIS> VwInspectionSubCategoryISs { get; set; } = null!;
+  
 }

@@ -10,17 +10,9 @@
         columns.Add(model => model.Model).Titled(@Html.DisplayNameFor(model => model.Model));
         columns.Add(model => model.Company).Titled(@Html.DisplayNameFor(model => model.Company));
         columns.Add(model => model.Country).Titled(@Html.DisplayNameFor(model => model.Country));
-        columns.Add().Titled("ویرایش").Encoded(false).RenderedAs(model =>
-            Html.ActionLink("ویرایش", "Edit", new { id = model.Id },
-                new { @class = "btn btn-warning btn-sm" })
-            );
-        columns.Add().Titled("ویرایش").Encoded(false).RenderedAs(model =>
-            Html.ActionLink("جزییات", "Details", new { id = model.Id },
-                new { @class = "btn btn-success btn-sm" }));
-        columns.Add().Titled("حذف").Encoded(false).RenderedAs(model =>
-            PeyDejHelper.ActiveLinkAjax(
-                $"javascript:DeleteItem('{model.Id}');", "حذف", "btn btn-danger btn-sm")
-            );
+        columns.Add().Titled("ویرایش").Encoded(false).RenderedAs(model => PeyDejHelper.ActionLink("<i class=\"icon-edit\"></i>", "Edit", "Machine", model.Id, "orange-text", "ویرایش"));
+        columns.Add().Titled("جزییات").Encoded(false).RenderedAs(model => PeyDejHelper.ActionLink("<i class=\"icon-info-sign\"></i>", "Details", "Machine", model.Id, "green-text", "جزییات"));
+        columns.Add().Titled("حذف").Encoded(false).RenderedAs(model => PeyDejHelper.ActiveLinkAjax($"javascript:DeleteItem('{model.Id}');", "<i class=\"icon-trash\"></i>", "red-text", "حذف"));
     })
     .Empty("هیچ ایتمی وجود ندارد")
     .Sortable()

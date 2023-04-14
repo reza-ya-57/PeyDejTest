@@ -1,0 +1,82 @@
+@model IEnumerable<PeyDej.Models.Inspection.Views.VwInspectionSubCategoryIS>;
+
+<div class="row">
+    <div class="col-12">
+        <h3> لیست <span>@ViewBag.title</span></h3>
+        <hr/>
+        <p>
+            <a target="_blank" class="btn btn-primary" asp-action="PrintPage">چاپ فرم</a>
+            <a class="btn btn-success" asp-action="PrintPage">ثبت نتایج</a>
+        </p>
+        <hr/>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-6 offset-3">
+
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <span>جستجو</span>
+            </div>
+            <div class="card-body text-center">
+                <form asp-action="Index" method="GET">
+                    <label class="text-left">از تاریخ: <input value="@ViewBag.startDate" readonly="readonly" id="start_date" name="start_date" class="form-control text-center" type="text"/></label>
+                    <label class="text-left">تا تاریخ: <input value="@ViewBag.endDate" readonly="readonly" id="end_date" name="end_date" class="form-control text-center" type="text"/></label>
+                    <input type="submit" value="جستجو" class="btn btn-primary"/>
+                </form>
+            </div>
+            <div class="card-footer">
+                <!-- Card footer content goes here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-8 offset-2">
+        @(Html
+            .Grid(Model)
+            .Build(columns =>
+            {
+                // columns.Add(model => model.Motors.FirstOrDefault(x => x.Id == model.MotorId).Name).Titled("نام موتور");
+                columns.Add(model => model.Caption).Titled(@Html.DisplayNameFor(model => model.Caption));
+                // columns.Add().Titled("ثبت نتایج").Encoded(false).RenderedAs(model =>
+                //     Html.ActionLink("ثبت نتایج", "Edit", "Motor", new { id = model.Id },
+                //         new { @class = "btn btn-warning btn-sm" })
+                //     );
+            })
+            .Empty("هیچ ایتمی وجود ندارد")
+            .Sortable()
+            .Filterable()
+            .Using(GridFilterMode.Row)
+            .Pageable(pager =>
+            {
+                pager.PageSizes = new Dictionary<Int32, String> { { 10, "10" }, { 20, "20" }, { 50, "50" }, { 0, "همه" } };
+                pager.ShowPageSizes = true;
+                pager.PagesToDisplay = 5;
+                pager.CurrentPage = 1;
+                pager.RowsPerPage = 20;
+            })
+            .Css("table table-bordered")
+            )
+
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script type="text/javascript">
+    $(function(){
+        $('#start_date,#end_date').datepicker({
+            isRTL: true,
+            dateFormat: "yy/mm/dd"
+        });
+    });
+   
+</script>
+}

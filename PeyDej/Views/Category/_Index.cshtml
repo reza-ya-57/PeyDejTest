@@ -6,16 +6,10 @@
     .Grid(Model)
     .Build(columns =>
     {
-        columns.Add(model => model.Name).Titled(@Html.DisplayNameFor(model => model.Name));
-        columns.Add(model => model.Value).Titled(@Html.DisplayNameFor(model => model.Value));
-        columns.Add().Titled("ویرایش").Encoded(false).RenderedAs(model =>
-            Html.ActionLink("ویرایش", "Edit", new { id = model.Id },
-                new { @class = "btn btn-warning btn-sm" })
-            );
-        columns.Add().Titled("حذف").Encoded(false).RenderedAs(model =>
-            PeyDejHelper.ActiveLinkAjax(
-                $"javascript:DeleteItem('{model.Id}');", "حذف", "btn btn-danger btn-sm")
-            );
+        columns.Add(model => model.Value).Titled(@Html.DisplayNameFor(model => model.Name));
+        columns.Add().Titled("ویرایش").Encoded(false).RenderedAs(model => PeyDejHelper.ActionLink("<i class=\"icon-edit\"></i>", "Edit", "Category", model.Id, "orange-text", "ویرایش"));
+        columns.Add().Titled("جزییات").Encoded(false).RenderedAs(model => PeyDejHelper.ActionLink("<i class=\"icon-info-sign\"></i>", "Details", "Category", model.Id, "green-text", "جزییات"));
+        columns.Add().Titled("حذف").Encoded(false).RenderedAs(model => PeyDejHelper.ActiveLinkAjax($"javascript:DeleteItem('{model.Id}');", "<i class=\"icon-trash\"></i>", "red-text", "حذف"));
     })
     .Empty("هیچ ایتمی وجود ندارد")
     .Sortable()

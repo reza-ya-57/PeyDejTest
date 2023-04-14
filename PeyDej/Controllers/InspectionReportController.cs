@@ -79,4 +79,30 @@ public class InspectionReportController : Controller
             return Json(new { r = false, m = ex.Message });
         }
     }
+
+
+    public async Task<IActionResult> Machine(string start_date, string end_date)
+    {
+        start_date ??= PeyDejTools.GetCurPersianDate();
+        end_date ??= PeyDejTools.GetCurPersianDate();
+        
+        var data = await _context.MachineISs
+            .Where(m =>
+                m.Status == InspectionStatus.NotOk &&
+                m.InspectionDate >= PeyDejTools.PersianStringToDateTime(start_date) &&
+                m.InspectionDate <= PeyDejTools.PersianStringToDateTime(end_date)
+            ).ToListAsync();
+
+        var machineIDs = data.Select(item => item.MachineId).ToList();
+        var result = await _context.Machines.Where(m => machineIDs.Contains(m.Id)).ToListAsync();
+        var person = await _context.Persons.Where(m => m.GeneralStatusId == GeneralStatus.Active)
+            .Select(m => new { m.Id, Name = m.FirstName + " " + m.LastName })
+            .ToListAsync();
+        ViewBag.person = new SelectList(person, "Id", "Name");
+        ViewBag.items = await _context.VwCategories.Where(m => m.CategoryId == 1).ToListAsync();
+        ViewBag.items = await _context.VwCategories.Where(m => m.CategoryId == 1).ToListAsync();
+        ViewBag.startDate = start_date;
+        ViewBag.endDate = end_date;
+        return View(result);
+    }
 }

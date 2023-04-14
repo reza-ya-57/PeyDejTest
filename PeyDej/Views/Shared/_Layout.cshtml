@@ -66,7 +66,7 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 @* <h6 class="collapse-header">Custom Components:</h6> *@
                 <a asp-action="Index" asp-controller="Person" class="collapse-item">پرسنل</a>
-                <a asp-action="Index" asp-controller="Category" class="collapse-item">دسته بندی</a>
+                @* <a asp-action="Index" asp-controller="Category" class="collapse-item">دسته بندی</a> *@
                 @* <a asp-action="Index" asp-controller="InspectionCategory" class="collapse-item">دسته بازرسی</a> *@
                 @* <a asp-action="Index" asp-controller="InspectionSubCategory" class="collapse-item">زیر دسته بازرسی</a> *@
                 <a asp-action="Index" asp-controller="SparePart" class="collapse-item">قطعات یدکی</a>
@@ -89,7 +89,7 @@
                 <a asp-action="Machine" asp-controller="Inspection" class="collapse-item">بازرسی ماشین آلات</a>
                 @foreach (var item in inspectionCategories)
                 {
-                    <a asp-action="Index" asp-controller="InspectionCategories"  asp-route-id="@item.Id" class="collapse-item">@item.Caption</a>
+                    <a asp-action="Index" asp-controller="InspectionCategories" asp-route-id="@item.Id" class="collapse-item">@item.Caption</a>
                 }
             </div>
         </div>

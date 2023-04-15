@@ -1,0 +1,137 @@
+@using PeyDej.Tools
+@using Microsoft.AspNetCore.Mvc.Rendering
+@using Microsoft.AspNetCore.Mvc
+@model IEnumerable<PeyDej.Models.Inspection.Views.VwInspectionSubCategoryIS>;
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+
+@functions {
+
+    private string? GetAntiXsrfRequestToken()
+    {
+        return Xsrf.GetAndStoreTokens(Context).RequestToken;
+    }
+
+}
+
+<div class="row">
+    <div class="col-12">
+        <h3> لیست <span>@ViewBag.title</span></h3>
+        <hr/>
+    </div>
+</div>
+
+
+@* <div class="row"> *@
+@*     <div class="col-6 offset-3"> *@
+@* *@
+@*         <div class="card"> *@
+@*             <div class="card-header bg-primary text-white"> *@
+@*                 <span>جستجو</span> *@
+@*             </div> *@
+@*             <div class="card-body text-center"> *@
+@*                 <form asp-action="Motor" method="GET"> *@
+@*                     <label class="text-left">از تاریخ: <input value="@ViewBag.startDate" readonly="readonly" id="start_date" name="start_date" class="form-control text-center" type="text"/></label> *@
+@*                     <label class="text-left">تا تاریخ: <input value="@ViewBag.endDate" readonly="readonly" id="end_date" name="end_date" class="form-control text-center" type="text"/></label> *@
+@*                     <input type="submit" value="جستجو" class="btn btn-primary"/> *@
+@*                 </form> *@
+@*             </div> *@
+@*             <div class="card-footer"> *@
+@*                 <!-- Card footer content goes here --> *@
+@*             </div> *@
+@*         </div> *@
+@*     </div> *@
+@* </div> *@
+
+@{ var i = 0; }
+<div class="row">
+    <div class="col-8 offset-2">
+
+        <div class="row mb-5">
+            <div class="col-12">
+                <label>پرسنل:</label>
+                <select id="person" asp-items="ViewBag.person" class="form-select"></select>
+                <button onclick="save()" class="btn btn-success">ثبت نتایج</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th scope="col">ردیف</th>
+                        <th scope="col">نام موتور</th>
+                        <th scope="col">وضعیت موتور</th>
+                        <th scope="col">توضیحات</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var m in Model)
+                    {
+                        <tr>
+                            <th scope="row">@(++i)</th>
+                            <th scope="row">@m.Caption</th>
+                            <th scope="row">
+                                <label class="m-2"><input name="status@{ @m.InspectionSubCategoryIsId }" value="1" type="radio"/>&nbsp;تایید</label>
+                                <label class="m-2"><input name="status@{ @m.InspectionSubCategoryIsId }" value="0" type="radio"/>&nbsp;رد</label>
+                            </th>
+                            <th scope="row">
+                                <input class="form-control"/>
+                            </th>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script type="text/javascript">
+    $(function(){
+        $('#start_date,#end_date').datepicker({
+            isRTL: true,
+            dateFormat: "yy/mm/dd"
+        });
+    });
+    
+    function save(){
+        var ids=[@foreach (var itm in Model)
+                 {
+                     @(itm.InspectionSubCategoryIsId + ",")
+                 }];
+        var data=[];
+       ids.forEach(function (value,i){
+           var radios =$("input:radio[name=status"+value+"]:checked");
+               data.push({
+                    Id: value,
+                    Status: radios.val() == 1,                 
+               });
+          });
+        var person=$("#person").val();
+        var token="@GetAntiXsrfRequestToken()";
+        $.post("@Url.Action("SaveDataReport")",{ 
+                data: data, 
+                person: person,
+                __RequestVerificationToken: token 
+            },
+            function (e){
+            if (e.r){
+                alert("فرآیند ثبت اطلاعات با موفقیت به پابان رسید.");
+                location.reload();
+            }else{
+                alert("در هنگام پردازش اطلاعات خطایی رخ داد. دوباره سعی کنید."+"\n" + e.m);
+            }
+        },"JSON");
+    }
+   
+</script>
+}

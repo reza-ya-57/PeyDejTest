@@ -12,8 +12,13 @@ public class PeyDejTools
                persianCalendar.GetDayOfMonth(DateTime.Now).ToString("00");
     }
 
-    public static DateTime PersianStringToDateTime(string persianDateStr)
+    public static DateTime PersianStringToDateTime(string? persianDateStr)
     {
+        if (persianDateStr == null)
+        {
+            return DateTime.Now;
+        }
+
         var persianCulture = new CultureInfo("fa-IR");
         var persianDate = DateTime.ParseExact(persianDateStr, "yyyy/MM/dd", persianCulture);
         var gregorianDate = persianDate.ToUniversalTime();

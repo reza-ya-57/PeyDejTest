@@ -74,7 +74,7 @@
                     @foreach (var item in ViewBag.items)
                     {
                         <td>
-                            <label class="m-2"><input checked="checked" name="chk_@{ @m.Id }_@{ @item.SubCategoryId }" value="1" type="radio"/>&nbsp;&nbsp;تایید</label>
+                            <label class="m-2"><input name="chk_@{ @m.Id }_@{ @item.SubCategoryId }" value="1" type="radio"/>&nbsp;&nbsp;تایید</label>
                             <label class="m-2"><input name="chk_@{ @m.Id }_@{ @item.SubCategoryId }" value="0" type="radio"/>&nbsp;&nbsp;رد</label>
                         </td>
                     }

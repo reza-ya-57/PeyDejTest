@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Globalization;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace PeyDej.Tools;
 
@@ -23,5 +25,13 @@ public class PeyDejTools
         var persianDate = DateTime.ParseExact(persianDateStr, "yyyy/MM/dd", persianCulture);
         var gregorianDate = persianDate.ToUniversalTime();
         return gregorianDate.Date;
+    }
+
+    public static SelectList Week()
+    {
+        var data = new ArrayList();
+        
+
+        return new SelectList(new { });
     }
 }

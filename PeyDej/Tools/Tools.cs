@@ -29,9 +29,14 @@ public class PeyDejTools
 
     public static SelectList Week()
     {
-        var data = new ArrayList();
-        
-
-        return new SelectList(new { });
+        var dictSector = new List<SectorItem>();
+        dictSector.Add(new SectorItem(5, "شنبه"));
+        dictSector.Add(new SectorItem(6, "یک شنبه"));
+        dictSector.Add(new SectorItem(0, "دو شنبه"));
+        dictSector.Add(new SectorItem(1, "سه شنبه"));
+        dictSector.Add(new SectorItem(2, "جهار شنبه"));
+        dictSector.Add(new SectorItem(3, "پنج شنبه"));
+        dictSector.Add(new SectorItem(4, "جمعه"));
+        return new SelectList(dictSector.ToList(), "Id", "Name");
     }
 }

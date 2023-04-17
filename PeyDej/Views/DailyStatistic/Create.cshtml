@@ -6,14 +6,14 @@
 
 
 <div class="row">
-    <div class="col-6 offset-3">
+    <div class="col-4 offset-4">
         <h3 xmlns="http://www.w3.org/1999/html">@ViewData["Title"]</h3>
         <hr/>
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="row">
-                <div class="col-4 offset-8">
+                <div class="col-12 offset-0">
                     <div class="form-group">
                         <label asp-for="Date" class="control-label"></label>
                         <input id="date" asp-for="Date" class="form-control text-center"/>
@@ -21,27 +21,46 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-12 offset-0">
+                    <div class="form-group">
+                        <label asp-for="Week" class="control-label"></label>
+                        <select asp-items="PeyDej.Tools.PeyDejTools.Week()" asp-for="Week" class="form-control"></select>
+                        <span asp-validation-for="Week" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
 
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label asp-for="NumberOfOpenPort" class="control-label"></label>
+                        <input asp-for="NumberOfOpenPort" class="form-control"/>
+                        <span asp-validation-for="NumberOfOpenPort" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
 
-            <div class="form-group">
-                <label asp-for="NumberOfOpenPort" class="control-label"></label>
-                <input asp-for="NumberOfOpenPort" class="form-control"/>
-                <span asp-validation-for="NumberOfOpenPort" class="text-danger"></span>
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label asp-for="LoadingCount" class="control-label"></label>
+                        <input asp-for="LoadingCount" class="form-control"/>
+                        <span asp-validation-for="LoadingCount" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="LoadingCount" class="control-label"></label>
-                <input asp-for="LoadingCount" class="form-control"/>
-                <span asp-validation-for="LoadingCount" class="text-danger"></span>
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group">
+                        <input type="submit" value="ذخیره" class="btn btn-primary"/>
+                        <a asp-action="Index" class="btn btn-danger">بازگشت</a>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary"/>
-            </div>
+
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

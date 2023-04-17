@@ -1,46 +1,78 @@
 @model PeyDej.Models.Report.DailyStatistic
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "ویرایش آمار روزانه";
 }
 
-<h1>Edit</h1>
-
-<h4>DailyStatistic</h4>
-<hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-4 offset-4">
+        <h3 xmlns="http://www.w3.org/1999/html">@ViewData["Title"]</h3>
+        <hr/>
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="InsDate" class="control-label"></label>
-                <input asp-for="InsDate" class="form-control" />
-                <span asp-validation-for="InsDate" class="text-danger"></span>
+
+            <div class="row">
+                <div class="col-12 offset-0">
+                    <div class="form-group">
+                        <label asp-for="Date" class="control-label"></label>
+                        <input id="date" asp-for="Date" class="form-control text-center"/>
+                        <span asp-validation-for="Date" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control" />
-                <span asp-validation-for="Date" class="text-danger"></span>
+            <div class="row">
+                <div class="col-12 offset-0">
+                    <div class="form-group">
+                        <label asp-for="Week" class="control-label"></label>
+                        <select asp-items="PeyDej.Tools.PeyDejTools.Week()" asp-for="Week" class="form-control"></select>
+                        <span asp-validation-for="Week" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="NumberOfOpenPort" class="control-label"></label>
-                <input asp-for="NumberOfOpenPort" class="form-control" />
-                <span asp-validation-for="NumberOfOpenPort" class="text-danger"></span>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label asp-for="NumberOfOpenPort" class="control-label"></label>
+                        <input asp-for="NumberOfOpenPort" class="form-control"/>
+                        <span asp-validation-for="NumberOfOpenPort" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="LoadingCount" class="control-label"></label>
-                <input asp-for="LoadingCount" class="form-control" />
-                <span asp-validation-for="LoadingCount" class="text-danger"></span>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label asp-for="LoadingCount" class="control-label"></label>
+                        <input asp-for="LoadingCount" class="form-control"/>
+                        <span asp-validation-for="LoadingCount" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group">
+                        <input type="submit" value="ذخیره" class="btn btn-primary"/>
+                        <a asp-action="Index" class="btn btn-danger">بازگشت</a>
+                    </div>
+                </div>
             </div>
+
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script type="text/javascript">
+    $(function(){
+        $('#date').datepicker({
+            isRTL: true,
+            dateFormat: "yy/mm/dd"
+        });
+    });
+   
+</script>
+}

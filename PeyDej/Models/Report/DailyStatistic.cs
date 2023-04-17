@@ -25,15 +25,14 @@ public class DailyStatistic
     /// تعداد درگاه بازشده
     /// </summary>
     [Display(Name = "تعداد درگاه بازشده")]
+    [Required(ErrorMessage = "مقدار {0} الزامی می باشد")]
     public long? NumberOfOpenPort { get; set; }
 
     /// <summary>
     /// تعداد بارگیری شده
     /// </summary>
     [Display(Name = "تعداد بارگیری شده")]
+    [Required(ErrorMessage = "مقدار {0} الزامی می باشد")]
     public long? LoadingCount { get; set; }
 
-    [NotMapped]
-    public virtual ICollection<DailyProductionStatistic> DailyProductionStatistics { get; } =
-        new List<DailyProductionStatistic>();
 }

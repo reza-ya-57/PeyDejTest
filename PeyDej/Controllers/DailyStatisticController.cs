@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PeyDej.Data;
 using PeyDej.Models.Report;
@@ -21,29 +16,11 @@ namespace PeyDej.Controllers
         }
 
         // GET: DailyStatistic
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return _context.DailyStatistics != null
-                ? View(await _context.DailyStatistics.ToListAsync())
-                : Problem("Entity set 'PeyDejContext.DailyStatistics'  is null.");
-        }
-
-        // GET: DailyStatistic/Details/5
-        public async Task<IActionResult> Details(long? id)
-        {
-            if (id == null || _context.DailyStatistics == null)
-            {
-                return NotFound();
-            }
-
-            var dailyStatistic = await _context.DailyStatistics
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (dailyStatistic == null)
-            {
-                return NotFound();
-            }
-
-            return View(dailyStatistic);
+            if (HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                return PartialView("_Index", _context.Set<DailyStatistic>());
+            return View();
         }
 
         // GET: DailyStatistic/Create
@@ -61,7 +38,8 @@ namespace PeyDej.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(
-            [Bind("Id,InsDate,Date,NumberOfOpenPort,LoadingCount")] DailyStatistic dailyStatistic)
+            [Bind("Id,InsDate,Date,NumberOfOpenPort,LoadingCount")]
+            DailyStatistic dailyStatistic)
         {
             if (ModelState.IsValid)
             {
@@ -96,7 +74,8 @@ namespace PeyDej.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(long id,
-            [Bind("Id,InsDate,Date,NumberOfOpenPort,LoadingCount")] DailyStatistic dailyStatistic)
+            [Bind("Id,InsDate,Date,NumberOfOpenPort,LoadingCount")]
+            DailyStatistic dailyStatistic)
         {
             if (id != dailyStatistic.Id)
             {
@@ -128,42 +107,31 @@ namespace PeyDej.Controllers
             return View(dailyStatistic);
         }
 
-        // GET: DailyStatistic/Delete/5
-        public async Task<IActionResult> Delete(long? id)
-        {
-            if (id == null || _context.DailyStatistics == null)
-            {
-                return NotFound();
-            }
 
-            var dailyStatistic = await _context.DailyStatistics
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (dailyStatistic == null)
-            {
-                return NotFound();
-            }
-
-            return View(dailyStatistic);
-        }
-
-        // POST: DailyStatistic/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(long id)
+        public async Task<IActionResult> Delete(long id)
         {
-            if (_context.DailyStatistics == null)
+            try
             {
-                return Problem("Entity set 'PeyDejContext.DailyStatistics'  is null.");
-            }
+                if (_context.DailyStatistics == null)
+                {
+                    return Problem("Entity set 'PeyDejContext.DailyStatistics'  is null.");
+                }
 
-            var dailyStatistic = await _context.DailyStatistics.FindAsync(id);
-            if (dailyStatistic != null)
+                var dailyStatistic = await _context.DailyStatistics.FindAsync(id);
+                if (dailyStatistic != null)
+                {
+                    _context.DailyStatistics.Remove(dailyStatistic);
+                }
+
+                await _context.SaveChangesAsync();
+                return Json(new { r = true, m = "" });
+            }
+            catch (Exception ex)
             {
-                _context.DailyStatistics.Remove(dailyStatistic);
+                return Json(new { r = false, m = ex.Message });
             }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
         }
 
         private bool DailyStatisticExists(long id)

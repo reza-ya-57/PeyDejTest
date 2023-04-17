@@ -1,53 +1,49 @@
-@model IEnumerable<PeyDej.Models.Report.DailyStatistic>
+@model IEnumerable<PeyDej.Models.Bases.Person>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "فهرست آمار روزانه";
 }
 
-<h1>Index</h1>
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+@functions {
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.InsDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NumberOfOpenPort)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LoadingCount)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.InsDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NumberOfOpenPort)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LoadingCount)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+    private string? GetAntiXsrfRequestToken()
+    {
+        return Xsrf.GetAndStoreTokens(Context).RequestToken;
+    }
 }
-    </tbody>
-</table>
+
+<div class="row">
+    <div class="col-12 offset-0">
+        <h3>@ViewData["Title"]</h3>
+        <hr />
+        <p>
+            <a class="btn btn-primary" asp-action="Create">آمار روزانه جدید</a>
+        </p>
+        <hr />
+        <style>
+            .gCol {
+                text-align: center;
+            }
+        </style>
+        
+        @Html.AjaxGrid(Url.Action("Index") ?? string.Empty)
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    function DeleteItem(id){
+        if (confirm("برای حذف این آیتم مطمئن هستید؟")){
+            var token="@GetAntiXsrfRequestToken()";
+            $.post("@Url.Action("Delete")",{id:id , __RequestVerificationToken:token},
+                function (data){
+                    if (data.hasError == true){
+                        alert(data.error);
+                    }else {
+                        location.reload();
+                    }
+                },"JSON");
+            }
+        }
+</script>

@@ -21,6 +21,7 @@ public partial class PeyDejContext : IdentityDbContext<PeyDejUser>
   public virtual DbSet<InspectionSubCategory> InspectionSubCategories { get; set; } = null!;
   public virtual DbSet<Machine> Machines { get; set; } = null!;
   public virtual DbSet<Motor> Motors { get; set; } = null!;
+  public virtual DbSet<MachineMotor>MachineMotors { get; set; } = null!;
   public virtual DbSet<SparePart> SpareParts { get; set; } = null!;
   public virtual DbSet<SparePartMachine> SparePartMachines { get; set; } = null!;
   public virtual DbSet<SparePartMotor> SparePartMotors { get; set; } = null!;

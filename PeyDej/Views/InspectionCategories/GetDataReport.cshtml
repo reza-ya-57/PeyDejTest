@@ -104,11 +104,11 @@
     });
     
     function save(){
-        var ids=[@foreach (var itm in Model)
-                 {
-                     @(itm.InspectionSubCategoryIsId + ",")
-                 }];
+
+        var ids=[@foreach (var itm in Model){ @(itm.InspectionSubCategoryIsId + ",") }];
+
         var data=[];
+
        ids.forEach(function (value,i){
            var radios =$("input:radio[name=status"+value+"]:checked");
                data.push({

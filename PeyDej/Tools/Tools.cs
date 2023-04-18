@@ -21,7 +21,7 @@ public class PeyDejTools
 
         var persianCulture = new CultureInfo("fa-IR");
         var persianDate = DateTime.ParseExact(persianDateStr, "yyyy/MM/dd", persianCulture);
-        var gregorianDate = persianDate.ToUniversalTime();
-        return gregorianDate.Date;
+        //var gregorianDate = persianDate.ToUniversalTime();
+        return persianDate.Date;
     }
 }

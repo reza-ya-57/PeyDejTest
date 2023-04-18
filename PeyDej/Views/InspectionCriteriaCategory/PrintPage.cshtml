@@ -1,0 +1,110 @@
+﻿@using PeyDej.Tools
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model IEnumerable<PeyDej.Models.Dtos.InspectionCriteriaSubCategoryIS>
+@{
+    Layout = null;
+    var i = 0;
+}
+<!DOCTYPE html>
+
+<html lang="fa">
+<head>
+    <title>لیست <span>@ViewBag.title</span> نیاز به بازرسی</title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.rtl.min.css" rel="stylesheet" asp-append-version="true">
+    <link href="~/css/sb-admin-2.min.css" rel="stylesheet" asp-append-version="true">
+</head>
+<body dir="rtl">
+    <style>
+        @@media print {
+            @@page {
+                size: A4;
+                margin: 0;
+                font-family: "Times New Roman", Times, serif;
+                font-size: 12pt;
+            }
+
+            body {
+                margin: 1.27cm;
+            }
+
+            h1 {
+                font-size: 16pt;
+            }
+        }
+
+        th, div {
+            text-align: center;
+        }
+    </style>
+
+
+
+    <div>
+        <div class="row">
+            <div class="col-12 m-1">
+                <h3>لیست <span>@ViewBag.title</span> نیاز به بازرسی</h3>
+            </div>
+        </div>
+        <br />
+        <br />
+        <div class="row">
+            <div class="col-4 offset-8">
+                <p class="text-left">
+                    <span>تاریخ گزارش: </span>@PeyDejTools.GetCurPersianDate()
+                </p>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-12">
+                <p class="text-left">
+                    <span>نام و نام حانوادگی پرسنل بررسی کننده: ................................. </span>
+                </p>
+            </div>
+        </div>
+        @{
+            var t = Model.Select(w => w.InspectionCriteriaCategoryId).Distinct().ToList();
+            foreach (var t1 in t)
+            {
+                <table class="table">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">ردیف</th>
+                                <th scope="col">نام بازرسی</th>
+                                @foreach (var name in Model.First(w => w.InspectionCriteriaCategoryId == t1).SubCategories)
+                                {
+                                    <th scope="col">@name.Value</th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Where(w => w.InspectionCriteriaCategoryId == t1))
+                            {
+                                <tr>
+                                    <th scope="row">@(++i)</th>
+                                    <th scope="row">@item.Caption</th>
+                                    @for (int j = 0; j < item.SubCategories.Count(); j++)
+                                    {
+                                        <th class="text-left" scope="row">
+                                            <label class="m-2"><input type="checkbox" />&nbsp;تایید</label><br />
+                                            <label class="m-2"><input type="checkbox" />&nbsp;رد</label>
+                                        </th>
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </table>
+            }
+        }
+
+    </div>
+
+    <script>
+        window.print();
+        window.onafterprint = function (event) { window.close; };
+    </script>
+</body>
+</html>

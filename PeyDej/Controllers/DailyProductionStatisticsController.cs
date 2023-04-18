@@ -20,32 +20,37 @@ namespace PeyDej.Controllers
             _context = context;
         }
 
-        private List<Categories> departments()
+        private IEnumerable<object> departments()
         {
-            return _context.VwCategories.Where(m => m.CategoryId == 9).ToList();
+            return new SelectList(_context.VwCategories.Where(m => m.CategoryId == 9).ToList(), "SubCategoryId",
+                "SubCategoryCaption");
         }
 
-        private List<Categories> shifts()
+        private IEnumerable<object> shifts()
         {
-            return _context.VwCategories.Where(m => m.CategoryId == 6).ToList();
+            return new SelectList(_context.VwCategories.Where(m => m.CategoryId == 6).ToList(), "SubCategoryId",
+                "SubCategoryCaption");
         }
 
         // GET: DailyProductionStatistics
-        public async Task<IActionResult> Index(long Id)
+        public async Task<IActionResult> Index(long dailyStatisticsId)
         {
-            ViewBag.id = Id;
+            ViewBag.dailyStatisticsId = dailyStatisticsId;
             return _context.ProductionStatistics != null
-                ? View(await _context.ProductionStatistics.Where(m => m.DailyStatisticsId == Id).ToListAsync())
+                ? View(await _context.ProductionStatistics.Where(m => m.DailyStatisticsId == dailyStatisticsId).ToListAsync())
                 : Problem("Entity set 'PeyDejContext.ProductionStatistics'  is null.");
         }
 
 
         // GET: DailyProductionStatistics/Create
-        public IActionResult Create()
+        public IActionResult Create(long dailyStatisticsId)
         {
-            ViewBag.departments = new SelectList(departments(), "SubCategoryId", "SubCategoryCaption");
-            ViewBag.shifts = new SelectList(shifts(), "SubCategoryId", "SubCategoryCaption");
-            return View();
+            ViewBag.departments = departments();
+            ViewBag.shifts = shifts();
+            return View(new DailyProductionStatistic()
+            {
+                DailyStatisticsId = dailyStatisticsId
+            });
         }
 
         // POST: DailyProductionStatistics/Create
@@ -64,8 +69,8 @@ namespace PeyDej.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewBag.departments = new SelectList(departments(), "SubCategoryId", "SubCategoryCaption");
-            ViewBag.shifts = new SelectList(shifts(), "SubCategoryId", "SubCategoryCaption");
+            ViewBag.departments = departments();
+            ViewBag.shifts = shifts();
             return View(dailyProductionStatistic);
         }
 
@@ -83,8 +88,8 @@ namespace PeyDej.Controllers
                 return NotFound();
             }
 
-            ViewBag.departments = new SelectList(departments(), "SubCategoryId", "SubCategoryCaption");
-            ViewBag.shifts = new SelectList(shifts(), "SubCategoryId", "SubCategoryCaption");
+            ViewBag.departments = departments();
+            ViewBag.shifts = shifts();
             return View(dailyProductionStatistic);
         }
 
@@ -123,28 +128,12 @@ namespace PeyDej.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-            ViewBag.departments = new SelectList(departments(), "SubCategoryId", "SubCategoryCaption");
-            ViewBag.shifts = new SelectList(shifts(), "SubCategoryId", "SubCategoryCaption");
+
+            ViewBag.departments = departments();
+            ViewBag.shifts = shifts();
             return View(dailyProductionStatistic);
         }
 
-        // GET: DailyProductionStatistics/Delete/5
-        public async Task<IActionResult> Delete(long? id)
-        {
-            if (id == null || _context.ProductionStatistics == null)
-            {
-                return NotFound();
-            }
-
-            var dailyProductionStatistic = await _context.ProductionStatistics
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (dailyProductionStatistic == null)
-            {
-                return NotFound();
-            }
-
-            return View(dailyProductionStatistic);
-        }
 
         // POST: DailyProductionStatistics/Delete/5
         [HttpPost, ActionName("Delete")]

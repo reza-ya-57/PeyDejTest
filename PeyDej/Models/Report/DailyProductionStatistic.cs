@@ -28,5 +28,4 @@ public class DailyProductionStatistic
 
     public long DailyStatisticsId { get; set; }
 
-    [NotMapped] public virtual DailyStatistic DailyStatistics { get; set; } = null!;
 }

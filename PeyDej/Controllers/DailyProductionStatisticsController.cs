@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PeyDej.Data;
+using PeyDej.Models.Bases.Views;
 using PeyDej.Models.Report;
 
 namespace PeyDej.Controllers
@@ -19,35 +20,31 @@ namespace PeyDej.Controllers
             _context = context;
         }
 
+        private List<Categories> departments()
+        {
+            return _context.VwCategories.Where(m => m.CategoryId == 9).ToList();
+        }
+
+        private List<Categories> shifts()
+        {
+            return _context.VwCategories.Where(m => m.CategoryId == 6).ToList();
+        }
+
         // GET: DailyProductionStatistics
         public async Task<IActionResult> Index(long Id)
         {
+            ViewBag.id = Id;
             return _context.ProductionStatistics != null
                 ? View(await _context.ProductionStatistics.Where(m => m.DailyStatisticsId == Id).ToListAsync())
                 : Problem("Entity set 'PeyDejContext.ProductionStatistics'  is null.");
         }
 
-        // GET: DailyProductionStatistics/Details/5
-        public async Task<IActionResult> Details(long? id)
-        {
-            if (id == null || _context.ProductionStatistics == null)
-            {
-                return NotFound();
-            }
-
-            var dailyProductionStatistic = await _context.ProductionStatistics
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (dailyProductionStatistic == null)
-            {
-                return NotFound();
-            }
-
-            return View(dailyProductionStatistic);
-        }
 
         // GET: DailyProductionStatistics/Create
         public IActionResult Create()
         {
+            ViewBag.departments = new SelectList(departments(), "SubCategoryId", "SubCategoryCaption");
+            ViewBag.shifts = new SelectList(shifts(), "SubCategoryId", "SubCategoryCaption");
             return View();
         }
 
@@ -67,6 +64,8 @@ namespace PeyDej.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
+            ViewBag.departments = new SelectList(departments(), "SubCategoryId", "SubCategoryCaption");
+            ViewBag.shifts = new SelectList(shifts(), "SubCategoryId", "SubCategoryCaption");
             return View(dailyProductionStatistic);
         }
 
@@ -84,6 +83,8 @@ namespace PeyDej.Controllers
                 return NotFound();
             }
 
+            ViewBag.departments = new SelectList(departments(), "SubCategoryId", "SubCategoryCaption");
+            ViewBag.shifts = new SelectList(shifts(), "SubCategoryId", "SubCategoryCaption");
             return View(dailyProductionStatistic);
         }
 
@@ -122,7 +123,8 @@ namespace PeyDej.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-
+            ViewBag.departments = new SelectList(departments(), "SubCategoryId", "SubCategoryCaption");
+            ViewBag.shifts = new SelectList(shifts(), "SubCategoryId", "SubCategoryCaption");
             return View(dailyProductionStatistic);
         }
 

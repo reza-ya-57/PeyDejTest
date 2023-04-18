@@ -23,10 +23,9 @@ public class DailyProductionStatistic
     [Display(Name = "تعداد درگاه باز شده")]
     public long? ProductionCount { get; set; }
 
-    [Display(Name = "ساعات توقف")] public long? StopsHour { get; set; }
-
     [Display(Name = "ساعات توقف")]
-    [Required(ErrorMessage = "مقدار {0} الزامی می باشد")]
+    public long? StopsHour { get; set; }
+
     public long DailyStatisticsId { get; set; }
 
     [NotMapped] public virtual DailyStatistic DailyStatistics { get; set; } = null!;

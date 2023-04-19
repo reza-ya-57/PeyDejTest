@@ -36,7 +36,8 @@ namespace PeyDej.Controllers
         public async Task<IActionResult> Index(long dailyStatisticsId)
         {
             ViewBag.dailyStatisticsId = dailyStatisticsId;
-            return View(await _context.ProductionStatistics.Where(m => m.DailyStatisticsId == dailyStatisticsId).ToListAsync());
+            return View(await _context.ProductionStatistics.Where(m => m.DailyStatisticsId == dailyStatisticsId)
+                .ToListAsync());
         }
 
 
@@ -62,7 +63,10 @@ namespace PeyDej.Controllers
             {
                 _context.Add(dailyProductionStatistic);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "DailyProductionStatistics", new
+                {
+                    dailyStatisticsId = dailyStatisticsId
+                });
             }
 
             ViewBag.departments = departments();
@@ -72,7 +76,7 @@ namespace PeyDej.Controllers
         }
 
         // GET: DailyProductionStatistics/Edit/5
-        public async Task<IActionResult> Edit(long? id,long dailyStatisticsId)
+        public async Task<IActionResult> Edit(long? id, long dailyStatisticsId)
         {
             if (id == null)
             {
@@ -96,7 +100,7 @@ namespace PeyDej.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id,long dailyStatisticsId,
+        public async Task<IActionResult> Edit(long id, long dailyStatisticsId,
             [Bind("Id,InsDate,ShiftId,DepartmentId,ProductionCount,StopsHour,DailyStatisticsId")]
             DailyProductionStatistic dailyProductionStatistic)
         {
@@ -124,8 +128,12 @@ namespace PeyDej.Controllers
                     }
                 }
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "DailyProductionStatistics", new
+                {
+                    dailyStatisticsId = dailyStatisticsId
+                });
             }
+
             ViewBag.dailyStatisticsId = dailyStatisticsId;
             ViewBag.departments = departments();
             ViewBag.shifts = shifts();

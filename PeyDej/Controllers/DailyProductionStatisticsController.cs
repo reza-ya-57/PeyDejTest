@@ -45,15 +45,13 @@ namespace PeyDej.Controllers
         {
             ViewBag.departments = departments();
             ViewBag.shifts = shifts();
+            ViewBag.dailyStatisticsId = dailyStatisticsId;
             return View(new DailyProductionStatistic()
             {
                 DailyStatisticsId = dailyStatisticsId
             });
         }
 
-        // POST: DailyProductionStatistics/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(long dailyStatisticsId,
@@ -69,11 +67,12 @@ namespace PeyDej.Controllers
 
             ViewBag.departments = departments();
             ViewBag.shifts = shifts();
+            ViewBag.dailyStatisticsId = dailyStatisticsId;
             return View(dailyProductionStatistic);
         }
 
         // GET: DailyProductionStatistics/Edit/5
-        public async Task<IActionResult> Edit(long? id)
+        public async Task<IActionResult> Edit(long? id,long dailyStatisticsId)
         {
             if (id == null)
             {
@@ -88,6 +87,7 @@ namespace PeyDej.Controllers
 
             ViewBag.departments = departments();
             ViewBag.shifts = shifts();
+            ViewBag.dailyStatisticsId = dailyStatisticsId;
             return View(dailyProductionStatistic);
         }
 
@@ -96,7 +96,7 @@ namespace PeyDej.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id,
+        public async Task<IActionResult> Edit(long id,long dailyStatisticsId,
             [Bind("Id,InsDate,ShiftId,DepartmentId,ProductionCount,StopsHour,DailyStatisticsId")]
             DailyProductionStatistic dailyProductionStatistic)
         {
@@ -126,7 +126,7 @@ namespace PeyDej.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-
+            ViewBag.dailyStatisticsId = dailyStatisticsId;
             ViewBag.departments = departments();
             ViewBag.shifts = shifts();
             return View(dailyProductionStatistic);

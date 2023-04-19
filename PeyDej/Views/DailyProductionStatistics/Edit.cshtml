@@ -6,61 +6,58 @@
 
 <h3>@ViewData["Title"]</h3>
 
-<hr />
+<hr/>
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-4 offset-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="DailyStatisticsId"/>
-            
             <div class="row">
-             <div class="col-12">
-            <div class="form-group">
-                <label asp-for="ShiftId" class="control-label"></label>
-                <input asp-for="ShiftId" class="form-control" />
-                <span asp-validation-for="ShiftId" class="text-danger"></span>
-            </div>
-             </div>   
+                <div class="col-12">
+                    <div class="form-group">
+                        <label asp-for="ShiftId" class="control-label"></label>
+                        <select asp-for="ShiftId" class="form-control select-v2" asp-items="ViewBag.shifts"></select>
+                        <span asp-validation-for="ShiftId" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
 
             <div class="row">
-             <div class="col-12">
-            <div class="form-group">
-                <label asp-for="DepartmentId" class="control-label"></label>
-                <input asp-for="DepartmentId" class="form-control" />
-                <span asp-validation-for="DepartmentId" class="text-danger"></span>
+                <div class="col-12">
+                    <div class="form-group">
+                        <label asp-for="DepartmentId" class="control-label"></label>
+                        <select asp-items="ViewBag.departments" asp-for="DepartmentId" class="form-control select-v2"></select>
+                        <span asp-validation-for="DepartmentId" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
-             </div>   
-            </div>
-
-           
             <div class="row">
-             <div class="col-12">
-            <div class="form-group">
-                <label asp-for="ProductionCount" class="control-label"></label>
-                <input asp-for="ProductionCount" class="form-control" />
-                <span asp-validation-for="ProductionCount" class="text-danger"></span>
-            </div>
-            </div>
+                <div class="col-12">
+                    <div class="form-group">
+                        <label asp-for="ProductionCount" class="control-label"></label>
+                        <input asp-for="ProductionCount" class="form-control"/>
+                        <span asp-validation-for="ProductionCount" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
 
             <div class="row">
-             <div class="col-12">
-            <div class="form-group">
-                <label asp-for="StopsHour" class="control-label"></label>
-                <input asp-for="StopsHour" class="form-control" />
-                <span asp-validation-for="StopsHour" class="text-danger"></span>
-            </div>
-            </div>
+                <div class="col-12">
+                    <div class="form-group">
+                        <label asp-for="StopsHour" class="control-label"></label>
+                        <input asp-for="StopsHour" class="form-control"/>
+                        <span asp-validation-for="StopsHour" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
 
             <div class="row">
-             <div class="col-12">
-            <div class="form-group">
-                <input type="submit" value="ذخیره" class="btn btn-primary" />
-                <a asp-action="Index" asp-route-id="model.DailyStatisticsId" class="btn btn-danger" >بازگشت</a>
-            </div>
-            </div>
+                <div class="col-12">
+                    <div class="form-group">
+                        <input type="submit" value="ذخیره" class="btn btn-primary"/>
+                        <a asp-action="Index" asp-route-dailyStatisticsId="@ViewBag.dailyStatisticsId" class="btn btn-danger">بازگشت</a>
+                    </div>
+                </div>
             </div>
         </form>
     </div>

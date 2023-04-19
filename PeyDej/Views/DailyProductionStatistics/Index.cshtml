@@ -7,55 +7,57 @@
 }
 
 @inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+
 @functions {
 
     private string? GetAntiXsrfRequestToken()
     {
         return Xsrf.GetAndStoreTokens(Context).RequestToken;
     }
+
 }
 
 <div class="row">
     <div class="col-12 offset-0">
         <h3>@ViewData["Title"]</h3>
-        <hr />
+        <hr/>
         <p>
             <a class="btn btn-primary" asp-action="Create" asp-route-dailyStatisticsId="@ViewBag.dailyStatisticsId">آمار محصول روزانه جدید</a>
-            <a class="btn btn-danger" asp-action="Index" asp-controller="DailyStatistic" >بازگشت</a>
+            <a class="btn btn-danger" asp-action="Index" asp-controller="DailyStatistic">بازگشت</a>
         </p>
-        <hr />
+        <hr/>
         <style>
             .gCol {
                 text-align: center;
             }
         </style>
-        
-    @(Html
-    .Grid(Model)
-    .Build(columns =>
-    {
-        columns.Add(model =>  _context.VwCategories.FirstOrDefault(m => m.SubCategoryId==model.ShiftId).SubCategoryCaption ).Titled(@Html.DisplayNameFor(model => model.ShiftId));
-        columns.Add(model =>_context.VwCategories.FirstOrDefault(m => m.SubCategoryId==model.DepartmentId).SubCategoryCaption).Titled(@Html.DisplayNameFor(model => model.DepartmentId));
-        columns.Add(model => model.ProductionCount).Titled(@Html.DisplayNameFor(model => model.ProductionCount));
-        columns.Add(model => model.StopsHour).Titled(@Html.DisplayNameFor(model => model.StopsHour));
-        columns.Add().Titled("ویرایش").Encoded(false).RenderedAs(model => PeyDejHelper.ActionLink("<i class=\"icon-edit\"></i>", "Edit", "DailyStatistic", model.Id, "orange-text", "ویرایش"));
-        columns.Add().Titled("حذف").Encoded(false).RenderedAs(model => PeyDejHelper.ActiveLinkAjax($"javascript:DeleteItem('{model.Id}');", "<i class=\"icon-trash\"></i>", "red-text", "حذف"));
-    })
-    .Empty("هیچ ایتمی وجود ندارد")
-    .Sortable()
-    .Filterable()
-    .Using(GridFilterMode.Row)
-    .Pageable(pager =>
-    {
-        pager.PageSizes = new Dictionary<Int32, String> { { 10, "10" }, { 20, "20" }, { 50, "50" }, { 0, "همه" } };
-        pager.ShowPageSizes = true;
-        pager.PagesToDisplay = 5;
-        pager.CurrentPage = 1;
-        pager.RowsPerPage = 20;
-    })
-    .Css("table table-bordered text-center")
-    )
-        
+
+        @(Html
+            .Grid(Model)
+            .Build(columns =>
+            {
+                columns.Add(model => _context.VwCategories.FirstOrDefault(m => m.SubCategoryId == model.ShiftId)!.SubCategoryCaption).Titled(@Html.DisplayNameFor(model => model.ShiftId));
+                columns.Add(model => _context.VwCategories.FirstOrDefault(m => m.SubCategoryId == model.DepartmentId)!.SubCategoryCaption).Titled(@Html.DisplayNameFor(model => model.DepartmentId));
+                columns.Add(model => model.ProductionCount).Titled(@Html.DisplayNameFor(model => model.ProductionCount));
+                columns.Add(model => model.StopsHour).Titled(@Html.DisplayNameFor(model => model.StopsHour));
+                columns.Add().Titled("ویرایش").Encoded(false).RenderedAs(model => Html.ActionLink("ویرایش", "Edit", "DailyProductionStatistics", new { Id = model.Id, dailyStatisticsId = ViewBag.dailyStatisticsId }));
+                columns.Add().Titled("حذف").Encoded(false).RenderedAs(model => PeyDejHelper.ActiveLinkAjax($"javascript:DeleteItem('{model.Id}');", "<i class=\"icon-trash\"></i>", "red-text", "حذف"));
+            })
+            .Empty("هیچ ایتمی وجود ندارد")
+            .Sortable()
+            .Filterable()
+            .Using(GridFilterMode.Row)
+            .Pageable(pager =>
+            {
+                pager.PageSizes = new Dictionary<Int32, String> { { 10, "10" }, { 20, "20" }, { 50, "50" }, { 0, "همه" } };
+                pager.ShowPageSizes = true;
+                pager.PagesToDisplay = 5;
+                pager.CurrentPage = 1;
+                pager.RowsPerPage = 20;
+            })
+            .Css("table table-bordered text-center")
+            )
+
     </div>
 </div>
 

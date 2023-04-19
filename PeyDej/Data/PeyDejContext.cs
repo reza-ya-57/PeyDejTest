@@ -8,6 +8,8 @@ using PeyDej.Models.Inspection.Views;
 using PeyDej.Models.Report;
 using PeyDej.Models.Users;
 
+using System.Reflection.Emit;
+
 namespace PeyDej.Data;
 
 public partial class PeyDejContext : IdentityDbContext<PeyDejUser>

@@ -1,0 +1,145 @@
+﻿@model PeyDej.Models.Report.RepairRequest
+
+@{
+    ViewData["Title"] = "درخواست تعمیر جدید";
+}
+
+<div class="row">
+    <div class="col-6 offset-3">
+        <div class="card">
+            <div class="card-header">
+                <h3 xmlns="http://www.w3.org/1999/html">@ViewData["Title"]</h3>
+            </div>
+            <div class="card-body">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="Caption" class="control-label"></label>
+                                <input asp-for="Caption" class="form-control" />
+                                <span asp-validation-for="Caption" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <label asp-for="DepartmentId" class="col-form-label"></label>
+                            <select asp-for="DepartmentId" class="form-control">
+                                <option name="انتخاب" value="0">انتخاب</option>
+                                @foreach (var item in ViewBag.Department)
+                                {
+                                    <option name="@item.Text" value="@item.Value">@item.Text</option>
+                                }
+                            </select>
+                            <span asp-validation-for="DepartmentId" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="ProcessId" class="col-form-label"></label>
+                                <select asp-for="ProcessId" class="form-control">
+                                    <option name="انتخاب" value="0">انتخاب</option>
+                                    @foreach (var item in ViewBag.Process)
+                                    {
+                                        <option name="@item.Text" value="@item.Value">@item.Text</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="ProcessId" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="DateDto" class="control-label"></label>
+                                <input asp-for="DateDto" class="form-control" />
+                                <span asp-validation-for="DateDto" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="Reporter" class="control-label"></label>
+                                <select asp-for="Reporter" class="form-control select-v2" asp-items="ViewBag.Department"></select>
+                                <span asp-validation-for="Reporter" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <label asp-for="RepairKindId" class="col-form-label"></label>
+                            <select asp-for="RepairKindId" class="form-control">
+                                <option name="انتخاب" value="0">انتخاب</option>
+                                @foreach (var item in ViewBag.RepairKind)
+                                {
+                                    <option name="@item.Text" value="@item.Value">@item.Text</option>
+                                }
+                            </select>
+                            <span asp-validation-for="RepairKindId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <label asp-for="MachineId" class="col-form-label"></label>
+                            <select asp-for="MachineId" class="form-control">
+                                <option name="انتخاب" value="0">انتخاب</option>
+                                @foreach (var item in ViewBag.Machine)
+                                {
+                                    <option name="@item.Text" value="@item.Value">@item.Text</option>
+                                }
+                            </select>
+                            <span asp-validation-for="MachineId" class="text-danger"></span>
+                        </div>
+                        <div class="col-6">
+                            <label asp-for="MotorId" class="col-form-label"></label>
+                            <select asp-for="MotorId" class="form-control">
+                                <option name="انتخاب" value="0">انتخاب</option>
+                                @foreach (var item in ViewBag.Motor)
+                                {
+                                    <option name="@item.Text" value="@item.Value">@item.Text</option>
+                                }
+                            </select>
+                            <span asp-validation-for="MotorId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <label asp-for="SparePartId" class="col-form-label"></label>
+                            <select asp-for="SparePartId" class="form-control">
+                                <option name="انتخاب" value="0">انتخاب</option>
+                                @foreach (var item in ViewBag.SparePart)
+                                {
+                                    <option name="@item.Text" value="@item.Value">@item.Text</option>
+                                }
+                            </select>
+                            <span asp-validation-for="SparePartId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <input type="submit" value="ذخیره" class="btn btn-primary" />
+                                <a asp-action="Index" class="btn btn-danger">بازگشت</a>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script type="text/javascript">
+        $(function () {
+            $('#DateDto').datepicker({
+                isRTL: true,
+                dateFormat: "yy/mm/dd"
+            });
+        });
+
+    </script>
+}

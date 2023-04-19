@@ -20,5 +20,11 @@ namespace PeyDej.Tools
         {
             return id == null ? $"<a href=\"{controller}/{action}\" class=\"{css}\" title=\"{title}\">{text}</a>" : $"<a href=\"{controller}/{action}/{id}\" class=\"{css}\" title=\"{title}\">{text}</a>";
         }
+        
+        public static string ActionLink(string text, string action, string controller,string parameterName, object? id, string css,
+            string title = "")
+        {
+            return id == null ? $"<a href=\"{controller}/{action}\" class=\"{css}\" title=\"{title}\">{text}</a>" : $"<a href=\"{controller}/{action}?{parameterName}={id}\" class=\"{css}\" title=\"{title}\">{text}</a>";
+        }
     }
 }

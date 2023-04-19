@@ -36,9 +36,7 @@ namespace PeyDej.Controllers
         public async Task<IActionResult> Index(long dailyStatisticsId)
         {
             ViewBag.dailyStatisticsId = dailyStatisticsId;
-            return _context.ProductionStatistics != null
-                ? View(await _context.ProductionStatistics.Where(m => m.DailyStatisticsId == dailyStatisticsId).ToListAsync())
-                : Problem("Entity set 'PeyDejContext.ProductionStatistics'  is null.");
+            return View(await _context.ProductionStatistics.Where(m => m.DailyStatisticsId == dailyStatisticsId).ToListAsync());
         }
 
 
@@ -58,7 +56,7 @@ namespace PeyDej.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(
+        public async Task<IActionResult> Create(long dailyStatisticsId,
             [Bind("Id,InsDate,ShiftId,DepartmentId,ProductionCount,StopsHour,DailyStatisticsId")]
             DailyProductionStatistic dailyProductionStatistic)
         {
@@ -77,7 +75,7 @@ namespace PeyDej.Controllers
         // GET: DailyProductionStatistics/Edit/5
         public async Task<IActionResult> Edit(long? id)
         {
-            if (id == null || _context.ProductionStatistics == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -140,11 +138,6 @@ namespace PeyDej.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
-            if (_context.ProductionStatistics == null)
-            {
-                return Problem("Entity set 'PeyDejContext.ProductionStatistics'  is null.");
-            }
-
             var dailyProductionStatistic = await _context.ProductionStatistics.FindAsync(id);
             if (dailyProductionStatistic != null)
             {

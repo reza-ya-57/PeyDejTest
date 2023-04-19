@@ -7,9 +7,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Data\Tmp" />
       <Folder Include="Models\Bases\Views" />
       <Folder Include="Models\Inspection\DataType" />
+      <Folder Include="Models\Report\" />
     </ItemGroup>
 
     <ItemGroup>
@@ -28,6 +28,13 @@
       </PackageReference>
       <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.5" />
       <PackageReference Include="NonFactors.Grid.Mvc6" Version="7.2.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Update="Views\Repairs\Index.cshtml">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>

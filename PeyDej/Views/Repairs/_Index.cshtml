@@ -1,0 +1,26 @@
+@using PeyDej.Tools
+@model IEnumerable<PeyDej.Models.Report.RepairRequest>
+
+
+@(Html
+    .Grid(Model)
+    .Build(columns =>
+    {
+        columns.Add(model => model.Caption).Titled(@Html.DisplayNameFor(model => model.Caption));
+        columns.Add(model => model.Reporter).Titled(@Html.DisplayNameFor(model => model.Reporter));
+        columns.Add().Titled("ویرایش").Encoded(false).RenderedAs(model => PeyDejHelper.ActionLink("<i class=\"icon-edit\"></i>", "Edit", "Machine", model.Id, "orange-text", "ویرایش"));
+    })
+    .Empty("هیچ ایتمی وجود ندارد")
+    .Sortable()
+    .Filterable()
+    .Using(GridFilterMode.Row)
+    .Pageable(pager =>
+    {
+        pager.PageSizes = new Dictionary<Int32, String> { { 10, "10" }, { 20, "20" }, { 50, "50" }, { 0, "همه" } };
+        pager.ShowPageSizes = true;
+        pager.PagesToDisplay = 5;
+        pager.CurrentPage = 1;
+        pager.RowsPerPage = 20;
+    })
+    .Css("table table-bordered")
+    )

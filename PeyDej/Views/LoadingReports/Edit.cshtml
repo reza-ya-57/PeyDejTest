@@ -1,0 +1,61 @@
+@model PeyDej.Models.Report.LoadingReport
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>LoadingReport</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="InsDate" class="control-label"></label>
+                <input asp-for="InsDate" class="form-control" />
+                <span asp-validation-for="InsDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Date" class="control-label"></label>
+                <input asp-for="Date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DayCaption" class="control-label"></label>
+                <input asp-for="DayCaption" class="form-control" />
+                <span asp-validation-for="DayCaption" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BladKindId" class="control-label"></label>
+                <input asp-for="BladKindId" class="form-control" />
+                <span asp-validation-for="BladKindId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LoadingIntervalId" class="control-label"></label>
+                <input asp-for="LoadingIntervalId" class="form-control" />
+                <span asp-validation-for="LoadingIntervalId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OtherBladCaption" class="control-label"></label>
+                <input asp-for="OtherBladCaption" class="form-control" />
+                <span asp-validation-for="OtherBladCaption" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PeyDej.Data;
+using PeyDej.Models.Bases.Views;
 using PeyDej.Models.Report;
 
 namespace PeyDej.Controllers
@@ -17,32 +19,35 @@ namespace PeyDej.Controllers
         // GET: LoadingReports
         public async Task<IActionResult> Index()
         {
-              return _context.LoadingReports != null ? 
-                          View(await _context.LoadingReports.ToListAsync()) :
-                          Problem("Entity set 'PeyDejContext.LoadingReports'  is null.");
+              return View(await _context.LoadingReports.ToListAsync());
         }
-
-        // GET: LoadingReports/Details/5
-        public async Task<IActionResult> Details(long? id)
+        
+        private IEnumerable<object> BladKind()
         {
-            if (id == null || _context.LoadingReports == null)
+            var data = _context.VwCategories.Where(m => m.CategoryId == 7).ToList();
+            data.Add(new Categories()
             {
-                return NotFound();
-            }
-
-            var loadingReport = await _context.LoadingReports
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (loadingReport == null)
-            {
-                return NotFound();
-            }
-
-            return View(loadingReport);
+                SubCategoryCaption = "متفرقه",
+                SubCategoryId = 0,
+                CategoryId = 0,
+                CategoryCaption = "",
+            });
+            return new SelectList(data, "SubCategoryId",
+                "SubCategoryCaption");
         }
+        
+        private IEnumerable<object> LoadingInterval()
+        {
+            return new SelectList(_context.VwCategories.Where(m => m.CategoryId == 8).ToList(), "SubCategoryId",
+                "SubCategoryCaption");
+        }
+
 
         // GET: LoadingReports/Create
         public IActionResult Create()
         {
+            ViewBag.BladKind = BladKind();
+            ViewBag.LoadingInterval = LoadingInterval();
             return View();
         }
 
@@ -59,13 +64,15 @@ namespace PeyDej.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.BladKind = BladKind();
+            ViewBag.LoadingInterval = LoadingInterval();
             return View(loadingReport);
         }
 
         // GET: LoadingReports/Edit/5
         public async Task<IActionResult> Edit(long? id)
         {
-            if (id == null || _context.LoadingReports == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -75,6 +82,8 @@ namespace PeyDej.Controllers
             {
                 return NotFound();
             }
+            ViewBag.BladKind = BladKind();
+            ViewBag.LoadingInterval = LoadingInterval();
             return View(loadingReport);
         }
 
@@ -110,36 +119,17 @@ namespace PeyDej.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.BladKind = BladKind();
+            ViewBag.LoadingInterval = LoadingInterval();
             return View(loadingReport);
         }
 
-        // GET: LoadingReports/Delete/5
-        public async Task<IActionResult> Delete(long? id)
-        {
-            if (id == null || _context.LoadingReports == null)
-            {
-                return NotFound();
-            }
-
-            var loadingReport = await _context.LoadingReports
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (loadingReport == null)
-            {
-                return NotFound();
-            }
-
-            return View(loadingReport);
-        }
 
         // POST: LoadingReports/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
-            if (_context.LoadingReports == null)
-            {
-                return Problem("Entity set 'PeyDejContext.LoadingReports'  is null.");
-            }
             var loadingReport = await _context.LoadingReports.FindAsync(id);
             if (loadingReport != null)
             {

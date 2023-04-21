@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.Build.Framework;
 
 namespace PeyDej.Models.Report;
 
@@ -13,11 +14,12 @@ public class LoadingReport
     public DateTime InsDate { get; set; } = DateTime.Now;
 
     [Display(Name = "تاریخ")]
-    [Required(ErrorMessage = "مقدار {0} الزامی می باشد")]
-    public long Date { get; set; }
+    [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "مقدار {0} الزامی می باشد")]
+    [MaxLength(10, ErrorMessage = "مقدار {0} باید 10 کاراکتر باشد")]
+    public string Date { get; set; }
 
-    [Display(Name = "تاریخ")]
-    [Required(ErrorMessage = "مقدار {0} الزامی می باشد")]
+    [Display(Name = "شرح روزانه")]
+    [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "مقدار {0} الزامی می باشد")]
     public string DayCaption { get; set; } = null!;
 
     [Display(Name = "نوع تیغه")] public long? BladKindId { get; set; }

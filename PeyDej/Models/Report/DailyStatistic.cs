@@ -8,7 +8,8 @@ namespace PeyDej.Models.Report;
 [Table(name: "DailyStatistics", Schema = "Report")]
 public class DailyStatistic
 {
-    [Key] public long Id { get; set; }
+    [Key] 
+    public long Id { get; set; }
 
     public DateTime InsDate { get; set; } = DateTime.Now;
 

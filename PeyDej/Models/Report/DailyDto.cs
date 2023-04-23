@@ -73,5 +73,8 @@ public class DailyDto
 
 
     public long DailyStatisticsId { get; set; }
-
+    public long ShiftId_99_DepartmentId_106_Id { get; set; }
+    public long ShiftId_100_DepartmentId_106_Id { get; set; }
+    public long ShiftId_99_DepartmentId_107_Id { get; set; }
+    public long ShiftId_100_DepartmentId_107_Id { get; set; }
 }

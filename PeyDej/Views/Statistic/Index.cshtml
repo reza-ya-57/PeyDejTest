@@ -1,5 +1,5 @@
-@model IEnumerable<PeyDej.Models.Bases.Person>
-
+@using PeyDej.Tools
+@model IEnumerable<PeyDej.Models.Report.DailyStatistic>
 @{
     ViewData["Title"] = "فهرست آمار روزانه";
 }
@@ -26,8 +26,32 @@
                 text-align: center;
             }
         </style>
-        
-        @Html.AjaxGrid(Url.Action("Index") ?? string.Empty)
+        @(Html
+            .Grid(Model)
+            .Build(columns =>
+            {
+                columns.Add(model => model.Date).Titled(@Html.DisplayNameFor(model => model.Date));
+                columns.Add(model => model.Week).Titled(@Html.DisplayNameFor(model => model.Week));
+                columns.Add(model => model.LoadingCount).Titled(@Html.DisplayNameFor(model => model.LoadingCount));
+                columns.Add(model => model.NumberOfOpenPort).Titled(@Html.DisplayNameFor(model => model.NumberOfOpenPort));
+                columns.Add().Titled("ویرایش").Encoded(false).RenderedAs(model => PeyDejHelper.ActionLink("<i class=\"icon-edit\"></i>", "Edit", "Statistic", model.Id, "orange-text", "ویرایش"));
+                columns.Add().Titled("حذف").Encoded(false).RenderedAs(model => PeyDejHelper.ActiveLinkAjax($"javascript:DeleteItem('{model.Id}');", "<i class=\"icon-trash\"></i>", "red-text", "حذف"));
+            })
+            .Empty("هیچ ایتمی وجود ندارد")
+            .Sortable()
+            .Filterable()
+            .Using(GridFilterMode.Row)
+            .Pageable(pager =>
+            {
+                pager.PageSizes = new Dictionary<Int32, String> { { 10, "10" }, { 20, "20" }, { 50, "50" }, { 0, "همه" } };
+                pager.ShowPageSizes = true;
+                pager.PagesToDisplay = 5;
+                pager.CurrentPage = 1;
+                pager.RowsPerPage = 20;
+            })
+            .Css("table table-bordered text-center")
+            )
+        @*@Html.AjaxGrid(Url.Action("Index") ?? string.Empty)*@
     </div>
 </div>
 

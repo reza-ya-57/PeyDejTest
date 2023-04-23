@@ -1,9 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Elfie.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 
 using PeyDej.Data;
 using PeyDej.Models.Report;
 using PeyDej.Tools;
+
+using System.Security.Cryptography;
 
 namespace PeyDej.Controllers
 {
@@ -19,9 +22,7 @@ namespace PeyDej.Controllers
         // GET: DailyStatistic
         public IActionResult Index()
         {
-            if (HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
-                return PartialView("_Index", _context.Set<DailyStatistic>());
-            return View();
+            return View(_context.DailyStatistics.AsEnumerable());
         }
 
         // GET: DailyStatistic/Create
@@ -58,7 +59,7 @@ namespace PeyDej.Controllers
                     ProductionCount = model.ShiftId_99_DepartmentId_106_ProductionCount
                 });
                 _context.SaveChanges();
-                
+
                 //model.ShiftId_100_DepartmentId_106_StopsHour
                 _context.ProductionStatistics.Add(new DailyProductionStatistic()
                 {
@@ -69,7 +70,7 @@ namespace PeyDej.Controllers
                     ProductionCount = model.ShiftId_100_DepartmentId_106_ProductionCount
                 });
                 _context.SaveChanges();
-                
+
                 //model.ShiftId_99_DepartmentId_107_StopsHour
                 _context.ProductionStatistics.Add(new DailyProductionStatistic()
                 {
@@ -80,12 +81,12 @@ namespace PeyDej.Controllers
                     ProductionCount = model.ShiftId_99_DepartmentId_107_ProductionCount
                 });
                 _context.SaveChanges();
-                
+
                 //model.ShiftId_100_DepartmentId_107_StopsHour
                 _context.ProductionStatistics.Add(new DailyProductionStatistic()
                 {
                     DailyStatisticsId = result.Entity.Id,
-                    DepartmentId = 106,
+                    DepartmentId = 107,
                     StopsHour = model.ShiftId_100_DepartmentId_107_StopsHour,
                     ShiftId = 100,
                     ProductionCount = model.ShiftId_100_DepartmentId_107_ProductionCount
@@ -97,7 +98,6 @@ namespace PeyDej.Controllers
             return View(model);
         }
 
-        // GET: DailyStatistic/Edit/5
         public async Task<IActionResult> Edit(long? id)
         {
             if (id == null || _context.DailyStatistics == null)
@@ -111,7 +111,47 @@ namespace PeyDej.Controllers
                 return NotFound();
             }
 
-            return View(dailyStatistic);
+            var model = new DailyDto()
+            {
+                Id = dailyStatistic.Id,
+                LoadingCount = dailyStatistic.LoadingCount,
+                Week = dailyStatistic.Week,
+                Date = dailyStatistic.Date,
+                NumberOfOpenPort = dailyStatistic.NumberOfOpenPort,
+            };
+            var productionStatisticsList = _context.ProductionStatistics.Where(w => w.DailyStatisticsId == id);
+            if (productionStatisticsList.Any())
+            {
+                foreach (var statistic in productionStatisticsList)
+                {
+                    if (statistic.ShiftId == 99 && statistic.DepartmentId == 106)
+                    {
+                        model.ShiftId_99_DepartmentId_106_StopsHour = statistic.StopsHour ?? 0;
+                        model.ShiftId_99_DepartmentId_106_ProductionCount = statistic.ProductionCount ?? 0;
+                        model.ShiftId_99_DepartmentId_106_Id = statistic.Id;
+                    }
+                    if (statistic.ShiftId == 100 && statistic.DepartmentId == 106)
+                    {
+                        model.ShiftId_100_DepartmentId_106_StopsHour = statistic.StopsHour ?? 0;
+                        model.ShiftId_100_DepartmentId_106_ProductionCount = statistic.ProductionCount ?? 0;
+                        model.ShiftId_100_DepartmentId_106_Id = statistic.Id;
+                    }
+                    ///
+                    if (statistic.ShiftId == 99 && statistic.DepartmentId == 107)
+                    {
+                        model.ShiftId_99_DepartmentId_107_StopsHour = statistic.StopsHour ?? 0;
+                        model.ShiftId_99_DepartmentId_107_ProductionCount = statistic.ProductionCount ?? 0;
+                        model.ShiftId_99_DepartmentId_107_Id = statistic.Id;
+                    }
+                    if (statistic.ShiftId == 100 && statistic.DepartmentId == 107)
+                    {
+                        model.ShiftId_100_DepartmentId_107_StopsHour = statistic.StopsHour ?? 0;
+                        model.ShiftId_100_DepartmentId_107_ProductionCount = statistic.ProductionCount ?? 0;
+                        model.ShiftId_100_DepartmentId_107_Id = statistic.Id;
+                    }
+                }
+            }
+            return View(model);
         }
 
         // POST: DailyStatistic/Edit/5
@@ -119,11 +159,9 @@ namespace PeyDej.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id,
-            [Bind("Id,InsDate,Date,NumberOfOpenPort,LoadingCount")]
-            DailyStatistic dailyStatistic)
+        public async Task<IActionResult> Edit(long id, DailyDto model)
         {
-            if (id != dailyStatistic.Id)
+            if (id != model.Id)
             {
                 return NotFound();
             }
@@ -132,12 +170,68 @@ namespace PeyDej.Controllers
             {
                 try
                 {
-                    _context.Update(dailyStatistic);
-                    await _context.SaveChangesAsync();
+                    var result = _context.DailyStatistics.Update(new DailyStatistic()
+                    {
+                        Id = id,
+                        LoadingCount = model.LoadingCount,
+                        Week = model.Week,
+                        Date = model.Date,
+                        NumberOfOpenPort = model.NumberOfOpenPort,
+                    });
+                    _context.SaveChanges();
+
+                    //model.ShiftId_99_DepartmentId_106_StopsHour
+                    _context.ProductionStatistics.Update(new DailyProductionStatistic()
+                    {
+                        Id = model.ShiftId_99_DepartmentId_106_Id,
+                        DailyStatisticsId = result.Entity.Id,
+                        DepartmentId = 106,
+                        StopsHour = model.ShiftId_99_DepartmentId_106_StopsHour,
+                        ShiftId = 99,
+                        ProductionCount = model.ShiftId_99_DepartmentId_106_ProductionCount
+                    });
+                    _context.SaveChanges();
+
+                    //model.ShiftId_100_DepartmentId_106_StopsHour
+                    _context.ProductionStatistics.Update(new DailyProductionStatistic()
+                    {
+                        Id = model.ShiftId_100_DepartmentId_106_Id,
+                        DailyStatisticsId = result.Entity.Id,
+                        DepartmentId = 106,
+                        StopsHour = model.ShiftId_100_DepartmentId_106_StopsHour,
+                        ShiftId = 100,
+                        ProductionCount = model.ShiftId_100_DepartmentId_106_ProductionCount
+                    });
+                    _context.SaveChanges();
+
+                    //model.ShiftId_99_DepartmentId_107_StopsHour
+                    _context.ProductionStatistics.Update(new DailyProductionStatistic()
+                    {
+                        Id = model.ShiftId_99_DepartmentId_107_Id,
+                        DailyStatisticsId = result.Entity.Id,
+                        DepartmentId = 107,
+                        StopsHour = model.ShiftId_99_DepartmentId_107_StopsHour,
+                        ShiftId = 99,
+                        ProductionCount = model.ShiftId_99_DepartmentId_107_ProductionCount
+                    });
+                    _context.SaveChanges();
+
+                    //model.ShiftId_100_DepartmentId_107_StopsHour
+                    _context.ProductionStatistics.Update(new DailyProductionStatistic()
+                    {
+                        Id = model.ShiftId_100_DepartmentId_107_Id,
+                        DailyStatisticsId = result.Entity.Id,
+                        DepartmentId = 107,
+                        StopsHour = model.ShiftId_100_DepartmentId_107_StopsHour,
+                        ShiftId = 100,
+                        ProductionCount = model.ShiftId_100_DepartmentId_107_ProductionCount
+                    });
+                    _context.SaveChanges();
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DailyStatisticExists(dailyStatistic.Id))
+                    if (!DailyStatisticExists(model.Id))
                     {
                         return NotFound();
                     }
@@ -150,7 +244,7 @@ namespace PeyDej.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(dailyStatistic);
+            return View(model);
         }
 
 

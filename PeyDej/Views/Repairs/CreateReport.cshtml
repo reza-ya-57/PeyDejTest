@@ -1,0 +1,81 @@
+﻿@model PeyDej.Models.Report.RepairReport
+
+@{
+    ViewData["Title"] = "ثبت تعمیر";
+}
+
+<div class="row">
+    <div class="col-6 offset-3">
+        <div class="card">
+            <div class="card-header">
+                <h3 xmlns="http://www.w3.org/1999/html">@ViewData["Title"]</h3>
+            </div>
+            <div class="card-body">
+                <form asp-action="CreateReport">
+                    <input type="hidden" asp-for="RepairRequestId"/>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="Caption" class="control-label"></label>
+                                <input asp-for="Caption" class="form-control" />
+                                <span asp-validation-for="Caption" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <label asp-for="PersonId" class="col-form-label"></label>
+                            <select asp-for="PersonId" class="form-control">
+                                <option name="انتخاب" value="0">انتخاب</option>
+                                @foreach (var item in Model.People)
+                                {
+                                    <option name="@(item.FirstName  + " " + item.LastName)" value="@item.Id">@(item.FirstName + " " + item.LastName)</option>
+                                }
+                            </select>
+                            <span asp-validation-for="PersonId" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="EndDateDto" class="control-label"></label>
+                                <input asp-for="EndDateDto" class="form-control" />
+                                <span asp-validation-for="EndDateDto" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <label asp-for="StartDateDto" class="control-label"></label>
+                            <input asp-for="StartDateDto" class="form-control" />
+                            <span asp-validation-for="StartDateDto" class="text-danger"></span>
+                        </div>
+                       
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <input type="submit" value="ذخیره" class="btn btn-primary" />
+                                <a asp-action="Index" class="btn btn-danger">بازگشت</a>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script type="text/javascript">
+        $(function () {
+            $('#EndDateDto,#StartDateDto').datepicker({
+                isRTL: true,
+                dateFormat: "yy/mm/dd"
+            });
+        });
+
+    </script>
+}

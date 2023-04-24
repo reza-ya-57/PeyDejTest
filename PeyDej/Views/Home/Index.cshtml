@@ -1,7 +1,218 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+<script src="~/Chart.js/echarts.js"></script>
 
-<div class="text-center">
- 
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div id="main" style="height:400px;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div id="main2" style="height:400px;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div id="main3" style="height:400px;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div id="main4" style="height:400px;"></div>
+            </div>
+        </div>
+    </div>
+   
 </div>
+
+
+<script type="text/javascript">
+    var myChart = echarts.init(document.getElementById('main'))
+    .setOption({
+        title: {
+            text: 'ECharts'
+        },
+        tooltip: {},
+        legend: {
+            data: [ 'sales' ]
+        },
+        xAxis: {
+            data: [ 'Shirts', 'Cardigans', 'Chiffons', 'Pants', 'Heels', 'Socks' ]
+        },
+        yAxis: {},
+        series: [
+            {
+                name: 'sales',
+                type: 'bar',
+                data: [ 5, 20, 36, 10, 10, 20 ]
+            }
+        ]
+    });
+      
+    
+    var myChart = echarts.init(document.getElementById('main2'))
+    .setOption(
+            option = {
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false
+                },
+                yAxis: {
+                    type: 'value',
+                    boundaryGap: [ 0, '30%' ]
+                },
+                visualMap: {
+                    type: 'piecewise',
+                    show: false,
+                    dimension: 0,
+                    seriesIndex: 0,
+                    pieces: [
+                        {
+                            gt: 1,
+                            lt: 3,
+                            color: 'rgba(0, 0, 180, 0.4)'
+                        },
+                        {
+                            gt: 5,
+                            lt: 7,
+                            color: 'rgba(0, 0, 180, 0.4)'
+                        }
+                    ]
+                },
+                series: [
+                    {
+                        type: 'line',
+                        smooth: 0.6,
+                        symbol: 'none',
+                        lineStyle: {
+                            color: '#5470C6',
+                            width: 5
+                        },
+                        markLine: {
+                            symbol: [ 'none', 'none' ],
+                            label: { show: false },
+                            data: [ { xAxis: 1 }, { xAxis: 3 }, { xAxis: 5 }, { xAxis: 7 } ]
+                        },
+                        areaStyle: {},
+                        data: [
+                            [ '2019-10-10', 200 ],
+                            [ '2019-10-11', 560 ],
+                            [ '2019-10-12', 750 ],
+                            [ '2019-10-13', 580 ],
+                            [ '2019-10-14', 250 ],
+                            [ '2019-10-15', 300 ],
+                            [ '2019-10-16', 450 ],
+                            [ '2019-10-17', 300 ],
+                            [ '2019-10-18', 100 ]
+                        ]
+                    }
+                ]
+            }
+    );
+    var myChart = echarts.init(document.getElementById('main3'))
+        .setOption(option = {
+            title: {
+                text: 'Referer of a Website',
+                subtext: 'Fake Data',
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'item'
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left'
+            },
+            series: [
+                {
+                    name: 'Access From',
+                    type: 'pie',
+                    radius: '50%',
+                    data: [
+                        { value: 1048, name: 'Search Engine' },
+                        { value: 735, name: 'Direct' },
+                        { value: 580, name: 'Email' },
+                        { value: 484, name: 'Union Ads' },
+                        { value: 300, name: 'Video Ads' }
+                    ],
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        });
+
+    var myChart = echarts.init(document.getElementById('main4'))
+        .setOption(option = {
+            backgroundColor: '#fff',
+            title: {
+                text: 'Customized Pie',
+                left: 'center',
+                top: 20,
+                textStyle: {
+                    color: '#000'
+                }
+            },
+            tooltip: {
+                trigger: 'item'
+            },
+            visualMap: {
+                show: false,
+                min: 80,
+                max: 600,
+                inRange: {
+                    colorLightness: [ 0, 1 ]
+                }
+            },
+            series: [
+                {
+                    name: 'Access From',
+                    type: 'pie',
+                    radius: '55%',
+                    center: [ '50%', '50%' ],
+                    data: [
+                        { value: 335, name: 'Direct' },
+                        { value: 310, name: 'Email' },
+                        { value: 274, name: 'Union Ads' },
+                        { value: 235, name: 'Video Ads' },
+                        { value: 400, name: 'Search Engine' }
+                    ].sort(function (a, b) {
+                        return a.value - b.value;
+                    }),
+                    roseType: 'radius',
+                    label: {
+                        color: '#000'
+                    },
+                    labelLine: {
+                        smooth: 0.2,
+                        length: 10,
+                        length2: 20
+                    },
+                    itemStyle: {
+                        color: '#c23531',
+                        shadowBlur: 200,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    },
+                    animationType: 'scale',
+                    animationEasing: 'elasticOut',
+                    animationDelay: function (idx) {
+                        return Math.random() * 200;
+                    }
+                }
+            ]
+        });
+</script>

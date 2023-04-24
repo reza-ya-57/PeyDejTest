@@ -128,16 +128,66 @@ namespace PeyDej.Controllers
             }
 
             var loadingReport = await _context.LoadingReports.FindAsync(id);
+            var lodings = _context.LoadingReports.Where(w => w.Date == loadingReport.Date).ToList();
+
+            var loding_104 = lodings.FirstOrDefault(f => f.LoadingIntervalId == 104);
+            var loding_105 = lodings.FirstOrDefault(f => f.LoadingIntervalId == 105);
             if (loadingReport == null)
             {
                 return NotFound();
             }
             var model = new LoadingReportDto()
             {
-
+                LoadingReport_104_Id = loding_104.Id,
+                LoadingReport_105_Id = loding_105.Id,
+                Date = loding_104.Date,
+                DayCaption = loding_104.DayCaption,
+                Description_LoadingIntervalId_104 = loding_104.Description,
+                Description_LoadingIntervalId_105 = loding_105.Description,
             };
+
+
+            var lodingDitail_104 = _context.LoadingReportDetails.Where(w => w.LoadingReportId == loding_104.Id).ToList();
+            foreach (var item in lodingDitail_104)
+            {
+                if (item.BladKindId == 101)
+                {
+                    model.BladKindId_101_LoadingIntervalId_104 = item.Value;
+                    model.BladKindId_101_LoadingIntervalId_104_Id = item.Id;
+                }
+                if (item.BladKindId == 102)
+                {
+                    model.BladKindId_102_LoadingIntervalId_104 = item.Value;
+                    model.BladKindId_102_LoadingIntervalId_104_Id = item.Id;
+                }
+                if (item.BladKindId == 103)
+                {
+                    model.BladKindId_103_LoadingIntervalId_104 = item.Value;
+                    model.BladKindId_103_LoadingIntervalId_104_Id = item.Id;
+                }
+            }
+
+            var lodingDitail_105 = _context.LoadingReportDetails.Where(w => w.LoadingReportId == loding_105.Id).ToList();
+            foreach (var item in lodingDitail_105)
+            {
+                if (item.BladKindId == 101)
+                {
+                    model.BladKindId_101_LoadingIntervalId_105 = item.Value;
+                    model.BladKindId_101_LoadingIntervalId_105_Id = item.Id;
+                }
+                if (item.BladKindId == 102)
+                {
+                    model.BladKindId_102_LoadingIntervalId_105 = item.Value;
+                    model.BladKindId_102_LoadingIntervalId_105_Id = item.Id;
+                }
+                if (item.BladKindId == 103)
+                {
+                    model.BladKindId_103_LoadingIntervalId_105 = item.Value;
+                    model.BladKindId_103_LoadingIntervalId_105_Id = item.Id;
+                }
+            }
             ViewBag.BladKind = BladKind();
-            return View(loadingReport);
+            return View(model);
         }
 
         // POST: LoadingReports/Edit/5
@@ -193,7 +243,7 @@ namespace PeyDej.Controllers
                         Id = loadingReport.LoadingReport_105_Id,
                         Date = loadingReport.Date,
                         DayCaption = loadingReport.DayCaption,
-                        Description = loadingReport.Description_LoadingIntervalId_104,
+                        Description = loadingReport.Description_LoadingIntervalId_105,
                         LoadingIntervalId = 105
                     });
                     _context.SaveChanges();

@@ -35,18 +35,18 @@ namespace PeyDej.Models.Dtos
         public long? BladKindId_102_LoadingIntervalId_104 { get; set; }
         public long? BladKindId_103_LoadingIntervalId_104 { get; set; }
 
-        public int BladKindId_101_LoadingIntervalId_104_Id { get; set; }
-        public int BladKindId_102_LoadingIntervalId_104_Id { get; set; }
-        public int BladKindId_103_LoadingIntervalId_104_Id { get; set; }
+        public long BladKindId_101_LoadingIntervalId_104_Id { get; set; }
+        public long BladKindId_102_LoadingIntervalId_104_Id { get; set; }
+        public long BladKindId_103_LoadingIntervalId_104_Id { get; set; }
 
         [Display(Name = "توضیحات")]
         public string? Description_LoadingIntervalId_105 { get; set; }
         public long? BladKindId_101_LoadingIntervalId_105 { get; set; }
         public long? BladKindId_103_LoadingIntervalId_105 { get; set; }
         public long? BladKindId_102_LoadingIntervalId_105 { get; set; }
-        public int BladKindId_101_LoadingIntervalId_105_Id { get; set; }
-        public int BladKindId_102_LoadingIntervalId_105_Id { get; set; }
-        public int BladKindId_103_LoadingIntervalId_105_Id { get; set; }
+        public long BladKindId_101_LoadingIntervalId_105_Id { get; set; }
+        public long BladKindId_102_LoadingIntervalId_105_Id { get; set; }
+        public long BladKindId_103_LoadingIntervalId_105_Id { get; set; }
 
 
     }

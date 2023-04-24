@@ -1,0 +1,202 @@
+@model PeyDej.Models.Report.DailyDto
+
+@{
+    ViewData["Title"] = "ویرایش آمار روزانه";
+}
+
+
+<div class="row">
+    <div class="col-12">
+        <h3 xmlns="http://www.w3.org/1999/html">@ViewData["Title"]</h3>
+        <hr />
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ShiftId_99_DepartmentId_106_Id" />
+            <input type="hidden" asp-for="ShiftId_100_DepartmentId_106_Id" />
+            <input type="hidden" asp-for="ShiftId_99_DepartmentId_107_Id" />
+            <input type="hidden" asp-for="ShiftId_100_DepartmentId_107_Id" />
+            <input type="hidden" asp-for="Id"/>
+            <input type="hidden" asp-for="InsDate"/>
+
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label asp-for="Date" class="control-label"></label>
+                        <input id="date" asp-for="Date" class="form-control text-center" />
+                        <span asp-validation-for="Date" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label asp-for="Week" class="control-label"></label>
+                        <select asp-items="PeyDej.Tools.PeyDejTools.Week()" asp-for="Week" class="form-control"></select>
+                        <span asp-validation-for="Week" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <hr />
+
+            <div class="row">
+                <div class="col-md-5 d-inline-block text-center">
+                    <div class="form-group">
+                        <label class="control-label border-bottom-dark w-100">خط خیس</label>
+                    </div>
+                    <div class="row">
+                        <div class="form-group d-inline-block pt-4">
+                            <label class="control-label">
+                                تولید
+                                <br />
+                                (قفسه)
+                            </label>
+                        </div>
+
+                        <div class="col-md-4 offset-1 d-inline-block text-center">
+                            <div class="form-group">
+                                <label class="control-label border-bottom-dark w-100">شیفت 1</label>
+                                <div class="form-group d-inline-block">
+                                    <input asp-for="ShiftId_99_DepartmentId_106_ProductionCount" class="form-control" />
+                                    <span asp-validation-for="ShiftId_99_DepartmentId_106_ProductionCount" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 d-inline-block text-center">
+                            <div class="form-group">
+                                <label class="control-label border-bottom-dark w-100">شیفت 2</label>
+                                <div class="form-group d-inline-block">
+                                    <input asp-for="ShiftId_100_DepartmentId_106_ProductionCount" class="form-control" />
+                                    <span asp-validation-for="ShiftId_100_DepartmentId_106_ProductionCount" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group d-inline-block">
+                            <label class="control-label pt-4">
+                                توقفات
+                                <br />
+                                (ساعت)
+                            </label>
+                        </div>
+                        <div class="col-md-4 offset-1 d-inline-block text-center">
+                            <div class="form-group">
+                                <div class="form-group d-inline-block">
+                                    <label class="control-label border-bottom-dark w-100">شیفت 1</label>
+                                    <input asp-for="ShiftId_99_DepartmentId_106_StopsHour" class="form-control" />
+                                    <span asp-validation-for="ShiftId_99_DepartmentId_106_StopsHour" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 d-inline-block text-center">
+                            <div class="form-group">
+                                <label class="control-label border-bottom-dark w-100">شیفت 2</label>
+                                <div class="form-group d-inline-block">
+                                    <input asp-for="ShiftId_100_DepartmentId_106_StopsHour" class="form-control" />
+                                    <span asp-validation-for="ShiftId_100_DepartmentId_106_StopsHour" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-5 d-inline-block text-center">
+                    <div class="form-group">
+                        <label class="control-label border-bottom-dark w-100">خط خشک</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5 d-inline-block text-center">
+                            <div class="form-group">
+                                <label class="control-label border-bottom-dark w-100">شیفت 1</label>
+
+                                <div class="form-group d-inline-block">
+                                    <input asp-for="ShiftId_99_DepartmentId_107_ProductionCount" class="form-control" />
+                                    <span asp-validation-for="ShiftId_99_DepartmentId_107_ProductionCount" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5  d-inline-block text-center">
+                            <div class="form-group">
+                                <label class="control-label border-bottom-dark w-100">شیفت 2</label>
+
+                                <div class="form-group d-inline-block">
+                                    <input asp-for="ShiftId_100_DepartmentId_107_ProductionCount" class="form-control" />
+                                    <span asp-validation-for="ShiftId_100_DepartmentId_107_ProductionCount" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5 d-inline-block text-center">
+                            <div class="form-group">
+                                <label class="control-label border-bottom-dark w-100">شیفت 1</label>
+
+                                <div class="form-group d-inline-block">
+                                    <input asp-for="ShiftId_99_DepartmentId_107_StopsHour" class="form-control" />
+                                    <span asp-validation-for="ShiftId_99_DepartmentId_107_StopsHour" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5  d-inline-block text-center">
+                            <div class="form-group">
+                                <label class="control-label border-bottom-dark w-100">شیفت 2</label>
+
+                                <div class="form-group d-inline-block">
+                                    <input asp-for="ShiftId_100_DepartmentId_107_StopsHour" class="form-control" />
+                                    <span asp-validation-for="ShiftId_100_DepartmentId_107_StopsHour" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="NumberOfOpenPort" class="control-label"></label>
+                        <input asp-for="NumberOfOpenPort" class="form-control" />
+                        <span asp-validation-for="NumberOfOpenPort" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="LoadingCount" class="control-label"></label>
+                        <input asp-for="LoadingCount" class="form-control" />
+                        <span asp-validation-for="LoadingCount" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group">
+                        <input type="submit" value="ذخیره" class="btn btn-primary" />
+                        <a asp-action="Index" class="btn btn-danger">بازگشت</a>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script type="text/javascript">
+        $(function () {
+            $('#date').datepicker({
+                isRTL: true,
+                dateFormat: "yy/mm/dd"
+            });
+        });
+
+    </script>
+}

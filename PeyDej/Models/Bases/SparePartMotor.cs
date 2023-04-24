@@ -7,6 +7,17 @@ namespace PeyDej.Models.Bases;
 [Table(name:"SparePartMotor",Schema = "Base")]
 public class SparePartMotor
 {
+    public SparePartMotor()
+    {
+
+    }
+    public SparePartMotor(long motorId, long sparePartId) : this()
+    {
+        Id = 0;
+        InsDate = DateTime.Now;
+        MotorId = motorId;
+        SparePartId = sparePartId;
+    }
     public long Id { get; set; }
 
     public DateTime InsDate { get; set; }

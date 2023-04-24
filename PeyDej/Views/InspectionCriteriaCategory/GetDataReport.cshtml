@@ -1,0 +1,146 @@
+﻿@using PeyDej.Models.Dtos;
+@using PeyDej.Tools
+@using Microsoft.AspNetCore.Mvc.Rendering
+@using Microsoft.AspNetCore.Mvc
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model GetDataReportViewDto
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+
+@functions {
+
+    private string? GetAntiXsrfRequestToken()
+    {
+        return Xsrf.GetAndStoreTokens(Context).RequestToken;
+    }
+
+}
+
+<div class="row">
+    <div class="col-12">
+        <h3> لیست <span>@ViewBag.title</span></h3>
+        <hr />
+    </div>
+</div>
+
+@{
+    var i = 0;
+}
+<div class="row">
+    <div class="col-8 offset-2">
+
+        <div class="row mb-5">
+            <div class="col-12">
+                <label>پرسنل:</label>
+                <select id="person" asp-items="ViewBag.person" class="form-select"></select>
+                <button onclick="save()" class="btn btn-success">ثبت نتایج</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                @{
+                    var t = Model.Data.Select(w => w.InspectionCriteriaCategoryId).Distinct().ToList();
+                    foreach (var t1 in t)
+                    {
+                        <table class="table">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">ردیف</th>
+                                        <th scope="col">نام بازرسی</th>
+                                        @foreach (var name in Model.Data.First(w => w.InspectionCriteriaCategoryId == t1).SubCategories)
+                                        {
+                                            <th scope="col">@name.Value</th>
+                                        }
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.Data.Where(w => w.InspectionCriteriaCategoryId == t1))
+                                    {
+                                        <tr>
+                                            <th scope="row">@(++i)</th>
+                                            <th scope="row">@item.Caption</th>
+                                            @for (int j = 0; j < item.SubCategories.Count(); j++)
+                                            {
+                                                var id = item.SubCategories.ToList()[j].Id;
+                                                <th class="text-left" scope="row">
+                                                    <label class="m-2">
+                                                        <input name="status@(Model.listRaioName.FindIndex(a => a[0] == item.Id && a[1] == item.SubCategories[j].Id))" value="1" checked type="radio" />&nbsp;تایید
+                                                    </label>
+                                                    <label class="m-2">
+                                                        <input name="status@(Model.listRaioName.FindIndex(a => a[0] == item.Id && a[1] == item.SubCategories[j].Id))" value="0" type="radio" />&nbsp;رد
+                                                    </label>
+                                                </th>
+                                            }
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+
+                        </table>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script type="text/javascript">
+        $(function () {
+            $('#start_date,#end_date').datepicker({
+                isRTL: true,
+                dateFormat: "yy/mm/dd"
+            });
+        });
+
+        function save () {
+            var index = 0;
+        @{
+            List<string> ids = new();
+            foreach (var itm in Model.Data)
+            {
+                @for (int i = 0; i < itm.SubCategories.Count; i++)
+                {
+                    ids.Add(Model.listRaioName.FindIndex(a => a[0] == itm.Id && a[1] == itm.SubCategories[i].Id) + ",");
+                }
+            }
+        }
+                const ids = [ @foreach (var t in ids)
+        {
+            @(t + ",")
+        } ];
+
+            console.table(ids);
+            var data = [];
+            ids.forEach(function (value, i) {
+                var radios = $("input:radio[name=status" + value + "]:checked");
+                data.push({
+                    Id: value,
+                    Status: radios.val() == 1,
+                });
+            });
+            console.table(data);
+            var person = $("#person").val();
+            var token = "@GetAntiXsrfRequestToken()";
+            $.post("@Url.Action("SaveDataReport")", {
+                data: data,
+                person: person,
+                __RequestVerificationToken: token
+            },
+                function (e) {
+                    if (e.r) {
+                        alert("فرآیند ثبت اطلاعات با موفقیت به پابان رسید.");
+                        location.reload();
+                    } else {
+                        alert("در هنگام پردازش اطلاعات خطایی رخ داد. دوباره سعی کنید." + "\n" + e.m);
+                    }
+                }, "JSON");
+        }
+
+    </script>
+}

@@ -7,12 +7,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Data\Tmp" />
       <Folder Include="Models\Bases\Views" />
       <Folder Include="Models\Inspection\DataType" />
+      <Folder Include="Models\Report\" />
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="Dapper" Version="2.0.123" />
+      <PackageReference Include="DNTPersianUtils.Core" Version="5.5.0" />
       <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.4" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.3">
         <PrivateAssets>all</PrivateAssets>
@@ -39,6 +41,13 @@
       <_ContentIncludedByDefault Remove="Areas\Report\Views\DailyStatistics\Details.cshtml" />
       <_ContentIncludedByDefault Remove="Areas\Report\Views\DailyStatistics\Edit.cshtml" />
       <_ContentIncludedByDefault Remove="Areas\Report\Views\DailyStatistics\Index.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Update="Views\Repairs\Index.cshtml">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>

@@ -1,9 +1,10 @@
 @using PeyDej.Tools
-@using Microsoft.AspNetCore.Mvc.TagHelpers
-@model IEnumerable<PeyDej.Models.Bases.Motor>
-
+@using PeyDej.Models.Bases.Views
+@using PeyDej.Data
+@inject PeyDejContext _Context;
+@model IEnumerable<PeyDej.Models.Bases.SparePart>
 @{
-    ViewData["Title"] = "لیست موتورها";
+    ViewData["Title"] = "لیست قطعه ها";
 }
 
 @inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
@@ -20,7 +21,7 @@
         <h3>@ViewData["Title"]</h3>
         <hr />
         <p>
-            <a class="btn btn-primary" asp-action="Create">معرفی موتور جدید</a>
+            <a class="btn btn-primary" asp-action="Create">معرفی قطعه جدید</a>
         </p>
         <hr />
         <style>
@@ -28,20 +29,22 @@
                 text-align: center;
             }
         </style>
+        
+
+
         @(Html
             .Grid(Model)
             .Build(columns =>
             {
+                columns.Add(model => model.Count).Titled(@Html.DisplayNameFor(model => model.Count));
                 columns.Add(model => model.Name).Titled(@Html.DisplayNameFor(model => model.Name));
-                columns.Add(model => model.SerialNumber).Titled(@Html.DisplayNameFor(model => model.SerialNumber));
-                columns.Add(model => model.Type).Titled(@Html.DisplayNameFor(model => model.Type));
-                columns.Add(model => model.Emplacement).Titled(@Html.DisplayNameFor(model => model.Emplacement));
-                columns.Add(model => model.BeltCount).Titled(@Html.DisplayNameFor(model => model.BeltCount));
-                columns.Add().Titled("ویرایش").Encoded(false).RenderedAs(model => PeyDejHelper.ActionLink("<i class=\"icon-edit\"></i>", "Edit", "Motor", model.Id, "orange-text", "ویرایش"));
-                columns.Add().Titled("جزییات").Encoded(false).RenderedAs(model => PeyDejHelper.ActionLink("<i class=\"icon-info-sign\"></i>", "Details", "Motor", model.Id, "green-text", "جزییات"));
+                columns.Add(model => model.Model).Titled(@Html.DisplayNameFor(model => model.Model));
+               
+                columns.Add().Titled("ویرایش").Encoded(false).RenderedAs(model => PeyDejHelper.ActionLink("<i class=\"icon-edit\"></i>", "Edit", "Person", model.Id, "orange-text", "ویرایش"));
+                columns.Add().Titled("جزییات").Encoded(false).RenderedAs(model => PeyDejHelper.ActionLink("<i class=\"icon-info-sign\"></i>", "Details", "Person", model.Id, "green-text", "جزییات"));
                 columns.Add().Titled("حذف").Encoded(false).RenderedAs(model => PeyDejHelper.ActiveLinkAjax($"javascript:DeleteItem('{model.Id}');", "<i class=\"icon-trash\"></i>", "red-text", "حذف"));
             })
-            .Empty("هیچ ایتمی وجود ندارد") 
+            .Empty("هیچ ایتمی وجود ندارد")
             .Sortable()
             .Filterable()
             .Using(GridFilterMode.Row)

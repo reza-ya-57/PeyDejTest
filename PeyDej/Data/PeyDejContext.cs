@@ -39,4 +39,5 @@ public partial class PeyDejContext : IdentityDbContext<PeyDejUser>
     public virtual DbSet<DailyProductionStatistic> ProductionStatistics { get; set; } = null!;
     public virtual DbSet<DailyStatistic> DailyStatistics { get; set; } = null!;
     public virtual DbSet<LoadingReport> LoadingReports { get; set; } = null!;
+    public virtual DbSet<LoadingReportDetail> LoadingReportDetails { get; set; } = null!;
 }

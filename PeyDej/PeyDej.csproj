@@ -9,7 +9,6 @@
     <ItemGroup>
       <Folder Include="Models\Bases\Views" />
       <Folder Include="Models\Inspection\DataType" />
-      <Folder Include="Models\Report\" />
     </ItemGroup>
 
     <ItemGroup>

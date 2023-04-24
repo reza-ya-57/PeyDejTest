@@ -26,10 +26,7 @@ namespace PeyDej.Controllers
         // GET: Person
         public IActionResult Index()
         {
-            if (HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
-                return PartialView("_Index",
-                    _context.Persons.Where(m => m.GeneralStatusId == GeneralStatus.Active).ToList());
-            return View();
+            return View(_context.Persons.Where(m => m.GeneralStatusId == GeneralStatus.Active).AsEnumerable());
         }
 
         private IEnumerable<object> Gender() =>

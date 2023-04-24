@@ -21,9 +21,7 @@ public class RepairsController : Controller
 
     public IActionResult Index()
     {
-        if (HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
-            return PartialView("_Index", Context.RepairRequests.ToList());
-        return View();
+        return View(Context.RepairRequests.ToList());
     }
 
     private IEnumerable<object>

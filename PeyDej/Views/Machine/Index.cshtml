@@ -1,9 +1,9 @@
 @using PeyDej.Tools
 @using Microsoft.AspNetCore.Mvc.TagHelpers
-@model IEnumerable<PeyDej.Models.Bases.Motor>
+@model IEnumerable<PeyDej.Models.Bases.Machine>
 
 @{
-    ViewData["Title"] = "لیست موتورها";
+    ViewData["Title"] = "لیست ماشین ها";
 }
 
 @inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
@@ -20,7 +20,7 @@
         <h3>@ViewData["Title"]</h3>
         <hr />
         <p>
-            <a class="btn btn-primary" asp-action="Create">معرفی موتور جدید</a>
+            <a class="btn btn-primary" asp-action="Create">معرفی ماشین جدید</a>
         </p>
         <hr />
         <style>
@@ -34,9 +34,8 @@
             {
                 columns.Add(model => model.Name).Titled(@Html.DisplayNameFor(model => model.Name));
                 columns.Add(model => model.SerialNumber).Titled(@Html.DisplayNameFor(model => model.SerialNumber));
-                columns.Add(model => model.Type).Titled(@Html.DisplayNameFor(model => model.Type));
-                columns.Add(model => model.Emplacement).Titled(@Html.DisplayNameFor(model => model.Emplacement));
-                columns.Add(model => model.BeltCount).Titled(@Html.DisplayNameFor(model => model.BeltCount));
+                columns.Add(model => model.Company).Titled(@Html.DisplayNameFor(model => model.Company));
+                columns.Add(model => model.EnergyType).Titled(@Html.DisplayNameFor(model => model.EnergyType));
                 columns.Add().Titled("ویرایش").Encoded(false).RenderedAs(model => PeyDejHelper.ActionLink("<i class=\"icon-edit\"></i>", "Edit", "Motor", model.Id, "orange-text", "ویرایش"));
                 columns.Add().Titled("جزییات").Encoded(false).RenderedAs(model => PeyDejHelper.ActionLink("<i class=\"icon-info-sign\"></i>", "Details", "Motor", model.Id, "green-text", "جزییات"));
                 columns.Add().Titled("حذف").Encoded(false).RenderedAs(model => PeyDejHelper.ActiveLinkAjax($"javascript:DeleteItem('{model.Id}');", "<i class=\"icon-trash\"></i>", "red-text", "حذف"));

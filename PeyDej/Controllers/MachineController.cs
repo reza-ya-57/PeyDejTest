@@ -22,9 +22,7 @@ namespace PeyDej.Controllers
         // GET: Machine
         public IActionResult Index()
         {
-            if (HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
-                return PartialView("_Index", _context.Machines.Where(m => m.GeneralStatusId == GeneralStatus.Active).ToList());
-            return View();
+            return View(_context.Machines.Where(m => m.GeneralStatusId == GeneralStatus.Active).AsEnumerable());
         }
 
         // GET: Machine/Details/5

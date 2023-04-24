@@ -25,10 +25,7 @@ namespace PeyDej.Controllers
         // GET: InspectionSubCategory
         public IActionResult Index()
         {
-            var peyDejContext = _context.InspectionSubCategories.Include(i => i.InspectionCategory);
-            if (HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
-                return PartialView("_Index", peyDejContext);
-            return View();
+            return View(_context.InspectionSubCategories.Include(i => i.InspectionCategory).AsEnumerable());
         }
 
         // GET: InspectionSubCategory/Create

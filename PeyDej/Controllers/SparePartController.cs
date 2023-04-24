@@ -25,9 +25,7 @@ namespace PeyDej.Controllers
         // GET: SparePart
         public IActionResult Index()
         {
-            if (HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
-                return PartialView("_Index", _context.SpareParts.Where(m => m.GeneralStatusId == GeneralStatus.Active));
-            return View();
+            return View(_context.SpareParts.Where(m => m.GeneralStatusId == GeneralStatus.Active).AsEnumerable());
         }
 
         // GET: SparePart/Details/5

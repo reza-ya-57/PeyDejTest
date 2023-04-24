@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+
 using PeyDej.Data;
 using PeyDej.Models.Bases;
 
@@ -19,9 +20,7 @@ namespace PeyDej.Controllers
         // GET: Category
         public IActionResult Index()
         {
-            if (HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
-                return PartialView("_Index", _context.Set<Category>());
-            return View();
+            return View(_context.Categories.AsEnumerable());
         }
 
         // GET: Category/Create
@@ -107,14 +106,14 @@ namespace PeyDej.Controllers
             {
                 _context.Categories.Remove(category);
             }
-            
+
             await _context.SaveChangesAsync();
             return Json(new { hasError = false, message = "" });
         }
 
         private bool CategoryExists(long id)
         {
-          return (_context.Categories?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Categories?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

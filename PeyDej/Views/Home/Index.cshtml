@@ -62,7 +62,12 @@
     
     var myChart = echarts.init(document.getElementById('main2'))
     .setOption(
+            
             option = {
+                title: {
+                    text: 'روند توقفات دپارتمان ها'
+                },
+
                 xAxis: {
                     type: 'category',
                     boundaryGap: false

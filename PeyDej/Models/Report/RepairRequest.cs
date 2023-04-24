@@ -12,6 +12,8 @@ public partial class RepairRequest
     public DateTime InsDate { get; set; }
 
     [Display(Name = "عنوان")]
+
+    [Required(ErrorMessage = "مقدار {0} الزامی می باشد")]
     public string? Caption { get; set; }
 
     [DisplayName("دپارتمان")]

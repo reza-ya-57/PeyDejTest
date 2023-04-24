@@ -15,8 +15,8 @@ public class LoadingReport
     public DateTime InsDate { get; set; } = DateTime.Now;
 
     [Display(Name = "تاریخ")]
-    [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "مقدار {0} الزامی می باشد")]
     [MaxLength(10, ErrorMessage = "مقدار {0} باید 10 کاراکتر باشد")]
+    [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "مقدار {0} الزامی می باشد")]
     public string Date { get; set; }
 
     [Display(Name = "شرح روزانه")]

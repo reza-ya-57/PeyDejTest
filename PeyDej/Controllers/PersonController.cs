@@ -37,6 +37,10 @@ namespace PeyDej.Controllers
             Department() => new SelectList(_context.VwCategories.Where(m => m.CategoryId == 2).ToList(),
             "SubCategoryId", "SubCategoryCaption");
 
+        private IEnumerable<object>
+            Parts() => new SelectList(_context.VwCategories.Where(m => m.CategoryId == 15).ToList(),
+            "SubCategoryId", "SubCategoryCaption");
+
         // GET: Person/Details/5
         public async Task<IActionResult> Details(long? id)
         {
@@ -60,6 +64,7 @@ namespace PeyDej.Controllers
         {
             ViewBag.Gender = this.Gender();
             ViewBag.Department = this.Department();
+            ViewBag.Parts = this.Parts();
             return View();
         }
 
@@ -81,6 +86,7 @@ namespace PeyDej.Controllers
             }
 
             ViewBag.Gender = this.Gender();
+            ViewBag.Parts = this.Parts();
             ViewBag.Department = this.Department();
             return View(person);
         }
@@ -99,6 +105,7 @@ namespace PeyDej.Controllers
                 return NotFound();
             }
 
+            ViewBag.Parts = this.Parts();
             ViewBag.Gender = this.Gender();
             ViewBag.Department = this.Department();
             return View(person);
@@ -141,6 +148,7 @@ namespace PeyDej.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
+            ViewBag.Parts = this.Parts();
             ViewBag.Gender = this.Gender();
             ViewBag.Department = this.Department();
             return View(person);

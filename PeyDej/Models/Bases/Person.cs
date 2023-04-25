@@ -37,5 +37,8 @@ public partial class Person
     [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]
     public string? Description { get; set; }
 
+    [Display(Name = "بخش")]
+    public long? PartId { get; set; }
+
     public GeneralStatus GeneralStatusId { get; set; } = GeneralStatus.Active;
 }

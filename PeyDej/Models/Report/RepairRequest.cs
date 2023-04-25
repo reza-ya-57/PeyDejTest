@@ -24,7 +24,7 @@ public partial class RepairRequest
 
     [Display(Name = "تاریخ")]
     [NotMapped]
-    public string DateDto { get; set; }
+    public string? DateDto { get; set; }
 
     [Display(Name = "تاریخ")]
     public DateTime? Date { get; set; }
@@ -46,4 +46,6 @@ public partial class RepairRequest
 
     [Display(Name = "عنوان")]
     public int? Status { get; set; }
+    [Display(Name = "بخش")]
+    public long? PartId { get; set; }
 }

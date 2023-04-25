@@ -35,9 +35,11 @@ public partial class RepairReport
     [NotMapped]
     [Display(Name = "تاریخ پایان")]
     public string EndDateDto { get; set; }
-    
+
     [Display(Name = "کاربر")]
     public long? PersonId { get; set; }
+    [Display(Name = "بخش")]
+    public long? PartId { get; set; }
 
     [NotMapped]
     public IEnumerable<Person> People { get; set; }

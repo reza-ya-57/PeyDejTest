@@ -37,7 +37,6 @@
                 columns.Add(model => model.Caption).Titled(@Html.DisplayNameFor(model => model.Caption));
                 columns.Add(model => model.Reporter).Titled(@Html.DisplayNameFor(model => model.Reporter));
                 columns.Add(model => _context.RepairReports.Where(w => w.RepairRequestId == model.Id).Any() == true ? "تایید شده" : "تاییید نشده" ).Titled("وضعیت");
-
                 columns.Add().Titled("ثبت تعمیر").Encoded(false).RenderedAs(model => PeyDejHelper.ActionLink("<i class=\"icon-edit\"></i>", "CreateReport", "Repairs", model.Id, "orange-info", "ثبت تعمیر"));
             })
             .Empty("هیچ ایتمی وجود ندارد")

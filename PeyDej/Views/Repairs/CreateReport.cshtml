@@ -53,6 +53,17 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
+                                <label asp-for="PartId" class="control-label"></label>
+                                <select asp-for="PartId" class="form-control select-v2" asp-items="ViewBag.Parts">
+                                    <option value="0">انتخاب</option>
+                                </select>
+                                <span asp-validation-for="PartId" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
                                 <input type="submit" value="ذخیره" class="btn btn-primary" />
                                 <a asp-action="Index" class="btn btn-danger">بازگشت</a>
                             </div>

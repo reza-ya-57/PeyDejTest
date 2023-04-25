@@ -113,6 +113,15 @@
                             </select>
                             <span asp-validation-for="SparePartId" class="text-danger"></span>
                         </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="PartId" class="control-label"></label>
+                                <select asp-for="PartId" class="form-control select-v2" asp-items="ViewBag.Parts">
+                                    <option value="0">انتخاب</option>
+                                </select>
+                                <span asp-validation-for="PartId" class="text-danger"></span>
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-6">

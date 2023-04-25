@@ -2,7 +2,47 @@
     ViewData["Title"] = "Home Page";
 }
 <script src="~/Chart.js/echarts.js"></script>
-
+<div class="row text-center ">
+    <div class="col-lg-4 col-6">
+        <!-- small box -->
+        <div class="small-box bg-success">
+            <div class="inner">
+                <h3>150</h3>
+                <p>New Orders</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-bag"><ion-icon name="calendar"></ion-icon></i>
+            </div>
+            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <div class="col-lg-4 col-6">
+        <!-- small box -->
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h3>150</h3>
+                <p>New Orders</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-bag"><ion-icon name="bag"></ion-icon></i>
+            </div>
+            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <div class="col-lg-4 col-6">
+        <!-- small box -->
+        <div class="small-box bg-warning">
+            <div class="inner">
+                <h3>150</h3>
+                <p>New Orders</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-bag"><ion-icon name="person-add"></ion-icon></i>
+            </div>
+            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+</div>
 <div class="row">
     <div class="col-md-6">
         <div class="card">
@@ -32,7 +72,7 @@
             </div>
         </div>
     </div>
-   
+
 </div>
 
 
@@ -42,28 +82,28 @@
             textStyle: {
                 fontFamily: "Vazir"
             },
-        title: {
+            title: {
                 text: 'آمار توقفات دپارتمان ها',
                 left: 'center'
-        },
-        tooltip: {},
-        xAxis: {
-            data: [ 'کوره', 'خط خشک', 'خط خیس', 'گل سازی', 'محوطه',  ]
-        },
-        yAxis: {},
-        series: [
-            {
-                name: 'توقفات',
-                type: 'bar',
-                data: [ 5, 20, 36, 10, 10 ]
-            }
-        ]
-    });
-      
-    
+            },
+            tooltip: {},
+            xAxis: {
+                data: [ 'کوره', 'خط خشک', 'خط خیس', 'گل سازی', 'محوطه', ]
+            },
+            yAxis: {},
+            series: [
+                {
+                    name: 'توقفات',
+                    type: 'bar',
+                    data: [ 5, 20, 36, 10, 10 ]
+                }
+            ]
+        });
+
+
     var myChart = echarts.init(document.getElementById('main2'))
-    .setOption(
-            
+        .setOption(
+
             option = {
                 textStyle: {
                     fontFamily: "Vazir"
@@ -128,7 +168,7 @@
                     }
                 ]
             }
-    );
+        );
     var myChart = echarts.init(document.getElementById('main3'))
         .setOption(option = {
             textStyle: {

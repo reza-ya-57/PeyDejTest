@@ -9,7 +9,7 @@
         background-image:url("/img/wallpapers.jpg"); 
         background-repeat:no-repeat; 
         background-position:center; 
-        background-size:cover; padding:10px;
+        background-size:cover; 
     }
     
     .form-heading { color:#fff; font-size:23px;}
@@ -26,16 +26,26 @@
     }
     .main-div {
       background: #ffffff none repeat scroll 0 0;
+      box-shadow: 1px 1px 1px 1px #000000;
       border-radius: 2px;
-      margin: 10px auto 30px;
-      max-width: 38%;
+      /*margin: 10px auto 30px;*/
+      width: 415px;
       padding: 50px 70px 70px 71px;
+      border-radius: 10px;
     }
     
     .login-form .form-group {
       margin-bottom:10px;
     }
-    .login-form{ text-align:center;}
+
+    .login-form {
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh !important;
+        width: 100vw;
+    }
     .forgot a {
       color: #777777;
       font-size: 14px;
@@ -64,16 +74,22 @@
     }
     .back { text-align: left; margin-top:10px;}
     .back a {color: #444444; font-size: 13px;text-decoration: none;}
+
+    .svglogo {
+        width: 80px
+    }
 </style>
 
 
-<div class="container">
 
-    <div class="login-form mt-5">
-        <div style="box-shadow: 1px 1px 1px 1px #000000;" class="main-div">
+    <div class="login-form">
+        <div class="main-div">
             <div class="panel">
                 <h2>PeyDej</h2>
-                <p>لطفا جهت ورود به برنامه نام کاریری و کلمه عبور خود را وارد کنید</p>
+                @*<p>لطفا جهت ورود به برنامه نام کاریری و کلمه عبور خود را وارد کنید</p>*@
+            </div>
+            <div>
+                <img class="svglogo" src="~/img/logo.svg" />
             </div>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <form asp-action="Login" method="POST">
@@ -93,4 +109,3 @@
             </form>
         </div>
     </div>
-</div>

@@ -14,6 +14,7 @@ using NuGet.Protocol.Core.Types;
 using PeyDej.Data;
 using PeyDej.Models;
 using PeyDej.Models.Bases;
+using PeyDej.Tools;
 
 namespace PeyDej.Controllers
 {
@@ -70,6 +71,7 @@ namespace PeyDej.Controllers
         {
             if (ModelState.IsValid)
             {
+                motor.InspectionStartDate = PeyDejTools.PersianStringToDateTime(motor.InspectionStartDateDto);
                 var result = _context.Add(motor);
                 await _context.SaveChangesAsync();
 
@@ -78,6 +80,16 @@ namespace PeyDej.Controllers
                     _context.Set<SparePartMotor>().Add(new SparePartMotor(result.Entity.Id, sparePartId));
                     _context.SaveChanges();
                 }
+
+                var result2 = _context.MotorISs.Add(new Models.Inspection.MotorIS()
+                {
+                    InspectionDate = PeyDejTools.PersianStringToDateTime(motor.InspectionStartDateDto),
+                    MotorId = result.Entity.Id,
+                    Status = 0,
+                    InsDate = DateTime.Now,
+                    InspectionFinishedDate = null
+                });
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
 

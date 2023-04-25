@@ -6,6 +6,7 @@ using PeyDej.Data;
 using PeyDej.Models;
 using PeyDej.Models.Bases;
 using PeyDej.Models.Dtos;
+using PeyDej.Tools;
 
 namespace PeyDej.Controllers
 {
@@ -75,6 +76,7 @@ namespace PeyDej.Controllers
         {
             if (ModelState.IsValid)
             {
+                machine.InspectionStartDate = PeyDejTools.PersianStringToDateTime(machine.InspectionStartDateDto);
                 var result = _context.Add(machine);
                 await _context.SaveChangesAsync();
 
@@ -88,10 +90,19 @@ namespace PeyDej.Controllers
                     _context.SparePartMachines.Add(new SparePartMachine(machineId: machine.Id, sparePartId));
                     _context.SaveChanges();
                 }
+                var result2 = _context.MachineISs.Add(new Models.Inspection.MachineIS()
+                {
+                    InspectionDate = PeyDejTools.PersianStringToDateTime(machine.InspectionStartDateDto),
+                    MachineId = result.Entity.Id,
+                    Status = 0,
+                    InsDate = DateTime.Now,
+                    InspectionFinishedDate = null
+                });
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
 
-          
+
             machine.Motors = _context.Motors.Where(w => w.GeneralStatusId != GeneralStatus.Deleted).AsEnumerable();
             machine.SpareParts = _context.SpareParts.Where(w => w.GeneralStatusId != GeneralStatus.Deleted).AsEnumerable();
             machine.DepartmentIds = _context.VwCategories.Where(w => w.CategoryId == 2)
@@ -189,7 +200,7 @@ namespace PeyDej.Controllers
 
             machine.Motors = _context.Motors.Where(w => w.GeneralStatusId != GeneralStatus.Deleted).AsEnumerable();
             machine.SpareParts = _context.SpareParts.Where(w => w.GeneralStatusId != GeneralStatus.Deleted).AsEnumerable();
-               machine.DepartmentIds = _context.VwCategories.Where(w => w.CategoryId == 2).Select(s => new CategoryDto()
+            machine.DepartmentIds = _context.VwCategories.Where(w => w.CategoryId == 2).Select(s => new CategoryDto()
             {
                 Id = s.SubCategoryId,
                 Name = s.SubCategoryCaption

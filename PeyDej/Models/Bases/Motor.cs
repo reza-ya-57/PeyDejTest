@@ -79,6 +79,13 @@ public class Motor
     [NotMapped]
     public List<long> SparePartIds { get; set; }
 
+
+    [Display(Name = "تاریخ بازرسی")]
+    public DateTime? InspectionStartDate { get; set; }
+    [Display(Name = "تاریخ بازرسی")]
+    [NotMapped]
+    public string? InspectionStartDateDto { get; set; }
+
     [NotMapped]
     public IEnumerable<SparePart> SpareParts { get; set; }
 

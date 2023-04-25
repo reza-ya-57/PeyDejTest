@@ -38,14 +38,15 @@
 
 <script type="text/javascript">
     var myChart = echarts.init(document.getElementById('main'))
-    .setOption({
+        .setOption({
+            textStyle: {
+                fontFamily: "Vazir"
+            },
         title: {
-            text: 'آمار توقفات دپارتمان ها'
+                text: 'آمار توقفات دپارتمان ها',
+                left: 'center'
         },
         tooltip: {},
-        legend: {
-            data: [ 'توقفات' ]
-        },
         xAxis: {
             data: [ 'کوره', 'خط خشک', 'خط خیس', 'گل سازی', 'محوطه',  ]
         },
@@ -64,8 +65,12 @@
     .setOption(
             
             option = {
+                textStyle: {
+                    fontFamily: "Vazir"
+                },
                 title: {
-                    text: 'روند توقفات دپارتمان ها'
+                    text: 'روند توقفات دپارتمان ها',
+                    left: 'center'
                 },
 
                 xAxis: {
@@ -126,9 +131,12 @@
     );
     var myChart = echarts.init(document.getElementById('main3'))
         .setOption(option = {
+            textStyle: {
+                fontFamily: "Vazir"
+            },
             title: {
-                text: 'درجه توضیع توقف ',
-                subtext: 'علل',
+                text: 'درصد فراوانی علل توقفات',
+                //subtext: 'علل',
                 left: 'center'
             },
             tooltip: {
@@ -162,8 +170,11 @@
         });
     var myChart = echarts.init(document.getElementById('main4'))
         .setOption(option = {
+            textStyle: {
+                fontFamily: "Vazir"
+            },
             title: {
-                text: 'درجع توقفات',
+                text: 'درصد توزیع توقفات ',
                 subtext: 'علل',
                 left: 'center'
             },
@@ -180,8 +191,8 @@
                     type: 'pie',
                     radius: '50%',
                     data: [
-                        { value: 40, name: 'ملک' },
-                        { value: 35, name: 'سایر' },
+                        { value: 40, name: 'مکانیکی' },
+                        { value: 35, name: 'تاسیسات' },
                         { value: 25, name: 'برقی' },
                     ],
                     emphasis: {

@@ -31,6 +31,7 @@ public partial class PeyDejContext : IdentityDbContext<PeyDejUser>
     public virtual DbSet<SubCategory> SubCategories { get; set; } = null!;
     public virtual DbSet<MotorIS> MotorISs { get; set; } = null!;
     public virtual DbSet<MachineIS> MachineISs { get; set; } = null!;
+    public virtual DbSet<MachineLubricationIS> MachineLubrications { get; set; } = null!;
     public virtual DbSet<Person> Persons { get; set; } = null!;
     public virtual DbSet<Categories> VwCategories { get; set; } = null!;
     public virtual DbSet<VwInspectionSubCategoryIS> VwInspectionSubCategoryISs { get; set; } = null!;

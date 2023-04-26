@@ -53,8 +53,10 @@ public class Machine
     public string? PurchaseStatus { get; set; }
 
     [Display(Name = "تاریخ بهره برداری")]
-    [Range(typeof(long), "0", "65536", ErrorMessage = "مقدار {0} باید بین {1} تا این {2} باشد")]
-    public long? UtilizationDate { get; set; }
+    public DateTime? UtilizationDate { get; set; }
+    [Display(Name = "تاریخ بهره برداری")]
+    [NotMapped]
+    public string? UtilizationDateDto { get; set; }
 
     [Display(Name = "آدرس کمپانی")]
     [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]
@@ -134,22 +136,28 @@ public class Machine
 
     [DisplayName("موتور")]
     [NotMapped]
-    [Required(ErrorMessage = "مقدار {0} را وارد کنید")]
-    public List<long> MotorIds { get; set; }
+    public List<long>? MotorIds { get; set; }
 
     [NotMapped]
     public IEnumerable<Motor> Motors { get; set; }
 
     [DisplayName("قطعات")]
     [NotMapped]
-    [Required(ErrorMessage = "مقدار {0} را وارد کنید")]
-    public List<long> SparePartIds { get; set; }
+    public List<long>? SparePartIds { get; set; }
 
     [Display(Name = "تاریخ بازرسی")]
     public DateTime? InspectionStartDate { get; set; }
     [Display(Name = "تاریخ بازرسی")]
     [NotMapped]
     public string? InspectionStartDateDto { get; set; }
+
+    [Display(Name = "تاریخ روانکاری")]
+    public DateTime? LubricationStartDate { get; set; }
+
+    [Display(Name = "تاریخ روانکاری")]
+    [NotMapped]
+    public string? LubricationStartDateDto { get; set; }
+
     [NotMapped]
     public IEnumerable<SparePart> SpareParts { get; set; }
 

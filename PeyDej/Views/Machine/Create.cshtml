@@ -91,9 +91,9 @@
             <div class="row">
                 <div class="col-6">
                     <div class="form-group">
-                        <label asp-for="UtilizationDate" class="control-label"></label>
-                        <input asp-for="UtilizationDate" class="form-control" />
-                        <span asp-validation-for="UtilizationDate" class="text-danger"></span>
+                        <label asp-for="UtilizationDateDto" class="control-label"></label>
+                        <input asp-for="UtilizationDateDto" class="form-control" />
+                        <span asp-validation-for="UtilizationDateDto" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-6">
@@ -222,7 +222,7 @@
                     <div class="form-group">
                         <label asp-for="MotorIds" class="col-form-label"></label>
                         <select asp-for="MotorIds" multiple class="form-control">
-                            <option name="انتخاب" value="null">انتخاب</option>
+                            <option name="انتخاب" value="0">انتخاب</option>
                             @foreach (var item in Model.Motors)
                             {
                                 <option name="@item.Name" value="@item.Id">@item.Name</option>
@@ -235,7 +235,7 @@
                     <div class="form-group">
                         <label asp-for="SparePartIds" class="col-form-label"></label>
                         <select asp-for="SparePartIds" multiple class="form-control">
-                            <option name="انتخاب" value="null">انتخاب</option>
+                            <option name="انتخاب" value="0">انتخاب</option>
                             @foreach (var item in Model.SpareParts)
                             {
                                 <option name="@item.Name" value="@item.Id">@item.Name</option>
@@ -251,6 +251,13 @@
                         <label asp-for="InspectionStartDateDto" class="control-label"></label>
                         <input asp-for="InspectionStartDateDto" class="form-control" />
                         <span asp-validation-for="InspectionStartDateDto" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="LubricationStartDateDto" class="control-label"></label>
+                        <input asp-for="LubricationStartDateDto" class="form-control" />
+                        <span asp-validation-for="LubricationStartDateDto" class="text-danger"></span>
                     </div>
                 </div>
             </div>
@@ -272,13 +279,13 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-        <script type="text/javascript">
-            $(function () {
-            $('#InspectionStartDateDto').datepicker({
-                    isRTL: true,
-                    dateFormat: "yy/mm/dd"
-                });
+    <script type="text/javascript">
+        $(function () {
+            $('#InspectionStartDateDto,#LubricationStartDateDto,#UtilizationDateDto').datepicker({
+                isRTL: true,
+                dateFormat: "yy/mm/dd"
             });
+        });
 
-        </script>
+    </script>
 }

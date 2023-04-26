@@ -76,23 +76,49 @@ namespace PeyDej.Controllers
         {
             if (ModelState.IsValid)
             {
-                machine.InspectionStartDate = PeyDejTools.PersianStringToDateTime(machine.InspectionStartDateDto);
+                machine.LubricationStartDate = machine.LubricationStartDateDto == null ? DateTime.Now : PeyDejTools.PersianStringToDateTime(machine.LubricationStartDateDto);
+                machine.InspectionStartDate = machine.InspectionStartDateDto == null ? DateTime.Now : PeyDejTools.PersianStringToDateTime(machine.InspectionStartDateDto);
+                machine.UtilizationDate = machine.UtilizationDateDto == null ? DateTime.Now : PeyDejTools.PersianStringToDateTime(machine.UtilizationDateDto);
+
+
                 var result = _context.Add(machine);
                 await _context.SaveChangesAsync();
 
-                foreach (var motorId in machine.MotorIds)
+                if (machine.MotorIds is not null)
                 {
-                    _context.MachineMotors.Add(new MachineMotor(machineId: machine.Id, motorId));
-                    _context.SaveChanges();
+                    foreach (var motorId in machine.MotorIds)
+                    {
+                        if (motorId != 0)
+                        {
+                            _context.MachineMotors.Add(new MachineMotor(machineId: machine.Id, motorId));
+                            _context.SaveChanges();
+                        }
+                    }
                 }
-                foreach (var sparePartId in machine.SparePartIds)
+                if (machine.SparePartIds is not null)
                 {
-                    _context.SparePartMachines.Add(new SparePartMachine(machineId: machine.Id, sparePartId));
-                    _context.SaveChanges();
+                    foreach (var sparePartId in machine.SparePartIds)
+                    {
+                        if (sparePartId != 0)
+                        {
+                            _context.SparePartMachines.Add(new SparePartMachine(machineId: machine.Id, sparePartId));
+                            _context.SaveChanges();
+                        }
+                    }
                 }
                 var result2 = _context.MachineISs.Add(new Models.Inspection.MachineIS()
                 {
                     InspectionDate = PeyDejTools.PersianStringToDateTime(machine.InspectionStartDateDto),
+                    MachineId = result.Entity.Id,
+                    Status = 0,
+                    InsDate = DateTime.Now,
+                    InspectionFinishedDate = null
+                });
+                _context.SaveChanges();
+
+                var result3 = _context.MachineLubrications.Add(new Models.Inspection.MachineLubricationIS()
+                {
+                    InspectionDate = machine.LubricationStartDateDto == null ? DateTime.Now : PeyDejTools.PersianStringToDateTime(machine.LubricationStartDateDto),
                     MachineId = result.Entity.Id,
                     Status = 0,
                     InsDate = DateTime.Now,
@@ -163,6 +189,10 @@ namespace PeyDej.Controllers
 
             if (ModelState.IsValid)
             {
+                machine.LubricationStartDate = machine.LubricationStartDateDto == null ? DateTime.Now : PeyDejTools.PersianStringToDateTime(machine.LubricationStartDateDto);
+                machine.InspectionStartDate = machine.InspectionStartDateDto == null ? DateTime.Now : PeyDejTools.PersianStringToDateTime(machine.InspectionStartDateDto);
+                machine.UtilizationDate = machine.UtilizationDateDto == null ? DateTime.Now : PeyDejTools.PersianStringToDateTime(machine.UtilizationDateDto);
+
                 try
                 {
                     _context.Update(machine);
@@ -171,17 +201,30 @@ namespace PeyDej.Controllers
 
 
                     _context.MachineMotors.Where(w => w.MachineId == machine.Id).ExecuteDelete();
-                    foreach (var l in machine.MotorIds)
+                    if (machine.MotorIds is not null)
                     {
-                        _context.MachineMotors.Add(new MachineMotor(machineId: machine.Id, l));
-                        _context.SaveChanges();
+                        foreach (var motorId in machine.MotorIds)
+                        {
+                            if (motorId != 0)
+                            {
+                                _context.MachineMotors.Add(new MachineMotor(machineId: machine.Id, motorId));
+                                _context.SaveChanges();
+                            }
+                        }
                     }
                     _context.SparePartMachines.Where(w => w.MachineId == machine.Id).ExecuteDelete();
-                    foreach (var l in machine.SparePartIds)
+                    if (machine.SparePartIds is not null)
                     {
-                        var t = _context.SparePartMachines.Add(new SparePartMachine(machineId: machine.Id, l));
-                        _context.SaveChanges();
+                        foreach (var sparePartId in machine.SparePartIds)
+                        {
+                            if (sparePartId != 0)
+                            {
+                                _context.SparePartMachines.Add(new SparePartMachine(machineId: machine.Id, sparePartId));
+                                _context.SaveChanges();
+                            }
+                        }
                     }
+                   
                 }
                 catch (DbUpdateConcurrencyException)
                 {

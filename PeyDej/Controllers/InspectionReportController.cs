@@ -135,4 +135,62 @@ public class InspectionReportController : Controller
             return Json(new { r = false, m = ex.Message });
         }
     }
+
+
+
+
+    public async Task<IActionResult> MachineLubrications()
+    {
+        var start_date = HttpContext.Session.GetString("start_date");
+        var end_date = HttpContext.Session.GetString("end_date");
+
+        var data = await _context.MachineLubrications
+            .Where(m =>
+                m.Status == 0 &&
+                m.InspectionDate >= PeyDejTools.PersianStringToDateTime(start_date) &&
+                m.InspectionDate <= PeyDejTools.PersianStringToDateTime(end_date)
+            ).ToListAsync();
+
+        var machineIDs = data.Select(item => item.MachineId).ToList();
+        var result = await _context.Machines.Where(m => machineIDs.Contains(m.Id)).ToListAsync();
+        var person = await _context.Persons.Where(m => m.GeneralStatusId == GeneralStatus.Active)
+            .Select(m => new { m.Id, Name = m.FirstName + " " + m.LastName })
+            .ToListAsync();
+        ViewBag.person = new SelectList(person, "Id", "Name");
+        ViewBag.items = await _context.VwCategories.Where(m => m.CategoryId == 1).ToListAsync();
+        ViewBag.startDate = start_date;
+        ViewBag.endDate = end_date;
+        return View(result);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> SaveMachineLubricationsReport(int person, ReportMachineStatusParameter[] data)
+    {
+        try
+        {
+            var query = "DECLARE @mi Inspection.MachineLubricationInspectionTT;\n";
+            query += "INSERT INTO @mi (InspectionId,  CriteriaId, PersonId , [Status] , [Description]) Values ";
+            foreach (var item in data)
+            {
+                var status = (int)(item.value == 1 ? InspectionStatus.Ok : InspectionStatus.NotOk);
+                query += $"({item.Id},{item.subId},{person},{status},NULL), ";
+            }
+
+            if (data.Length > 0)
+            {
+                query = query[..^2];
+                query += ";\n";
+            }
+
+            query += "EXEC [Inspection].[MachineLubricationSetInspection] @MachineLubricationInspection = @mi;\n";
+
+            await _context.Database.ExecuteSqlRawAsync(query);
+            return Json(new { r = true });
+        }
+        catch (Exception ex)
+        {
+            return Json(new { r = false, m = ex.Message });
+        }
+    }
 }

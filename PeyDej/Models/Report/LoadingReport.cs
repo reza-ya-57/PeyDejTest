@@ -19,7 +19,7 @@ public class LoadingReport
     [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "مقدار {0} الزامی می باشد")]
     public string Date { get; set; }
 
-    [Display(Name = "شرح روزانه")]
+    [Display(Name = "شرح روز")]
     [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "مقدار {0} الزامی می باشد")]
     public string DayCaption { get; set; } = null!;
 

@@ -22,7 +22,7 @@ public class DailyDto
     /// </summary>
     [Display(Name = "تعداد درگاه بازشده")]
     [Required(ErrorMessage = "مقدار {0} الزامی می باشد")]
-    public long? NumberOfOpenPort { get; set; }
+    public long? NumberOfOpenPort { get; set; } = null;
 
     /// <summary>
     /// تعداد بارگیری شده
@@ -36,40 +36,40 @@ public class DailyDto
 
 
     [Display(Name = "شیفت1")]
-    [Required(ErrorMessage = "مقدار {0} الزامی می باشد")]
-    public long ShiftId_99_DepartmentId_106_StopsHour { get; set; }
+    //[Required(ErrorMessage = "مقدار {0} الزامی می باشد")]
+    public long? ShiftId_99_DepartmentId_106_StopsHour { get; set; }
 
     [Display(Name = "2شیفت")]
-    [Required(ErrorMessage = "مقدار {0} الزامی می باشد")]
-    public long ShiftId_99_DepartmentId_107_StopsHour { get; set; }
+    //[Required(ErrorMessage = "مقدار {0} الزامی می باشد")]
+    public long? ShiftId_99_DepartmentId_107_StopsHour { get; set; }
     
 
     [Display(Name = "شیفت1")]
-    [Required(ErrorMessage = "مقدار {0} الزامی می باشد")]
-    public long ShiftId_100_DepartmentId_106_StopsHour { get; set; }
+    //[Required(ErrorMessage = "مقدار {0} الزامی می باشد")]
+    public long? ShiftId_100_DepartmentId_106_StopsHour { get; set; }
 
     [Display(Name = "2شیفت")]
-    [Required(ErrorMessage = "مقدار {0} الزامی می باشد")]
-    public long ShiftId_100_DepartmentId_107_StopsHour { get; set; }
+    //[Required(ErrorMessage = "مقدار {0} الزامی می باشد")]
+    public long? ShiftId_100_DepartmentId_107_StopsHour { get; set; }
 
 
 
     [Display(Name = "شیفت1")]
-    [Required(ErrorMessage = "مقدار {0} الزامی می باشد")]
-    public long ShiftId_99_DepartmentId_106_ProductionCount { get; set; }
+    //[Required(ErrorMessage = "مقدار {0} الزامی می باشد")]
+    public long? ShiftId_99_DepartmentId_106_ProductionCount { get; set; }
 
     [Display(Name = "2شیفت")]
-    [Required(ErrorMessage = "مقدار {0} الزامی می باشد")]
-    public long ShiftId_99_DepartmentId_107_ProductionCount { get; set; }
+    //[Required(ErrorMessage = "مقدار {0} الزامی می باشد")]
+    public long? ShiftId_99_DepartmentId_107_ProductionCount { get; set; }
 
 
     [Display(Name = "شیفت1")]
-    [Required(ErrorMessage = "مقدار {0} الزامی می باشد")]
-    public long ShiftId_100_DepartmentId_106_ProductionCount { get; set; }
+    //[Required(ErrorMessage = "مقدار {0} الزامی می باشد")]
+    public long? ShiftId_100_DepartmentId_106_ProductionCount { get; set; }
 
     [Display(Name = "2شیفت")]
-    [Required(ErrorMessage = "مقدار {0} الزامی می باشد")]
-    public long ShiftId_100_DepartmentId_107_ProductionCount { get; set; }
+    //[Required(ErrorMessage = "مقدار {0} الزامی می باشد")]
+    public long? ShiftId_100_DepartmentId_107_ProductionCount { get; set; }
 
 
     public long DailyStatisticsId { get; set; }

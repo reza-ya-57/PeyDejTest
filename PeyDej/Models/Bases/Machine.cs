@@ -22,7 +22,8 @@ public class Machine
     [Key] public long Id { get; set; }
 
     public DateTime InsDate { get; set; } = DateTime.Now;
-
+    [NotMapped]
+    public long MachineISId { get; set; }
     [Display(Name = "نام ماشین")]
     [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]
     [Required(ErrorMessage = "مقدار {0} را وارد کنید")]
@@ -112,6 +113,7 @@ public class Machine
 
     [Display(Name = "دوره بازرسی")]
     [Range(typeof(long), "0", "65536", ErrorMessage = "مقدار {0} باید بین {1} تا این {2} باشد")]
+    [Required(ErrorMessage = "مقدار {0} را وارد کنید")]
     public long? InspectionCycle { get; set; }
 
     [Display(Name = "چرخه روغن کاری")]

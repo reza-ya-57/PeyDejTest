@@ -41,13 +41,13 @@
             <div class="sidebar-heading">
                 تولید
             </div>
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" asp-action="Index" asp-controller="Statistic">
                     <i class="fas fa-fw fa-chart-bar"></i>
                     <span>آمار روزانه</span>
                 </a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" asp-action="Index" asp-controller="LoadingReports">
                     <i class="fas fa-fw fa-chart-line"></i>
                     <span>آمار بارگیری</span>
@@ -70,28 +70,18 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         @* <h6 class="collapse-header">Custom Utilities:</h6> *@
                         <a asp-action="Motor" asp-controller="Inspection" class="collapse-item">بازرسی موتور</a>
-                        <a asp-action="Machine" asp-controller="Inspection" class="collapse-item">بازرسی ماشین آلات</a>
                         @foreach (var item in inspectionCategories)
                         {
                             <a asp-action="Index" asp-controller="InspectionCategories" asp-route-id="@item.Id" class="collapse-item">@item.Caption</a>
                         }
+                        <a asp-action="Machine" asp-controller="Inspection" class="collapse-item">بازرسی ماشین آلات</a>
                         <a asp-action="Index" asp-controller="InspectionCriteriaCategory" class="collapse-item">محوطه</a>
                     </div>
                 </div>
             </li>
 
           
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSetting" aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-cogs"></i>
-                    <span>تعمیرات</span>
-                </a>
-                <div id="collapseSetting" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a asp-action="Index" asp-controller="Repairs" class="collapse-item">لیست تعمیر</a>
-                    </div>
-                </div>
-            </li>
+ 
 
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#MachineLubrications" aria-expanded="true" aria-controls="MachineLubrications">
@@ -104,7 +94,30 @@
                     </div>
                 </div>
             </li>
-            
+
+            <li class="nav-item">
+          @*      <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSetting" aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fas fa-fw fa-cogs"></i>
+                    <span>تعمیرات</span>
+                </a>
+                <div id="collapseSetting" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a asp-action="Index" asp-controller="Repairs" class="collapse-item">لیست تعمیر</a>
+                    </div>
+                </div>*@
+                <a class="nav-link" asp-action="Index" asp-controller="Repairs">
+                    <i class="fas fa-fw fa-cogs"></i>
+                    <span>تعمیرات</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" asp-action="TaskList" asp-controller="Home">
+                    <i class="fas fa-fw fa-list"></i>
+                    <span >لیست فعالیت های روزانه</span>
+                </a>
+            </li>
+            <hr class="sidebar-divider">
 
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
@@ -123,13 +136,6 @@
                         <a asp-action="Index" asp-controller="Machine" class="collapse-item">ماشین آلات</a>
                     </div>
                 </div>
-            </li>
-
-            <li class="nav-item active">
-                <a class="nav-link" asp-action="TaskList" asp-controller="Home">
-                    <i class="fas fa-fw fa-list"></i>
-                    <span>لیست فعالیت های روزانه</span>
-                </a>
             </li>
           
            
@@ -171,11 +177,13 @@
                 <nav class="navbar navbar-dark bg-dark navbar-expand navbar-dark bg-dark topbar mb-4 static-top shadow">
 
 
-                    <img class="d-md-inline" src="~/img/logo.svg" width="80px" />
+                    <div style="background-color: whitesmoke; border-radius: 5px">
+                        <img class="d-md-inline" src="~/img/logo.svg" width="50px" />
+                    </div>
 
                     <!-- Sidebar - Brand -->
                     <h5 class="sidebar-brand d-flex align-items-center justify-content-center text-white" >
-                        <div class="sidebar-brand-text mx-3">تعمیر و نگهداری</div>
+                        <div class="sidebar-brand-text mx-3">نرم افزار نگهداری و تعمیرات</div>
                     </h5>
 
                     <!-- Sidebar Toggle (Topbar) -->

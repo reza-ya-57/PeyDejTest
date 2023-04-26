@@ -22,7 +22,7 @@ namespace PeyDej.Models.Dtos
         [MaxLength(10, ErrorMessage = "مقدار {0} باید 10 کاراکتر باشد")]
         public string Date { get; set; }
 
-        [Display(Name = "شرح روزانه")]
+        [Display(Name = "روز")]
         [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "مقدار {0} الزامی می باشد")]
         public string DayCaption { get; set; } = null!;
 

@@ -33,9 +33,8 @@
                             <span asp-validation-for="DepartmentId" class="text-danger"></span>
                         </div>
                     </div>
-
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-12">
                             <div class="form-group">
                                 <label asp-for="ProcessId" class="col-form-label"></label>
                                 <select asp-for="ProcessId" class="form-control">
@@ -48,6 +47,8 @@
                                 <span asp-validation-for="ProcessId" class="text-danger"></span>
                             </div>
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="col-6">
                             <div class="form-group">
                                 <label asp-for="DateDto" class="control-label"></label>
@@ -55,8 +56,15 @@
                                 <span asp-validation-for="DateDto" class="text-danger"></span>
                             </div>
                         </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="Hour" class="control-label"></label>
+                                <input asp-for="Hour" class="form-control" />
+                                <span asp-validation-for="Hour" class="text-danger"></span>
+                            </div>
+                        </div>
                     </div>
-
+                   
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
@@ -151,15 +159,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label asp-for="Hour" class="control-label"></label>
-                                <input asp-for="Hour" class="form-control" />
-                                <span asp-validation-for="Hour" class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
+
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">

@@ -49,10 +49,10 @@ public partial class RepairRequest
     [Display(Name = "بخش")]
     public long? PartId { get; set; }
 
-    [Display(Name = "درخواست از")]
+    [Display(Name = "شخص درخواست دهنده")]
     public long? PersonFromId { get; set; }
 
-    [Display(Name = "درخواست به")]
+    [Display(Name = "ارجاع به شخص")]
     public long? PersonToId { get; set; }
 
     [Display(Name = "ساعت")]

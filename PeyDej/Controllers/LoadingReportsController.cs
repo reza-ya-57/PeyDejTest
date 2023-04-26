@@ -21,7 +21,7 @@ namespace PeyDej.Controllers
         // GET: LoadingReports
         public async Task<IActionResult> Index()
         {
-            return View(await _context.LoadingReports.ToListAsync());
+            return View(await _context.LoadingReports.Where(w => w.LoadingIntervalId == 104).ToListAsync());
         }
 
         private IEnumerable<object> BladKind()

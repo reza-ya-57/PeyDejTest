@@ -70,7 +70,7 @@ public class InspectionCriteriaCategory : Controller
                 WHERE
                 	InspectionCriteriaSubCategoryIS.InspectionDate >= '{(start_date + "T01:01:00.000").ToGregorianDateTime(false, 1200)}'
                     AND InspectionCriteriaSubCategoryIS.InspectionDate <= '{(end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200)}'
-                    AND InspectionCriteriaSubCategoryIS.InspectionFinishedDate == null &&
+                    AND InspectionCriteriaSubCategoryIS.InspectionFinishedDate IS NULL
                 	AND [Status] = 0
                 	AND c.InspectionCriteriaCategoryId IN (1 ,2 ,3 ,4)";
         var gridReader = await db.QueryAsync<InspectionCriteriaSubCategoryIS>(q);
@@ -99,7 +99,7 @@ public class InspectionCriteriaCategory : Controller
                 WHERE
                 	InspectionCriteriaSubCategoryIS.InspectionDate >= '{(start_date + "T01:01:00.000").ToGregorianDateTime(false, 1200)}'
                     AND InspectionCriteriaSubCategoryIS.InspectionDate <= '{(end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200)}'
-                    AND InspectionCriteriaSubCategoryIS.InspectionFinishedDate == null &&
+                    AND InspectionCriteriaSubCategoryIS.InspectionFinishedDate IS NULL
                 	AND [Status] = 0
                 	AND c.InspectionCriteriaCategoryId IN (1 ,2 ,3 ,4)";
         var criteriaSubCategoryIses = await db.QueryAsync<InspectionCriteriaSubCategoryIS>(q);
@@ -135,7 +135,7 @@ public class InspectionCriteriaCategory : Controller
                 WHERE
                 	InspectionCriteriaSubCategoryIS.InspectionDate >= '{(start_date + "T01:01:00.000").ToGregorianDateTime(false, 1200)}'
                     AND InspectionCriteriaSubCategoryIS.InspectionDate <= '{(end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200)}'
-                    AND InspectionCriteriaSubCategoryIS.InspectionFinishedDate == null &&
+                    AND InspectionCriteriaSubCategoryIS.InspectionFinishedDate IS NULL
                 	AND [Status] = 0
                 	AND c.InspectionCriteriaCategoryId IN (1 ,2 ,3 ,4)";
         var criteriaSubCategoryIses = await db.QueryAsync<InspectionCriteriaSubCategoryIS>(q);

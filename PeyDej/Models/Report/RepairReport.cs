@@ -41,6 +41,15 @@ public partial class RepairReport
     [Display(Name = "بخش")]
     public long? PartId { get; set; }
 
+    [Display(Name = "شرح فعالیت انجام شده")]
+    public string Description { get; set; }
+
+    [Display(Name = "قطعات مصرفی")]
+    public string UsedPart { get; set; }
+
+    [Display(Name = "تایید واحد درخواست کننده")]
+    public string Accepted { get; set; }
+
     [NotMapped]
     public IEnumerable<Person> People { get; set; }
 }

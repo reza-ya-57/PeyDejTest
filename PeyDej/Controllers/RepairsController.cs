@@ -36,6 +36,7 @@ public class RepairsController : Controller
     private IEnumerable<object> Machine() => new SelectList(Context.Machines.Where(w => w.GeneralStatusId != GeneralStatus.Deleted).ToList(), "Id", "Name");
     private IEnumerable<object> Motor() => new SelectList(Context.Motors.Where(w => w.GeneralStatusId != GeneralStatus.Deleted).ToList(), "Id", "Name");
     private IEnumerable<object> SparePart() => new SelectList(Context.SpareParts.Where(w => w.GeneralStatusId != GeneralStatus.Deleted).ToList(), "Id", "Name");
+    private IEnumerable<object> Person() => new SelectList(Context.Persons.Where(w => w.GeneralStatusId != GeneralStatus.Deleted).ToList(), "Id", "Name");
 
 
     public IActionResult Create()
@@ -46,6 +47,7 @@ public class RepairsController : Controller
         ViewBag.RepairKind = this.CategoryId(14);
         ViewBag.Machine = this.Machine();
         ViewBag.Motor = this.Motor();
+        ViewBag.Person = Context.Persons.Where(w => w.GeneralStatusId != GeneralStatus.Deleted).ToList();
         ViewBag.SparePart = this.SparePart();
         return View();
     }
@@ -56,7 +58,7 @@ public class RepairsController : Controller
     {
         if (ModelState.IsValid)
         {
-            repair.Date = repair.DateDto.ToMiladi();
+            repair.Date = repair.DateDto is null ? DateTime.Now : repair.DateDto.ToMiladi();
             Context.RepairRequests.Add(repair);
             Context.SaveChanges();
             return RedirectToAction(nameof(Index));
@@ -67,6 +69,7 @@ public class RepairsController : Controller
         ViewBag.RepairKind = this.CategoryId(14);
         ViewBag.Machine = this.Machine();
         ViewBag.Motor = this.Motor();
+        ViewBag.Person = Context.Persons.Where(w => w.GeneralStatusId != GeneralStatus.Deleted).ToList();
         ViewBag.SparePart = this.SparePart();
         return View(repair);
     }

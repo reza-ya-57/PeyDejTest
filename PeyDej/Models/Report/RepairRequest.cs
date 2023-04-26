@@ -48,4 +48,13 @@ public partial class RepairRequest
     public int? Status { get; set; }
     [Display(Name = "بخش")]
     public long? PartId { get; set; }
+
+    [Display(Name = "درخواست از")]
+    public long? PersonFromId { get; set; }
+
+    [Display(Name = "درخواست به")]
+    public long? PersonToId { get; set; }
+
+    [Display(Name = "ساعت")]
+    public int? Hour { get; set; }
 }

@@ -126,6 +126,43 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
+                                <label asp-for="PersonFromId" class="col-form-label"></label>
+                                <select asp-for="PersonFromId" class="form-control">
+                                    <option name="انتخاب" value="0">انتخاب</option>
+                                    @foreach (PeyDej.Models.Bases.Person item in ViewBag.Person)
+                                    {
+                                        <option value="@item.Id">@(item.FirstName + ' ' + item.LastName)</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="PersonFromId" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="PersonToId" class="col-form-label"></label>
+                                <select asp-for="PersonToId" class="form-control">
+                                    <option name="انتخاب" value="0">انتخاب</option>
+                                    @foreach (PeyDej.Models.Bases.Person item in ViewBag.Person)
+                                    {
+                                        <option value="@item.Id">@(item.FirstName + ' ' + item.LastName)</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="PersonToId" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="Hour" class="control-label"></label>
+                                <input asp-for="Hour" class="form-control" />
+                                <span asp-validation-for="Hour" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
                                 <input type="submit" value="ذخیره" class="btn btn-primary" />
                                 <a asp-action="Index" class="btn btn-danger">بازگشت</a>
                             </div>

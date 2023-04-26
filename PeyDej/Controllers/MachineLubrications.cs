@@ -42,9 +42,9 @@ namespace PeyDej.Controllers
         {
             var start_date = HttpContext.Session.GetString("start_date");
             var end_date = HttpContext.Session.GetString("end_date");
-            var data = await _context.MachineISs
+            var data = await _context.MachineLubrications
                 .Where(m =>
-                    m.Status == InspectionStatus.NotOk &&
+                    m.Status == 0 &&
                     m.InspectionDate >= PeyDejTools.PersianStringToDateTime(start_date) &&
                     m.InspectionDate <= PeyDejTools.PersianStringToDateTime(end_date)
                 ).ToListAsync();

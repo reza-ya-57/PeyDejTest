@@ -12,7 +12,7 @@
             </div>
             <div class="card-body">
                 <form asp-action="CreateReport">
-                    <input type="hidden" asp-for="RepairRequestId"/>
+                    <input type="hidden" asp-for="RepairRequestId" />
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="row">
                         <div class="col-6">
@@ -48,7 +48,7 @@
                             <input asp-for="StartDateDto" class="form-control" />
                             <span asp-validation-for="StartDateDto" class="text-danger"></span>
                         </div>
-                       
+
                     </div>
                     <div class="row">
                         <div class="col-6">
@@ -60,6 +60,31 @@
                                 <span asp-validation-for="PartId" class="text-danger"></span>
                             </div>
                         </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="Description" class="control-label"></label>
+                                <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="UsedPart" class="control-label"></label>
+                                <textarea asp-for="UsedPart" class="form-control" rows="3"></textarea>
+                                <span asp-validation-for="UsedPart" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="Accepted" class="control-label"></label>
+                                <textarea asp-for="Accepted" class="form-control" rows="3"></textarea>
+                                <span asp-validation-for="Accepted" class="text-danger"></span>
+                            </div>
+                        </div>
+
                     </div>
                     <div class="row">
                         <div class="col-6">

@@ -401,3 +401,7 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 /.vs/PeyDej/DesignTimeBuild/.dtbcache.v2
+/.vs/PeyDej/v17/.futdcache.v2
+/.vs/PeyDej/v17/fileList.bin
+/.vs/ProjectEvaluation/peydej.metadata.v6.1
+/.vs/ProjectEvaluation/peydej.projects.v6.1

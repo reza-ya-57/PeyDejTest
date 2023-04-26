@@ -1,5 +1,5 @@
-using DNTPersianUtils.Core;
 
+using Ccms.Common.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -29,6 +29,7 @@ public class InspectionCategoriesController : Controller
                 m.Status == false &&
                 m.InspectionDate >= (start_date + "T01:01:00.000").ToGregorianDateTime(false, 1200) &&
                 m.InspectionDate <= (end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200) &&
+                m.InspectionFinishedDate == null &&
                 m.InspectionCategoryId == id
             ).ToListAsync();
 

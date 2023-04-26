@@ -11,55 +11,226 @@
     <link href="~/lib/bootstrap/dist/css/bootstrap.rtl.min.css" rel="stylesheet" asp-append-version="true">
     <link href="~/css/sb-admin-2.min.css" rel="stylesheet" asp-append-version="true">
 </head>
-<body dir="rtl">
+<body>
     <style>
-        @@media print {
-            @@page {
-                size: A4;
-                margin: 0;
-                font-family: "Times New Roman", Times, serif;
-                font-size: 12pt;
-            }
-
-            body {
-                margin: 1.27cm;
-            }
-
-            h1 {
-                font-size: 16pt;
-            }
+        body {
+            /* display: flex;
+                    justify-content: center;
+                    align-items: center; */
         }
 
-        th, div {
-            text-align: center;
+        .container {
+            /* background-color: red; */
+            margin: auto;
+            width: 90%;
+            height: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        header {
+            /* background-color: blue; */
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: black solid 1px;
+            border-radius: 5px;
+        }
+
+        .main {
+            border: black solid 1px;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        .part-1 {
+            display: grid;
+            width: 100%;
+            height: 250px;
+            grid-template-columns: 50px 1fr;
+            grid-template-rows: 1fr 2fr;
+        }
+
+        .title-1 {
+            grid-column: 1/2;
+            grid-row: 1/-1;
+            background-color: pink;
+            writing-mode: vertical-lr;
+            text-orientation: mixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .first-1 {
+            grid-column: 2/-1;
+            grid-row: 1/2;
+            border-bottom: black 1px solid;
+            display: grid;
+            grid-template-columns: auto auto auto auto;
+        }
+
+        .second-1 {
+            grid-column: 2/-1;
+            grid-row: 2/3;
+            /* background-color: purple; */
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+        }
+
+        .title-text-1 {
+            font-size: 1.5rem;
+        }
+
+        .text-1 {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: right;
+            margin-right: 10px;
+            justify-content: center;
+        }
+
+        .second-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .second-top {
+            flex: 1;
+            flex-basis: 1fr;
+        }
+
+        .second-bottom {
+            flex: 2;
+            flex-basis: 2fr;
+        }
+
+        .second-child-1 {
+        }
+
+        .second-child-2 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        th {
+            width: 50px;
+            height: 40px;
+        }
+
+        .big-head {
+            width: 100px;
+        }
+
+        .small-head {
+            width: 10px;
+        }
+
+        td {
+            height: 50px;
         }
     </style>
-    <div class="row">
-        <div class="col-12">
-            <div class="p-5 pb-0" style="border:1px solid #000">
-                <h3>فرم درخواست تعمیرات</h3>
+    <div class="container">
+        <header><h2>فرم درخواست تعمییرات</h2></header>
+        <div class="main">
+            <div class="part-1">
+                <div class="title-1">
+                    <div class="title-text-1">درخواست کننده</div>
+                </div>
+                <div class="first-1">
+                    <div class="text-1">
+                        <div>نام واحد:</div>
+                        <div>محل استقرار:</div>
+                    </div>
+                    <div class="text-1">
+                        <div>نام دستگاه:</div>
+                        <div>کد دستگاه</div>
+                    </div>
+                    <div class="text-1">
+                        <div>شماره دروخواست:</div>
+                        <div>تاریخ درخواست:</div>
+                    </div>
+                    <div class="text-1">
+                        <div>ساعت درخواست:</div>
+                    </div>
+                </div>
+                <div class="second-1">
+                    <div class="second-child-1">top</div>
+                    <div class="second-child-2">
+                        <div class="second-top">dfdf</div>
+                        <div class="second-bottom">dfdf</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="part-table">
+                <table style="width: 100%">
+                    <tr>
+                        <th rowspan="5" style="writing-mode: tb" class="small-head">
+                            قطعات یدکی
+                        </th>
+                        <th>ردیف</th>
+                        <th class="big-head">نام قطعه</th>
+                        <th>کد قطعه/مشخصات</th>
+                        <th>شماره درخواست</th>
+                        <th>تاریخ دریافت</th>
+                        <th>ساعت دریافت</th>
+                        <th class="small-head">تعداد</th>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-12">
-            <div class="p-5 d-inline-block" style="border:1px solid #000">
-                <h3>فرم درخواست تعمیرات</h3>
-            </div>
-            <div class="p-5 d-inline-block" style="border:1px solid #000">
-                <h3>فرم درخواست تعمیرات</h3>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        window.print();
-        debugger
-        window.onafterprint = function (event) {
-            debugger
-            window.close;
-        };
-    </script>
-
 </body>
 </html>

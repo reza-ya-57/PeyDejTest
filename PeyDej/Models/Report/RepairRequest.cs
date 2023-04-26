@@ -42,7 +42,7 @@ public partial class RepairRequest
     public long? MotorId { get; set; }
 
     [Display(Name = "قطعه")]
-    public string? SparePartId { get; set; }
+    public long? SparePartId { get; set; }
 
     [Display(Name = "عنوان")]
     public int? Status { get; set; }

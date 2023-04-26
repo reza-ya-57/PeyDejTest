@@ -34,16 +34,6 @@
             <div class="text-right d-none d-md-inline">
                 <button class="border-0 toggled" id="sidebarToggle"></button>
             </div>
-
-            <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-cogs"></i>
-                </div>
-                <div class="sidebar-brand-text mx-3">تعمیر و نگهداری</div>
-            </a>
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
                 <a class="nav-link" asp-action="Index" asp-controller="Home">
@@ -136,6 +126,12 @@
                     </div>
                 </div>
             </li>
+            <li class="nav-item active">
+                <a class="nav-link" asp-action="TaskList" asp-controller="Home">
+                    <i class="fas fa-fw fa-list"></i>
+                    <span>لیست کارها روزانه</span>
+                </a>
+            </li>
             <!-- Divider -->
             @* <hr class="sidebar-divider"> *@
 
@@ -170,9 +166,16 @@
 
             <!-- Main Content -->
             <div id="content">
-
                 <!-- Topbar -->
                 <nav class="navbar navbar-dark bg-dark navbar-expand navbar-dark bg-dark topbar mb-4 static-top shadow">
+
+
+                    <img class="d-md-inline" src="~/img/logo.svg" width="80px" />
+
+                    <!-- Sidebar - Brand -->
+                    <h5 class="sidebar-brand d-flex align-items-center justify-content-center text-white" >
+                        <div class="sidebar-brand-text mx-3">تعمیر و نگهداری</div>
+                    </h5>
 
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
@@ -331,18 +334,18 @@
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                                 @*<a class="dropdown-item" href="#">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    پروفایل
+                                <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                پروفایل
                                 </a>
                                 <a class="dropdown-item" href="#">
-                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    تغییر کلمه عبور
+                                <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                تغییر کلمه عبور
                                 </a>
                                 <a class="dropdown-item" href="#">
-                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    گزارش فعالیت کاربر
+                                <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                گزارش فعالیت کاربر
                                 </a>
-								<div class="dropdown-divider"></div>*@
+                                <div class="dropdown-divider"></div>*@
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     خروج

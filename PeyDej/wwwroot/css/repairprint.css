@@ -1,0 +1,301 @@
+﻿
+@font-face {
+    font-family: Vazir;
+    src: url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir.eot');
+    src: url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir.eot?#iefix') format('embedded-opentype'), url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir.woff2') format('woff2'), url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir.woff') format('woff'), url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir.ttf') format('truetype');
+    font-weight: normal;
+}
+
+* {
+    font-size: 0.8rem;
+    font-family: Vazir;
+}
+
+.container {
+    margin: auto;
+    width: 90%;
+    /* height: 800px; */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+header {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: black solid 1px;
+    border-radius: 5px;
+}
+
+    header div {
+        padding: 10px;
+        font-weight: bold;
+    }
+
+.main {
+    border: black solid 1px;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.part-1 {
+    display: grid;
+    width: 100%;
+    height: 120px;
+    grid-template-columns: 50px 1fr;
+    grid-template-rows: 1fr 2fr;
+}
+
+.title-1 {
+    grid-column: 1/2;
+    grid-row: 1/-1;
+    border: 1px black solid;
+    writing-mode: vertical-lr;
+    text-orientation: mixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.first-1 {
+    grid-column: 2/-1;
+    padding-top: 5px;
+    grid-row: 1/2;
+    border-bottom: black 1px solid;
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+}
+
+.second-1 {
+    grid-column: 2/-1;
+    grid-row: 2/3;
+    /* background-color: purple; */
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.title-text-1 {
+    font-size: 1.2rem;
+}
+
+.text-1 {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: right;
+    margin-right: 10px;
+    justify-content: center;
+}
+
+.second-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.second-top {
+    flex: 1;
+    flex-basis: 1fr;
+}
+
+.second-bottom {
+    flex: 2;
+    flex-basis: 2fr;
+}
+
+.second-child-1 {
+}
+
+.second-child-2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+}
+
+table,
+th,
+td {
+    border: 1px solid black;
+}
+
+th {
+    width: 50px;
+    height: 30px;
+    border-collapse: collapse !important;
+    text-align: center !important;
+}
+
+.big-head {
+    width: 100px;
+}
+
+.small-head {
+    width: 10px;
+}
+
+td {
+    height: 30px;
+    border-collapse: collapse;
+}
+
+.part-2 {
+    /* background-color: red; */
+    border: 1px black solid;
+    height: 200px;
+    display: grid;
+    grid-template-columns: 50px 1fr;
+}
+
+.title-part-2 {
+    border-left: 1px black solid;
+    writing-mode: vertical-lr;
+    text-orientation: mixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+}
+
+.container-part-2 {
+    display: grid;
+    grid-template-rows: auto auto auto auto auto auto;
+    row-gap: 10px;
+    padding: 10px;
+}
+
+.row-part-2 {
+    display: flex;
+    gap: 5%;
+    justify-content: flex-start;
+    margin-right: 10px;
+}
+
+.row-1-part2 {
+    display: flex;
+    justify-content: flex-start;
+    margin-right: 10px;
+}
+
+    .row-1-part2 div {
+        width: 50%;
+    }
+
+.row-2-part2 {
+    display: flex;
+}
+
+.row-5-part2 {
+    display: flex;
+    gap: 10%;
+}
+
+.part-3 {
+    display: grid;
+    grid-template-columns: 50px 1fr;
+    border: 1px black solid;
+    /* height: 300px; */
+}
+
+.title-part-3 {
+    writing-mode: vertical-lr;
+    text-orientation: mixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+}
+
+.container-part-3 {
+    /* padding: 10px; */
+}
+
+.part-3-1 {
+    display: grid;
+    grid-template-rows: 1fr 2fr 1fr;
+    gap: 5px;
+    height: 180px;
+    border-bottom: 1px black solid;
+}
+
+    .part-3-1 div {
+        display: flex;
+        width: 100%;
+        margin-right: 10px;
+        padding: 10px;
+        gap: 15%;
+    }
+
+.title-part-3 {
+    border-left: 1px black solid;
+}
+
+.part-3-2 {
+    display: flex;
+    padding: 10px;
+    flex-direction: column;
+    height: 60px;
+    gap: 10px;
+    border-bottom: 1px black solid;
+}
+
+.part-3-2-list {
+    display: flex;
+    width: 100%;
+    gap: 3%;
+}
+
+.part-3-3 {
+    display: flex;
+    gap: 10%;
+    padding: 10px;
+}
+
+.part-4 {
+    display: grid;
+    grid-template-columns: 50px 1fr;
+    height: 70px;
+    border-top: 1px black solid;
+}
+
+.title-part-4 {
+    writing-mode: vertical-lr;
+    text-orientation: mixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8rem;
+    font-weight: bold;
+    border-left: 1px black solid;
+}
+
+.container-part-4 {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+}
+/* .container-part-4 {
+                display: grid;
+                margin: 10px;
+                grid-template-areas:
+                "a b"
+                "c d";
+            }
+
+            .top-right {
+                grid-area: a;
+            }
+
+            .top-left {
+                grid-area: b;
+            }
+
+            .bottom-left {
+                grid-area: d;
+            } */
+

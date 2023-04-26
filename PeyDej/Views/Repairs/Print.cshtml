@@ -5,148 +5,17 @@
 
 <!DOCTYPE html>
 
-<html lang="fa">
+<html lang="fa" dir="rtl">
 <head>
     <title>فرم درخواست تعمیرات</title>
-    <link href="~/lib/bootstrap/dist/css/bootstrap.rtl.min.css" rel="stylesheet" asp-append-version="true">
-    <link href="~/css/sb-admin-2.min.css" rel="stylesheet" asp-append-version="true">
+    @*<link href="~/lib/bootstrap/dist/css/bootstrap.rtl.min.css" rel="stylesheet" asp-append-version="true">*@
+    @*<link href="~/css/sb-admin-2.min.css" rel="stylesheet" asp-append-version="true">*@
+    <link href="~/css/repairprint.css" rel="stylesheet" asp-append-version="true">
 </head>
 <body>
-    <style>
-        body {
-            /* display: flex;
-                    justify-content: center;
-                    align-items: center; */
-        }
-
-        .container {
-            /* background-color: red; */
-            margin: auto;
-            width: 90%;
-            height: 800px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        header {
-            /* background-color: blue; */
-            width: 100%;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border: black solid 1px;
-            border-radius: 5px;
-        }
-
-        .main {
-            border: black solid 1px;
-            border-radius: 5px;
-            width: 100%;
-        }
-
-        .part-1 {
-            display: grid;
-            width: 100%;
-            height: 250px;
-            grid-template-columns: 50px 1fr;
-            grid-template-rows: 1fr 2fr;
-        }
-
-        .title-1 {
-            grid-column: 1/2;
-            grid-row: 1/-1;
-            background-color: pink;
-            writing-mode: vertical-lr;
-            text-orientation: mixed;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .first-1 {
-            grid-column: 2/-1;
-            grid-row: 1/2;
-            border-bottom: black 1px solid;
-            display: grid;
-            grid-template-columns: auto auto auto auto;
-        }
-
-        .second-1 {
-            grid-column: 2/-1;
-            grid-row: 2/3;
-            /* background-color: purple; */
-            display: flex;
-            flex-direction: column;
-            padding: 10px;
-        }
-
-        .title-text-1 {
-            font-size: 1.5rem;
-        }
-
-        .text-1 {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            align-items: right;
-            margin-right: 10px;
-            justify-content: center;
-        }
-
-        .second-container {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .second-top {
-            flex: 1;
-            flex-basis: 1fr;
-        }
-
-        .second-bottom {
-            flex: 2;
-            flex-basis: 2fr;
-        }
-
-        .second-child-1 {
-        }
-
-        .second-child-2 {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: auto;
-        }
-
-        table,
-        th,
-        td {
-            border: 1px solid black;
-            border-collapse: collapse;
-        }
-
-        th {
-            width: 50px;
-            height: 40px;
-        }
-
-        .big-head {
-            width: 100px;
-        }
-
-        .small-head {
-            width: 10px;
-        }
-
-        td {
-            height: 50px;
-        }
-    </style>
+    
     <div class="container">
-        <header><h2>فرم درخواست تعمییرات</h2></header>
+        <header><div>فرم درخواست تعمییرات</div></header>
         <div class="main">
             <div class="part-1">
                 <div class="title-1">
@@ -170,67 +39,154 @@
                     </div>
                 </div>
                 <div class="second-1">
-                    <div class="second-child-1">top</div>
+                    <div class="second-child-1">شرح درخواست</div>
                     <div class="second-child-2">
-                        <div class="second-top">dfdf</div>
-                        <div class="second-bottom">dfdf</div>
+                        <div class="second-top">نام و امضا درخواست کننده:</div>
+                        <div class="second-bottom">نام و امضا مدیر واحد:</div>
                     </div>
                 </div>
             </div>
 
-            <div class="part-table">
-                <table style="width: 100%">
-                    <tr>
-                        <th rowspan="5" style="writing-mode: tb" class="small-head">
-                            قطعات یدکی
-                        </th>
-                        <th>ردیف</th>
-                        <th class="big-head">نام قطعه</th>
-                        <th>کد قطعه/مشخصات</th>
-                        <th>شماره درخواست</th>
-                        <th>تاریخ دریافت</th>
-                        <th>ساعت دریافت</th>
-                        <th class="small-head">تعداد</th>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </table>
+            <div class="part-2">
+                <div class="title-part-2">دستور کار واحد</div>
+                <div class="container-part-2">
+                    <div class="row-1-part2">
+                        <div>تاریخ دریافت درخواست:</div>
+                        <div>ساعت دریافت:</div>
+                    </div>
+                    <div class="row-part-2 row-1-part2">
+                        <div>توع اقدام:</div>
+                        <div>تعمییرات اظطراری (EM):</div>
+                        <div>تعمییرات پیشگیرانه (PM):</div>
+                    </div>
+                    <div class="row-part-2 row-2-part2">
+                        <div>نوع کار: <input type="checkbox" /></div>
+                        <div>برقی: <input type="checkbox" /></div>
+                        <div>مکانیکی: <input type="checkbox" /></div>
+                        <div>تاسیسات: <input type="checkbox" /></div>
+                    </div>
+                    <div class="row-part-2 row-3-part-2">
+                        <div>محل: تعمیرات در داخل شرکت: <input type="checkbox" /></div>
+                        <div>تعمییرات در خارج شرکت: <input type="checkbox" /></div>
+                        <div>نام شرکت انجام دهنده تعمیرات: <input type="checkbox" /></div>
+                    </div>
+                    <div class="row-part-2 row-4-part2">
+                        <div>اسامی تیم اجرایی:</div>
+                    </div>
+                    <div class="row-part-2 row-5-part2">
+                        <div>تاریخ و ساعت ارجاع:</div>
+                        <div>نام و امضا سرپرست \ مدیریت:</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="part-3">
+                <div class="title-part-3">گزارش تعمیرات انجام شده</div>
+                <div class="container-part-3">
+
+                    <div class="part-3-1">
+                        <div>
+                            <div>شروع کار:        تاریخ:</div>
+                            <div>ساعت:</div>
+                        </div>
+                        <div>
+                            <div>شرح عیب (تا حد امکان علت رخداد عیب توضیح داده شود):</div>
+                        </div>
+                        <div>
+                            <div>شرح کار:</div>
+                        </div>
+                    </div>
+
+                    <div class="part-table">
+                        <table style="width: 100%">
+                            <tr>
+                                <th rowspan="5" style="writing-mode: tb" class="small-head">
+                                    قطعات یدکی
+                                </th>
+                                <th>ردیف</th>
+                                <th class="big-head">نام قطعه</th>
+                                <th>کد قطعه/مشخصات</th>
+                                <th>شماره درخواست</th>
+                                <th>تاریخ دریافت</th>
+                                <th>ساعت دریافت</th>
+                                <th class="small-head">تعداد</th>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="part-3-2">
+                        <div>علت تاخیر انجام کار: </div>
+                        <div class='part-3-2-list'>
+                            <div><input type="checkbox"> کمبود نیرو به مدت ....</div>
+                            <div><input type="checkbox"> برنامه ریزی تولید به مدت ....</div>
+                            <div><input type="checkbox"> نبود قطعه یدکی مدت ....</div>
+                            <div><input type="checkbox"> سایر ....</div>
+                            <div> مدت ....</div>
+                        </div>
+                    </div>
+
+                    <div class="part-3-3">
+                        <div>پایان کار: تاریخ:</div>
+                        <div>ساعت:</div>
+                        <div>مسئول انجام \ سرپرست نت:</div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="part-4">
+                <div class="title-part-4">تحویل دستگاه</div>
+                <div class="container-part-4">
+                    <div class='top-right'>نام و امضا مدیر \ سرپرست:</div>
+                    <div class='top-left'>نام و امضای تحویل گیرنده:</div>
+                    <div class='bottom-left'>نام واحد:</div>
+                </div>
             </div>
         </div>
     </div>
+    <script>
+        window.print();
+        
+        window.onafterprint = function (event) {
+            
+            window.close;
+        };
+    </script>
 </body>
 </html>

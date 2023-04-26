@@ -265,7 +265,7 @@ namespace PeyDej.Controllers
                     _context.DailyStatistics.Remove(dailyStatistic);
                 }
 
-                await _context.SaveChangesAsync();
+                 _context.SaveChanges();
                 return Json(new { r = true, m = "" });
             }
             catch (Exception ex)

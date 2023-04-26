@@ -40,8 +40,8 @@
                 columns.Add(model => model.Name).Titled(@Html.DisplayNameFor(model => model.Name));
                 columns.Add(model => model.Model).Titled(@Html.DisplayNameFor(model => model.Model));
                
-                columns.Add().Titled("ویرایش").Encoded(false).RenderedAs(model => PeyDejHelper.ActionLink("<i class=\"icon-edit\"></i>", "Edit", "Person", model.Id, "orange-text", "ویرایش"));
-                columns.Add().Titled("جزییات").Encoded(false).RenderedAs(model => PeyDejHelper.ActionLink("<i class=\"icon-info-sign\"></i>", "Details", "Person", model.Id, "green-text", "جزییات"));
+                columns.Add().Titled("ویرایش").Encoded(false).RenderedAs(model => PeyDejHelper.ActionLink("<i class=\"icon-edit\"></i>", "Edit", "SparePart", model.Id, "orange-text", "ویرایش"));
+                columns.Add().Titled("جزییات").Encoded(false).RenderedAs(model => PeyDejHelper.ActionLink("<i class=\"icon-info-sign\"></i>", "Details", "SparePart", model.Id, "green-text", "جزییات"));
                 columns.Add().Titled("حذف").Encoded(false).RenderedAs(model => PeyDejHelper.ActiveLinkAjax($"javascript:DeleteItem('{model.Id}');", "<i class=\"icon-trash\"></i>", "red-text", "حذف"));
             })
             .Empty("هیچ ایتمی وجود ندارد")

@@ -84,6 +84,10 @@ public class RepairsController : Controller
         ViewBag.Parts = this.Parts();
         return View(model);
     }
+    public IActionResult Print()
+    {
+        return View();
+    }
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult CreateReport(RepairReport report)

@@ -291,12 +291,16 @@ namespace PeyDej.Controllers
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
             var loadingReport = await _context.LoadingReports.FindAsync(id);
+            var lodings = _context.LoadingReports.Where(w => w.Date == loadingReport.Date).ToList();
+
+            var loding_104 = lodings.FirstOrDefault(f => f.LoadingIntervalId == 104);
+            var loding_105 = lodings.FirstOrDefault(f => f.LoadingIntervalId == 105);
             if (loadingReport != null)
             {
-                _context.LoadingReports.Remove(loadingReport);
+                _context.LoadingReports.Remove(loding_104);
+                _context.LoadingReports.Remove(loding_105);
             }
-
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
 

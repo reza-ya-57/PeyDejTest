@@ -1,0 +1,65 @@
+﻿@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+
+<html lang="fa">
+<head>
+    <title>فرم درخواست تعمیرات</title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.rtl.min.css" rel="stylesheet" asp-append-version="true">
+    <link href="~/css/sb-admin-2.min.css" rel="stylesheet" asp-append-version="true">
+</head>
+<body dir="rtl">
+    <style>
+        @@media print {
+            @@page {
+                size: A4;
+                margin: 0;
+                font-family: "Times New Roman", Times, serif;
+                font-size: 12pt;
+            }
+
+            body {
+                margin: 1.27cm;
+            }
+
+            h1 {
+                font-size: 16pt;
+            }
+        }
+
+        th, div {
+            text-align: center;
+        }
+    </style>
+    <div class="row">
+        <div class="col-12">
+            <div class="p-5 pb-0" style="border:1px solid #000">
+                <h3>فرم درخواست تعمیرات</h3>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="p-5 d-inline-block" style="border:1px solid #000">
+                <h3>فرم درخواست تعمیرات</h3>
+            </div>
+            <div class="p-5 d-inline-block" style="border:1px solid #000">
+                <h3>فرم درخواست تعمیرات</h3>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.print();
+        debugger
+        window.onafterprint = function (event) {
+            debugger
+            window.close;
+        };
+    </script>
+
+</body>
+</html>

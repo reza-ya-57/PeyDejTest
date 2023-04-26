@@ -1,12 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+
 using PeyDej.Data;
 using PeyDej.Models;
 using PeyDej.Models.Bases;
@@ -80,6 +76,9 @@ namespace PeyDej.Controllers
         {
             if (ModelState.IsValid)
             {
+                _ = person.GenderId == 0 ? person.GenderId = null : person.GenderId = person.GenderId;
+                _ = person.PartId == 0 ? person.PartId = null : person.PartId = person.PartId;
+                _ = person.DepartmentId == 0 ? person.DepartmentId = null : person.DepartmentId = person.DepartmentId;
                 _context.Add(person);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -130,6 +129,9 @@ namespace PeyDej.Controllers
             {
                 try
                 {
+                    _ = person.GenderId == 0 ? person.GenderId = null : person.GenderId = person.GenderId;
+                    _ = person.PartId == 0 ? person.PartId = null : person.PartId = person.PartId;
+                    _ = person.DepartmentId == 0 ? person.DepartmentId = null : person.DepartmentId = person.DepartmentId;
                     _context.Update(person);
                     await _context.SaveChangesAsync();
                 }

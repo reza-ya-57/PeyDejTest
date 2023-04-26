@@ -69,6 +69,7 @@ public class Motor
 
     [Display(Name = "چرخش بازرسی")]
     [Range(typeof(long), "0", "65536", ErrorMessage = "مقدار {0} باید بین {1} تا این {2} باشد")]
+    [Required(ErrorMessage = "مقدار {0} را وارد کنید")]
     public long? InspectionCycle { get; set; }
 
     [Display(Name = "توضیحات")]

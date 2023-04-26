@@ -1,3 +1,5 @@
+using Ccms.Common.Utilities;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -28,8 +30,9 @@ public class InspectionReportController : Controller
         var data = await _context.MotorISs
             .Where(m =>
                 m.Status == InspectionStatus.NotOk &&
-                m.InspectionDate >= PeyDejTools.PersianStringToDateTime(start_date) &&
-                m.InspectionDate <= PeyDejTools.PersianStringToDateTime(end_date)
+                m.InspectionDate >= (start_date + "T01:01:00.000").ToGregorianDateTime(false, 1200) &&
+                m.InspectionDate <= (end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200) &&
+                m.InspectionFinishedDate == null
             ).Join(_context.Motors, mIS => mIS.MotorId, mo => mo.Id, (mIS, motor) => new MotorReport
             {
                 Id = mIS.Id,
@@ -89,8 +92,9 @@ public class InspectionReportController : Controller
         var data = await _context.MachineISs
             .Where(m =>
                 m.Status == InspectionStatus.NotOk &&
-                m.InspectionDate >= PeyDejTools.PersianStringToDateTime(start_date) &&
-                m.InspectionDate <= PeyDejTools.PersianStringToDateTime(end_date)
+                m.InspectionDate >= (start_date + "T01:01:00.000").ToGregorianDateTime(false, 1200) &&
+                m.InspectionDate <= (end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200) &&
+                m.InspectionFinishedDate == null
             ).ToListAsync();
 
         var machineIDs = data.Select(item => item.MachineId).ToList();
@@ -147,8 +151,9 @@ public class InspectionReportController : Controller
         var data = await _context.MachineLubrications
             .Where(m =>
                 m.Status == 0 &&
-                m.InspectionDate >= PeyDejTools.PersianStringToDateTime(start_date) &&
-                m.InspectionDate <= PeyDejTools.PersianStringToDateTime(end_date)
+                m.InspectionDate >= (start_date + "T01:01:00.000").ToGregorianDateTime(false, 1200) &&
+                m.InspectionDate <= (end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200) &&
+                m.InspectionFinishedDate == null
             ).ToListAsync();
 
         var machineIDs = data.Select(item => item.MachineId).ToList();

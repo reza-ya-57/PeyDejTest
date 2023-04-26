@@ -7,7 +7,8 @@ namespace PeyDej.Models.Bases;
 [Table(name: "Person", Schema = "Base")]
 public partial class Person
 {
-    [Key] public long Id { get; set; }
+    [Key] 
+    public long Id { get; set; }
 
     public DateTime InsDate { get; set; } = DateTime.Now;
 
@@ -29,9 +30,11 @@ public partial class Person
     [MaxLength(64, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]
     public string? PhoneNumber { get; set; }
 
-    [Display(Name = "دپارتمان ها")] public long? DepartmentId { get; set; }
+    [Display(Name = "دپارتمان ها")] 
+    public long? DepartmentId { get; set; }
 
-    [Display(Name = "جنسیت")] public long? GenderId { get; set; }
+    [Display(Name = "جنسیت")] 
+    public long? GenderId { get; set; }
 
     [Display(Name = "توضیحات")]
     [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]

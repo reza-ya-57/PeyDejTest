@@ -28,7 +28,7 @@
 
         }
 
-        public static DateTime? ToMiladi(this string date)
+        public static DateTime? ToMiladi(this string date, int hour = 0, int minute = 0, int second = 0, int millisecond = 1)
         {
             string[] datetime = date.Split('/');
             return new PersianCalendar()
@@ -36,10 +36,10 @@
                 int.Parse(datetime[0]),
                 int.Parse(datetime[1]),
                 int.Parse(datetime[2]),
-                0,
-                0,
-                0,
-                0);
+                hour,
+                minute,
+                second,
+                millisecond);
         }
         private static Tuple<bool, int> ToNumber(this string data)
         {

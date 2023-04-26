@@ -1,3 +1,5 @@
+using DNTPersianUtils.Core;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -25,8 +27,8 @@ public class InspectionCategoriesController : Controller
         var data = await _context.VwInspectionSubCategoryISs
             .Where(m =>
                 m.Status == false &&
-                m.InspectionDate >= PeyDejTools.PersianStringToDateTime(start_date) &&
-                m.InspectionDate <= PeyDejTools.PersianStringToDateTime(end_date) &&
+                m.InspectionDate >= (start_date + "T01:01:00.000").ToGregorianDateTime(false, 1200) &&
+                m.InspectionDate <= (end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200) &&
                 m.InspectionCategoryId == id
             ).ToListAsync();
 
@@ -51,8 +53,8 @@ public class InspectionCategoriesController : Controller
         var data = await _context.VwInspectionSubCategoryISs
             .Where(m =>
                 m.Status == false &&
-                m.InspectionDate >= PeyDejTools.PersianStringToDateTime(start_date) &&
-                m.InspectionDate <= PeyDejTools.PersianStringToDateTime(end_date) &&
+                m.InspectionDate >= (start_date + "T01:01:00.000").ToGregorianDateTime(false, 1200) &&
+                m.InspectionDate <= (end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200) &&
                 m.InspectionCategoryId == id
             ).ToListAsync();
 
@@ -78,8 +80,8 @@ public class InspectionCategoriesController : Controller
         var data = await _context.VwInspectionSubCategoryISs
             .Where(m =>
                 m.Status == false &&
-                m.InspectionDate >= PeyDejTools.PersianStringToDateTime(start_date) &&
-                m.InspectionDate <= PeyDejTools.PersianStringToDateTime(end_date) &&
+                m.InspectionDate >= (start_date + "T01:01:00.000").ToGregorianDateTime(false, 1200) &&
+                m.InspectionDate <= (end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200) &&
                 m.InspectionCategoryId == id
             ).ToListAsync();
 

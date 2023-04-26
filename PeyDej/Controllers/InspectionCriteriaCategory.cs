@@ -1,4 +1,6 @@
-﻿using Dapper;
+﻿using Ccms.Common.Utilities;
+
+using Dapper;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -66,8 +68,9 @@ public class InspectionCriteriaCategory : Controller
                 	Inspection.InspectionCriteriaSubCategoryIS
                 	INNER JOIN Base.InspectionCriteriaSubCategory c ON c.Id = InspectionCriteriaSubCategoryIS.InspectionCriteriaSubCategoryId
                 WHERE
-                	InspectionCriteriaSubCategoryIS.InspectionDate >= '{PeyDejTools.PersianStringToDateTime(start_date)}'
-                    AND InspectionCriteriaSubCategoryIS.InspectionDate <= '{PeyDejTools.PersianStringToDateTime(end_date)}'
+                	InspectionCriteriaSubCategoryIS.InspectionDate >= '{(start_date + "T01:01:00.000").ToGregorianDateTime(false, 1200)}'
+                    AND InspectionCriteriaSubCategoryIS.InspectionDate <= '{(end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200)}'
+                    AND InspectionCriteriaSubCategoryIS.InspectionFinishedDate == null &&
                 	AND [Status] = 0
                 	AND c.InspectionCriteriaCategoryId IN (1 ,2 ,3 ,4)";
         var gridReader = await db.QueryAsync<InspectionCriteriaSubCategoryIS>(q);
@@ -94,8 +97,9 @@ public class InspectionCriteriaCategory : Controller
                 	Inspection.InspectionCriteriaSubCategoryIS
                 	INNER JOIN Base.InspectionCriteriaSubCategory c ON c.Id = InspectionCriteriaSubCategoryIS.InspectionCriteriaSubCategoryId
                 WHERE
-                	InspectionCriteriaSubCategoryIS.InspectionDate >= '{PeyDejTools.PersianStringToDateTime(start_date)}'
-                    AND InspectionCriteriaSubCategoryIS.InspectionDate <= '{PeyDejTools.PersianStringToDateTime(end_date)}'
+                	InspectionCriteriaSubCategoryIS.InspectionDate >= '{(start_date + "T01:01:00.000").ToGregorianDateTime(false, 1200)}'
+                    AND InspectionCriteriaSubCategoryIS.InspectionDate <= '{(end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200)}'
+                    AND InspectionCriteriaSubCategoryIS.InspectionFinishedDate == null &&
                 	AND [Status] = 0
                 	AND c.InspectionCriteriaCategoryId IN (1 ,2 ,3 ,4)";
         var criteriaSubCategoryIses = await db.QueryAsync<InspectionCriteriaSubCategoryIS>(q);
@@ -129,8 +133,9 @@ public class InspectionCriteriaCategory : Controller
                 	INNER JOIN Base.InspectionCriteriaSubCategory c ON c.Id = InspectionCriteriaSubCategoryIS.InspectionCriteriaSubCategoryId
 	                INNER JOIN Base.InspectionCriteriaCategory cc ON cc.Id = c.InspectionCriteriaCategoryId
                 WHERE
-                	InspectionCriteriaSubCategoryIS.InspectionDate >= '{PeyDejTools.PersianStringToDateTime(start_date)}'
-                    AND InspectionCriteriaSubCategoryIS.InspectionDate <= '{PeyDejTools.PersianStringToDateTime(end_date)}'
+                	InspectionCriteriaSubCategoryIS.InspectionDate >= '{(start_date + "T01:01:00.000").ToGregorianDateTime(false, 1200)}'
+                    AND InspectionCriteriaSubCategoryIS.InspectionDate <= '{(end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200)}'
+                    AND InspectionCriteriaSubCategoryIS.InspectionFinishedDate == null &&
                 	AND [Status] = 0
                 	AND c.InspectionCriteriaCategoryId IN (1 ,2 ,3 ,4)";
         var criteriaSubCategoryIses = await db.QueryAsync<InspectionCriteriaSubCategoryIS>(q);

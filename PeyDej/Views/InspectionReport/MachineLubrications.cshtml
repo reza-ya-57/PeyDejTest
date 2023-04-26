@@ -122,10 +122,12 @@
             },
             function (e){
             if (e.r){
-                alert("فرآیند ثبت اطلاعات با موفقیت به پابان رسید.");
+                        alert("فرآیند ثبت اطلاعات با موفقیت به پابان رسید.");
+                        window.location.replace(window.origin + "/MachineLubrications/MachineLubricationsIS");
                 location.reload();
             }else{
-                alert("در هنگام پردازش اطلاعات خطایی رخ داد. دوباره سعی کنید."+"\n" + e.m);
+                        alert("در هنگام پردازش اطلاعات خطایی رخ داد. دوباره سعی کنید." + "\n" + e.m);
+                        window.location.replace(window.origin + "/MachineLubrications/MachineLubricationsIS");
             }
         },"JSON");
     }

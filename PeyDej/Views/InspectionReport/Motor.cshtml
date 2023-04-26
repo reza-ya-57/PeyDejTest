@@ -20,28 +20,6 @@
     </div>
 </div>
 
-
-@* <div class="row"> *@
-@*     <div class="col-6 offset-3"> *@
-@* *@
-@*         <div class="card"> *@
-@*             <div class="card-header bg-primary text-white"> *@
-@*                 <span>جستجو</span> *@
-@*             </div> *@
-@*             <div class="card-body text-center"> *@
-@*                 <form asp-action="Motor" method="GET"> *@
-@*                     <label class="text-left">از تاریخ: <input value="@ViewBag.startDate" readonly="readonly" id="start_date" name="start_date" class="form-control text-center" type="text"/></label> *@
-@*                     <label class="text-left">تا تاریخ: <input value="@ViewBag.endDate" readonly="readonly" id="end_date" name="end_date" class="form-control text-center" type="text"/></label> *@
-@*                     <input type="submit" value="جستجو" class="btn btn-primary"/> *@
-@*                 </form> *@
-@*             </div> *@
-@*             <div class="card-footer"> *@
-@*                 <!-- Card footer content goes here --> *@
-@*             </div> *@
-@*         </div> *@
-@*     </div> *@
-@* </div> *@
-
 @{ var i = 0; }
 <div class="row">
     <div class="col-8 offset-2">
@@ -78,7 +56,7 @@
                                 <label class="m-2"><input name="status@{ @m.Id }" value="0" type="radio"/>&nbsp;رد</label>
                             </th>
                             <th scope="row">
-                                <input class="form-control"/>
+                                <input class="form-control" />
                             </th>
                         </tr>
                     }
@@ -125,10 +103,12 @@
             },
             function (e){
             if (e.r){
-                alert("فرآیند ثبت اطلاعات با موفقیت به پابان رسید.");
+                        alert("فرآیند ثبت اطلاعات با موفقیت به پابان رسید.");
+                        window.location.replace(window.origin + "/Inspection/Motor");
                 location.reload();
             }else{
                 alert("در هنگام پردازش اطلاعات خطایی رخ داد. دوباره سعی کنید."+"\n" + e.m);
+                        window.location.replace(window.origin + "/Inspection/Motor");
             }
         },"JSON");
     }

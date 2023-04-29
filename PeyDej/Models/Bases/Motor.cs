@@ -78,6 +78,7 @@ public class Motor
 
     [Display(Name = "قطعات")]
     [NotMapped]
+    [Required(ErrorMessage = "مقدار {0} را وارد کنید")]
     public List<long> SparePartIds { get; set; }
 
 

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 using PeyDej.Data;
 using PeyDej.Models;
-using PeyDej.Models.Users;
+using PeyDej.Models.Parameters;
 using PeyDej.Tools;
 
 namespace PeyDej.Controllers;
@@ -40,16 +40,23 @@ public class InspectionController : Controller
 
         ViewBag.startDate = start_date;
         ViewBag.endDate = end_date;
-        return View(result);
+        var model = new HomeModel()
+        {
+            Model = result
+        };
+        return View(model);
     }
 
-    public async Task<IActionResult> MotorPrintPage()
+
+    public async Task<IActionResult> MotorPrintPage(ReportMotorStatusParameter[] model)
     {
+        var listId = model.Select(s => long.Parse(s.Id.ToString())).ToList();
         var start_date = HttpContext.Session.GetString("start_date");
         var end_date = HttpContext.Session.GetString("end_date");
         var data = await _context.MotorISs
             .Where(m =>
                 m.Status == InspectionStatus.NotOk &&
+                !listId.Any() || listId.Contains(m.MotorId ?? 0) &&
                 m.InspectionDate >= (start_date + "T01:01:00.000").ToGregorianDateTime(false, 1200) &&
                 m.InspectionDate <= (end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200) &&
                 m.InspectionFinishedDate == null

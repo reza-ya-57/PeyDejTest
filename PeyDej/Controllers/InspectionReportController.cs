@@ -1,17 +1,27 @@
 using Ccms.Common.Utilities;
 
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+
 using PeyDej.Data;
 using PeyDej.Models;
 using PeyDej.Models.ActiveModels;
 using PeyDej.Models.Parameters;
-using PeyDej.Models.Users;
-using PeyDej.Tools;
+
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace PeyDej.Controllers;
+public class HomeModel
+{
+    public IList<string> SelectedFruits { get; set; }
+    public IEnumerable<PeyDej.Models.Bases.Motor> Model { get; set; }
+
+    public HomeModel()
+    {
+        SelectedFruits = new List<string>();
+    }
+}
 
 // [Authorize]
 public class InspectionReportController : Controller
@@ -23,34 +33,37 @@ public class InspectionReportController : Controller
         _context = context;
     }
 
-    public async Task<IActionResult> Motor()
+    public async Task<IActionResult> Motor(ReportMotorStatusParameter[] model)
     {
+        var listId = model.Select(s => long.Parse(s.Id.ToString())).ToList();
         var start_date = HttpContext.Session.GetString("start_date");
-        var end_date = HttpContext.Session.GetString("end_date");
-        var data = await _context.MotorISs
-            .Where(m =>
-                m.Status == InspectionStatus.NotOk &&
-                m.InspectionDate >= (start_date + "T01:01:00.000").ToGregorianDateTime(false, 1200) &&
-                m.InspectionDate <= (end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200) &&
-                m.InspectionFinishedDate == null
-            ).Join(_context.Motors, mIS => mIS.MotorId, mo => mo.Id, (mIS, motor) => new MotorReport
-            {
-                Id = mIS.Id,
-                Name = motor.Name,
-                Description = motor.Description
-            }).ToListAsync();
+            var end_date = HttpContext.Session.GetString("end_date");
+            var data = await _context.MotorISs
+                .Where(m =>
+                    m.Status == InspectionStatus.NotOk &&
+                    !listId.Any() || listId.Contains(m.MotorId ?? 0) &&
+                    m.InspectionDate >= (start_date + "T01:01:00.000").ToGregorianDateTime(false, 1200) &&
+                    m.InspectionDate <= (end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200) &&
+                    m.InspectionFinishedDate == null
+                ).Join(_context.Motors, mIS => mIS.MotorId, mo => mo.Id, (mIS, motor) => new MotorReport
+                {
+                    Id = mIS.Id,
+                    Name = motor.Name,
+                    Description = motor.Description
+                }).ToListAsync();
 
-        HttpContext.Session.SetString("start_date", start_date);
-        HttpContext.Session.SetString("end_date", end_date);
+            HttpContext.Session.SetString("start_date", start_date);
+            HttpContext.Session.SetString("end_date", end_date);
 
-        ViewBag.startDate = start_date;
-        ViewBag.endDate = end_date;
-        var person = await _context.Persons.Where(m => m.GeneralStatusId == GeneralStatus.Active)
-            .Select(m => new { m.Id, Name = m.FirstName + " " + m.LastName })
-            .ToListAsync();
-        ViewBag.person = new SelectList(person, "Id", "Name");
-        return View(data);
+            ViewBag.startDate = start_date;
+            ViewBag.endDate = end_date;
+            var person = await _context.Persons.Where(m => m.GeneralStatusId == GeneralStatus.Active)
+                .Select(m => new { m.Id, Name = m.FirstName + " " + m.LastName })
+                .ToListAsync();
+            ViewBag.person = new SelectList(person, "Id", "Name");
+            return View(data);
     }
+
 
     [HttpPost]
     [ValidateAntiForgeryToken]

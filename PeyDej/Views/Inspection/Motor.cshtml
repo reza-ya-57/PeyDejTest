@@ -1,36 +1,43 @@
-@using PeyDej.Tools
-@model IEnumerable<PeyDej.Models.Bases.Motor>
+@model PeyDej.Controllers.HomeModel
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+@{
+    var list = Model.Model;
+}
+@functions {
 
+    private string? GetAntiXsrfRequestToken()
+    {
+        return Xsrf.GetAndStoreTokens(Context).RequestToken;
+    }
 
+}
 <div class="row">
     <div class="col-12">
         <h3>لیست موتورهای نیاز به بازرسی</h3>
-        <hr/>
+        <hr />
         <p>
-            <a target="_blank" class="btn btn-primary" asp-action="MotorPrintPage">چاپ فرم</a>
-            <a class="btn btn-success" asp-controller="InspectionReport" asp-action="Motor">ثبت نتایج</a>
+            <a onclick="save('@Url.Action("MotorPrintPage")')" class="btn btn-primary" target="_blank">چاپ فرم</a>
+            <a class="btn btn-success" onclick="save('@Url.Action("Motor",controller:"InspectionReport")')" >ثبت نتایج</a>
         </p>
-        <hr/>
+        <hr />
     </div>
 </div>
 
 
 <div class="row">
-    <div class="col-8 offset-2">
-
+    <div class="col-12">
         <div class="card">
             <div class="card-header bg-primary text-white">
                 <span>جستجو</span>
             </div>
             <div class="card-body text-center">
                 <form asp-action="Motor" method="GET">
-                    <label class="text-left">از تاریخ: <input value="@ViewBag.startDate" readonly="readonly" id="start_date" name="start_date" class="form-control text-center" type="text"/></label>
-                    <label class="text-left">تا تاریخ: <input value="@ViewBag.endDate" readonly="readonly" id="end_date" name="end_date" class="form-control text-center" type="text"/></label>
-                    <input type="submit" value="جستجو" class="btn btn-primary"/>
+                    <label class="text-left">از تاریخ: <input value="@ViewBag.startDate" readonly="readonly" id="start_date" name="start_date" class="form-control text-center" type="text" /></label>
+                    <label class="text-left">تا تاریخ: <input value="@ViewBag.endDate" readonly="readonly" id="end_date" name="end_date" class="form-control text-center" type="text" /></label>
+                    <input type="submit" value="جستجو" class="btn btn-primary" />
                 </form>
             </div>
             <div class="card-footer">
-                <!-- Card footer content goes here -->
             </div>
         </div>
     </div>
@@ -38,23 +45,20 @@
 
 
 <div class="row">
-    <div class="col-8 offset-2">
+    <div class="col-12">
+
         @(Html
-            .Grid(Model)
+            .Grid(list)
             .Build(columns =>
             {
-                // columns.Add(model => model.Motors.FirstOrDefault(x => x.Id == model.MotorId).Name).Titled("نام موتور");
-                columns.Add(model => model.Name).Titled(@Html.DisplayNameFor(model => model.Name));
-                columns.Add(model => model.Description).Titled(@Html.DisplayNameFor(model => model.Description));
-                // columns.Add().Titled("ثبت نتایج").Encoded(false).RenderedAs(model =>
-                //     Html.ActionLink("ثبت نتایج", "Edit", "Motor", new { id = model.Id },
-                //         new { @class = "btn btn-warning btn-sm" })
-                //     );
+                columns.Add(model => Html.CheckBox("SelectedFruits" + model.Id)).Titled(Html.CheckBox("CheckAll"));
+                columns.Add(model => model.Name).Titled("نام موتور");
+                columns.Add(model => model.Description).Titled("توضیحات");
             })
             .Empty("هیچ ایتمی وجود ندارد")
             .Sortable()
             .Filterable()
-            .Using(GridFilterMode.Row)
+            .Using(GridFilterMode.Excel)
             .Pageable(pager =>
             {
                 pager.PageSizes = new Dictionary<Int32, String> { { 10, "10" }, { 20, "20" }, { 50, "50" }, { 0, "همه" } };
@@ -63,23 +67,64 @@
                 pager.CurrentPage = 1;
                 pager.RowsPerPage = 20;
             })
-            .Css("table table-bordered")
-            )
-
+            .Css("table table-bordered"))
     </div>
 </div>
-
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
     <script type="text/javascript">
-    $(function(){
-        $('#start_date,#end_date').datepicker({
-            isRTL: true,
-            dateFormat: "yy/mm/dd",
+        $(function () {
+            $('#start_date,#end_date').datepicker({
+                isRTL: true,
+                dateFormat: "yy/mm/dd",
+            });
         });
-    });
-   
-</script>
+
+    </script>
+    <script>
+
+        function save (url) {
+            var ids = [ @foreach (var itm in list)
+        {
+            @(itm.Id + ",")
+        }];
+
+            var data = [];
+            ids.forEach(function (value, i) {
+                var radios = $("input:checkbox[name=SelectedFruits" + value + "]:checked");
+                data.push({
+                    Id: value,
+                    Status: radios.val() == 1,
+                });
+            });
+            $.ajax({
+                type: "POST",
+                url: url,
+                model: data
+            });
+            //var token = "@GetAntiXsrfRequestToken()";
+            //$.post(url, {
+            //    model: data,
+            //    __RequestVerificationToken: token
+            //},
+            //    function (e) {
+            //        if (e.r) {
+            //            alert("فرآیند ثبت اطلاعات با موفقیت به پابان رسید.");
+            //            window.location.replace(window.origin + "/Inspection/Motor");
+            //        } else {
+            //            alert("در هنگام پردازش اطلاعات خطایی رخ داد. دوباره سعی کنید." + "\n" + e.m);
+            //            window.location.replace(window.origin + "/Inspection/Motor");
+            //        }
+            //    }, "JSON");
+        }
+        document.getElementById("CheckAll").addEventListener("change", function () {
+            document.querySelectorAll("[id^='SelectedFruits'").forEach(checkbox => checkbox.checked = this.checked);
+        });
+                //var data = [];
+                //document.querySelectorAll("[id^='SelectedFruits']").forEach(f => data.push(f));
+                //consele.table(data);
+
+    </script>
 }

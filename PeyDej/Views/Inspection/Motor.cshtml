@@ -1,79 +1,90 @@
-@model PeyDej.Controllers.HomeModel
-@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
-@{
-    var list = Model.Model;
-}
-@functions {
-
-    private string? GetAntiXsrfRequestToken()
-    {
-        return Xsrf.GetAndStoreTokens(Context).RequestToken;
-    }
-
-}
-<div class="row">
-    <div class="col-12">
-        <h3>لیست موتورهای نیاز به بازرسی</h3>
-        <hr />
-        <p>
-            <a onclick="save('@Url.Action("MotorPrintPage")')" class="btn btn-primary" target="_blank">چاپ فرم</a>
-            <a class="btn btn-success" onclick="save('@Url.Action("Motor",controller:"InspectionReport")')" >ثبت نتایج</a>
-        </p>
-        <hr />
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model PeyDej.Services.Pagination.PaginatedList<PeyDej.Models.Bases.Motor>
+<form asp-action="Motor" method="post">
+    <div class="row">
+        <div class="col-12">
+            <h3>لیست موتورهای نیاز به بازرسی</h3>
+            <hr />
+            <p>
+                <button type="submit" class="btn btn-primary" name="btnName" value="print" target="_blank">چاپ فرم</button>
+                <button type="submit" class="btn btn-success" name="btnName" value="save" target="_blank">ثبت نتایج</button>
+            </p>
+            <hr />
+        </div>
     </div>
-</div>
 
 
-<div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header bg-primary text-white">
-                <span>جستجو</span>
-            </div>
-            <div class="card-body text-center">
-                <form asp-action="Motor" method="GET">
-                    <label class="text-left">از تاریخ: <input value="@ViewBag.startDate" readonly="readonly" id="start_date" name="start_date" class="form-control text-center" type="text" /></label>
-                    <label class="text-left">تا تاریخ: <input value="@ViewBag.endDate" readonly="readonly" id="end_date" name="end_date" class="form-control text-center" type="text" /></label>
-                    <input type="submit" value="جستجو" class="btn btn-primary" />
-                </form>
-            </div>
-            <div class="card-footer">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <span>جستجو</span>
+                </div>
+                <div class="card-body text-center">
+                    <div class="row">
+                        <div class="col-3">
+                            <partial name="Partials/_PageSize" model='("Inspection","Motor")' />
+                        </div>
+                        <div class="col-8">
+                            <label class="text-left">از تاریخ: <input value="@ViewBag.startDate" readonly="readonly" id="start_date" name="start_date" class="form-control text-center" type="text" /></label>
+                            <label class="text-left">تا تاریخ: <input value="@ViewBag.endDate" readonly="readonly" id="end_date" name="end_date" class="form-control text-center" type="text" /></label>
+                            <button type="submit" class="btn btn-primary" name="btnName" value="search" target="_blank">جستجو</button>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <table id="datatables-reponsive" class="table table-striped table-bordered text-center" style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th>انتخاب</th>
+                                <th>نام موتور</th>
+                                <th>توضیحات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <input class="form-check-input" type="checkbox" name="SelectedFruits" value="@item.Id" id="@item.Id">
+                                        <label class="form-check-label" for="@item.Id">
+                                            @item.Name
+                                        </label>
+                                    </td>
+                                    <td>@item.Name</td>
+                                    <td>@item.Description</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                    <partial name="Partials/_Pagination" model='(Model.HasPreviousPage,Model.HasNextPage,Model.PageIndex,Model.TotalPages,"Inspection","Motor")' />
+                </div>
+
             </div>
         </div>
     </div>
-</div>
-
-
-<div class="row">
-    <div class="col-12">
-
-        @(Html
-            .Grid(list)
-            .Build(columns =>
-            {
-                columns.Add(model => Html.CheckBox("SelectedFruits" + model.Id)).Titled(Html.CheckBox("CheckAll"));
-                columns.Add(model => model.Name).Titled("نام موتور");
-                columns.Add(model => model.Description).Titled("توضیحات");
-            })
-            .Empty("هیچ ایتمی وجود ندارد")
-            .Sortable()
-            .Filterable()
-            .Using(GridFilterMode.Excel)
-            .Pageable(pager =>
-            {
-                pager.PageSizes = new Dictionary<Int32, String> { { 10, "10" }, { 20, "20" }, { 50, "50" }, { 0, "همه" } };
-                pager.ShowPageSizes = true;
-                pager.PagesToDisplay = 5;
-                pager.CurrentPage = 1;
-                pager.RowsPerPage = 20;
-            })
-            .Css("table table-bordered"))
-    </div>
-</div>
+</form>
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    <script src="~/js/datatables.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Datatables Responsive
+            $("#datatables-reponsive").DataTable({
+                responsive: true,
+                paginate: false,
+                previous: false,
+                next: false,
+                info: false,
+                filter: true
+            });
+        });
+
+    </script>
     <script type="text/javascript">
         $(function () {
             $('#start_date,#end_date').datepicker({
@@ -81,50 +92,6 @@
                 dateFormat: "yy/mm/dd",
             });
         });
-
-    </script>
-    <script>
-
-        function save (url) {
-            var ids = [ @foreach (var itm in list)
-        {
-            @(itm.Id + ",")
-        }];
-
-            var data = [];
-            ids.forEach(function (value, i) {
-                var radios = $("input:checkbox[name=SelectedFruits" + value + "]:checked");
-                data.push({
-                    Id: value,
-                    Status: radios.val() == 1,
-                });
-            });
-            $.ajax({
-                type: "POST",
-                url: url,
-                model: data
-            });
-            //var token = "@GetAntiXsrfRequestToken()";
-            //$.post(url, {
-            //    model: data,
-            //    __RequestVerificationToken: token
-            //},
-            //    function (e) {
-            //        if (e.r) {
-            //            alert("فرآیند ثبت اطلاعات با موفقیت به پابان رسید.");
-            //            window.location.replace(window.origin + "/Inspection/Motor");
-            //        } else {
-            //            alert("در هنگام پردازش اطلاعات خطایی رخ داد. دوباره سعی کنید." + "\n" + e.m);
-            //            window.location.replace(window.origin + "/Inspection/Motor");
-            //        }
-            //    }, "JSON");
-        }
-        document.getElementById("CheckAll").addEventListener("change", function () {
-            document.querySelectorAll("[id^='SelectedFruits'").forEach(checkbox => checkbox.checked = this.checked);
-        });
-                //var data = [];
-                //document.querySelectorAll("[id^='SelectedFruits']").forEach(f => data.push(f));
-                //consele.table(data);
 
     </script>
 }

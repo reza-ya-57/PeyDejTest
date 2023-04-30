@@ -1,0 +1,23 @@
+﻿@model (string conroller,string action)
+<h5 class="card-title mb-0  pt-4">
+    نماش
+    <form asp-action="@Model.action" asp-controller="@Model.conroller" class="d-inline-block w-50" >
+        <select name="pageSize" onchange="this.form.submit()" aria-controls="datatables-reponsive" class="col-2 d-inline-block form-control mb-3">
+            @{
+                var list = new List<int>() { 10, 25, 50, 100 };
+                @for (int i = 0; i < list.Count(); i++)
+                {
+                    @if (i == 100)
+                    {
+                        <option selected value="list[i]">@list[i]</option>
+                    }
+                    else
+                    {
+                        <option value="list[i]">@list[i]</option>
+                    }
+                }
+            }
+        </select>
+    </form>
+    آیتم در هر صفحه
+</h5>

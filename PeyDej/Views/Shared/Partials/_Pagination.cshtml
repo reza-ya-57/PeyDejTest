@@ -1,0 +1,44 @@
+﻿@model (bool HasPreviousPage,bool HasNextPage,int PageIndex,int TotalPages,string conroller,string action)
+
+<div class="row">
+    <div class="col-md-6 text-center pb-5 pt-2">
+
+        @{
+            var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+            var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+        }
+
+        <div class="btn-group me-2" role="group" aria-label="Second group">
+            <a asp-controller="@Model.conroller" asp-action="@Model.action"
+               asp-route-sortOrder="@ViewData["CurrentSort"]"
+               asp-route-pageNumber="@(Model.PageIndex - 1)"
+               asp-route-currentFilter="@ViewData["CurrentFilter"]" class="btn btn-outline-info  @prevDisabled">
+                قبلی
+            </a>
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                var t = Model.PageIndex;
+                var pageActive = "btn-outline-info";
+                if (t == i)
+                {
+                    pageActive = "btn-info";
+                }
+
+                <a asp-action="Index"
+                   asp-route-sortOrder="@ViewData["CurrentSort"]"
+                   asp-route-pageNumber="@i"
+                   asp-route-currentFilter="@ViewData["CurrentFilter"]" class="btn @pageActive">
+                    @i
+                </a>
+
+            }
+            <a asp-action="Index"
+               asp-route-sortOrder="@ViewData["CurrentSort"]"
+               asp-route-pageNumber="@(Model.PageIndex + 1)"
+               asp-route-currentFilter="@ViewData["CurrentFilter"]" type="button"
+               class="btn btn-outline-info @nextDisabled">
+                بعدی
+            </a>
+        </div>
+    </div>
+</div>

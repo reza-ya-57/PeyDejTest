@@ -12,16 +12,6 @@ using PeyDej.Models.Parameters;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace PeyDej.Controllers;
-public class HomeModel
-{
-    public IList<string> SelectedFruits { get; set; }
-    public IEnumerable<PeyDej.Models.Bases.Motor> Model { get; set; }
-
-    public HomeModel()
-    {
-        SelectedFruits = new List<string>();
-    }
-}
 
 // [Authorize]
 public class InspectionReportController : Controller
@@ -33,9 +23,9 @@ public class InspectionReportController : Controller
         _context = context;
     }
 
-    public async Task<IActionResult> Motor(ReportMotorStatusParameter[] model)
+    public async Task<IActionResult> Motor(List<string> selectedFruits)
     {
-        var listId = model.Select(s => long.Parse(s.Id.ToString())).ToList();
+        var listId = selectedFruits.Select(long.Parse).ToList();
         var start_date = HttpContext.Session.GetString("start_date");
             var end_date = HttpContext.Session.GetString("end_date");
             var data = await _context.MotorISs
@@ -97,21 +87,23 @@ public class InspectionReportController : Controller
     }
 
 
-    public async Task<IActionResult> Machine()
+    public async Task<IActionResult> Machine(List<string> selectedFruits)
     {
+        var listId = selectedFruits.Select(long.Parse).ToList();
         var start_date = HttpContext.Session.GetString("start_date");
         var end_date = HttpContext.Session.GetString("end_date");
 
         var data = await _context.MachineISs
             .Where(m =>
                 m.Status == InspectionStatus.NotOk &&
+                !listId.Any() || listId.Contains(m.MachineId) &&
                 m.InspectionDate >= (start_date + "T01:01:00.000").ToGregorianDateTime(false, 1200) &&
                 m.InspectionDate <= (end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200) &&
                 m.InspectionFinishedDate == null
             ).ToListAsync();
 
         var machineIDs = data.Select(item => item.MachineId).ToList();
-        var result = await _context.Machines.Where(m => machineIDs.Contains(m.Id)).ToListAsync();
+        var result = await _context.Machines.Where(m => machineIDs.Contains(m.Id) && m.GeneralStatusId != GeneralStatus.Deleted).ToListAsync();
         var person = await _context.Persons.Where(m => m.GeneralStatusId == GeneralStatus.Active)
             .Select(m => new { m.Id, Name = m.FirstName + " " + m.LastName })
             .ToListAsync();

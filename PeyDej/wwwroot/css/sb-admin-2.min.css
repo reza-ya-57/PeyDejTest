@@ -4113,7 +4113,8 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
     flex-direction: column;
     padding-right: 0;
     margin-bottom: 0;
-    list-style: none
+    list-style: none;
+    /*height: 100vh;*/
 }
 
 .navbar-nav .nav-link {
@@ -10293,7 +10294,7 @@ a:focus {
 }
 
 .topbar {
-    height: 4.375rem
+    height: 10vh;
 }
 
 .topbar #sidebarToggleTop {

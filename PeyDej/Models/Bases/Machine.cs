@@ -153,10 +153,10 @@ public class Machine
     [NotMapped]
     public string? InspectionStartDateDto { get; set; }
 
-    [Display(Name = "تاریخ روانکاری")]
+    [Display(Name = "تاریخ شروع روانکاری")]
     public DateTime? LubricationStartDate { get; set; }
 
-    [Display(Name = "تاریخ روانکاری")]
+    [Display(Name = "تاریخ شروع روانکاری")]
     [NotMapped]
     public string? LubricationStartDateDto { get; set; }
 

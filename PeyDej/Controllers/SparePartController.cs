@@ -58,7 +58,7 @@ namespace PeyDej.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(
-            [Bind("Id,InsDate,Name,Model,Count,Emplacement,Description,GeneralStatusId")]
+            [Bind("Id,InsDate,Name,Model,Description,GeneralStatusId")]
             SparePart sparePart)
         {
             if (ModelState.IsValid)
@@ -94,7 +94,7 @@ namespace PeyDej.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(long id,
-            [Bind("Id,InsDate,Name,Model,Count,Emplacement,Description,GeneralStatusId")]
+            [Bind("Id,InsDate,Name,Model,Description,GeneralStatusId")]
             SparePart sparePart)
         {
             if (id != sparePart.Id)

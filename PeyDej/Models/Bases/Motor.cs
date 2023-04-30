@@ -67,7 +67,7 @@ public class Motor
     [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]
     public string? Gear { get; set; }
 
-    [Display(Name = "چرخش بازرسی")]
+    [Display(Name = "دوره بازرسی")]
     [Range(typeof(long), "0", "65536", ErrorMessage = "مقدار {0} باید بین {1} تا این {2} باشد")]
     [Required(ErrorMessage = "مقدار {0} را وارد کنید")]
     public long? InspectionCycle { get; set; }

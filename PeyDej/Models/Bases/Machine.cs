@@ -147,9 +147,9 @@ public class Machine
     [NotMapped]
     public List<long>? SparePartIds { get; set; }
 
-    [Display(Name = "تاریخ بازرسی")]
+    [Display(Name = "تاریخ شروع بازرسی")]
     public DateTime? InspectionStartDate { get; set; }
-    [Display(Name = "تاریخ بازرسی")]
+    [Display(Name = "تاریخ شروع بازرسی")]
     [NotMapped]
     public string? InspectionStartDateDto { get; set; }
 

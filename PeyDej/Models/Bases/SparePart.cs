@@ -21,15 +21,6 @@ public class SparePart
     [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]
     public string? Model { get; set; }
 
-    // [Required(ErrorMessage = "مقدار {0} را وارد کنید")]
-    [Display(Name = "تعداد")]
-    [Range(typeof(long), "0", "65536", ErrorMessage = "مقدار {0} باید بین {1} تا این {2} باشد")]
-    public long? Count { get; set; }
-
-    [Display(Name = "محل نصب")]
-    [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]
-    public string? Emplacement { get; set; }
-
     [Display(Name = "توضیحات")]
     [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]
     public string? Description { get; set; }

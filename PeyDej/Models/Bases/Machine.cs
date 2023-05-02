@@ -16,6 +16,7 @@ public class Machine
     {
         Motors = new List<Motor>();
         SpareParts = new List<SparePart>();
+        SparePartMachines = new List<SparePartMachine>();
         DepartmentIds = new List<CategoryDto>();
         ProcessIds = new List<CategoryDto>();
     }
@@ -160,6 +161,9 @@ public class Machine
     [NotMapped]
     public string? LubricationStartDateDto { get; set; }
 
+    [NotMapped]
+    public IEnumerable<SparePartMachine> SparePartMachines { get; set; }
+ 
     [NotMapped]
     public IEnumerable<SparePart> SpareParts { get; set; }
 

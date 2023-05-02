@@ -25,7 +25,7 @@ public class SparePartMachine
     public long SparePartId { get; set; }
     
     public long MachineId { get; set; }
-
+    public int SparePartCount { get; set; }
 
 
     [NotMapped]

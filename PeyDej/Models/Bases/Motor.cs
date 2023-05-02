@@ -67,7 +67,7 @@ public class Motor
     [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]
     public string? Gear { get; set; }
 
-    [Display(Name = "چرخش بازرسی")]
+    [Display(Name = "دوره بازرسی")]
     [Range(typeof(long), "0", "65536", ErrorMessage = "مقدار {0} باید بین {1} تا این {2} باشد")]
     [Required(ErrorMessage = "مقدار {0} را وارد کنید")]
     public long? InspectionCycle { get; set; }
@@ -82,9 +82,9 @@ public class Motor
     public List<long> SparePartIds { get; set; }
 
 
-    [Display(Name = "تاریخ بازرسی")]
+    [Display(Name = "تاریخ شروع بازرسی")]
     public DateTime? InspectionStartDate { get; set; }
-    [Display(Name = "تاریخ بازرسی")]
+    [Display(Name = "تاریخ شروع بازرسی")]
     [NotMapped]
     public string? InspectionStartDateDto { get; set; }
 

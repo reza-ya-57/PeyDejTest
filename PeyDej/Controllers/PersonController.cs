@@ -71,7 +71,7 @@ namespace PeyDej.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(
             [Bind(
-                "Id,InsDate,FirstName,LastName,NationalCode,PhoneNumber,DepartmentId,GenderId,Description,GeneralStatusId")]
+                "Id,InsDate,FirstName,LastName,NationalCode,PhoneNumber,DepartmentId,PartId,GenderId,Description,GeneralStatusId")]
             Person person)
         {
             if (ModelState.IsValid)

@@ -149,7 +149,7 @@ public class InspectionController : Controller
             ).ToListAsync();
 
         var machineIDs = data.Select(item => item.MachineId).ToList();
-        var students = _context.Machines.Where(m => machineIDs.Contains(m.Id)).AsQueryable();
+        var students = _context.Machines.Where(m => machineIDs.Contains(m.Id) && m.GeneralStatusId != GeneralStatus.Deleted).AsQueryable();
         HttpContext.Session.SetString("start_date", start_date);
         HttpContext.Session.SetString("end_date", end_date);
 

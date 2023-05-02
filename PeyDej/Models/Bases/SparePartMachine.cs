@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PeyDej.Models.Bases;
@@ -25,6 +26,7 @@ public class SparePartMachine
     public long SparePartId { get; set; }
     
     public long MachineId { get; set; }
+    [Display(Name = "تعداد")]
     public int SparePartCount { get; set; }
 
 

@@ -162,7 +162,7 @@ public class Machine
     public string? LubricationStartDateDto { get; set; }
 
     [NotMapped]
-    public IEnumerable<SparePartMachine> SparePartMachines { get; set; }
+    public List<SparePartMachine> SparePartMachines { get; set; }
  
     [NotMapped]
     public IEnumerable<SparePart> SpareParts { get; set; }

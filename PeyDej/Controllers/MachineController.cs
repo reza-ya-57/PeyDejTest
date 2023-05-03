@@ -20,13 +20,11 @@ namespace PeyDej.Controllers
             _context = context;
         }
 
-        // GET: Machine
         public IActionResult Index()
         {
             return View(_context.Machines.Where(m => m.GeneralStatusId == GeneralStatus.Active).AsEnumerable());
         }
 
-        // GET: Machine/Details/5
         public async Task<IActionResult> Details(long? id)
         {
             if (id == null)
@@ -44,7 +42,6 @@ namespace PeyDej.Controllers
             return View(machine);
         }
 
-        // GET: Machine/Create
         public IActionResult Create()
         {
             var data = new Machine()
@@ -66,10 +63,18 @@ namespace PeyDej.Controllers
             };
             return View(data);
         }
+        [HttpPost]
+        public IActionResult SaveMachineReport(long machineId, long sparePartId, int sparePartCount)
+        {
+            _context.SparePartMachines.Add(new SparePartMachine()
+            {
+                MachineId = machineId,
+                SparePartCount = sparePartCount,
+                SparePartId = sparePartId
+            });
+            return Json(new { r = true });
+        }
 
-        // POST: Machine/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Machine machine)
@@ -79,7 +84,6 @@ namespace PeyDej.Controllers
                 machine.LubricationStartDate = machine.LubricationStartDateDto == null ? DateTime.Now : PeyDejTools.PersianStringToDateTime(machine.LubricationStartDateDto);
                 machine.InspectionStartDate = machine.InspectionStartDateDto == null ? DateTime.Now : PeyDejTools.PersianStringToDateTime(machine.InspectionStartDateDto);
                 machine.UtilizationDate = machine.UtilizationDateDto == null ? DateTime.Now : PeyDejTools.PersianStringToDateTime(machine.UtilizationDateDto);
-
 
                 var result = _context.Add(machine);
                 await _context.SaveChangesAsync();
@@ -128,7 +132,6 @@ namespace PeyDej.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-
             machine.Motors = _context.Motors.Where(w => w.GeneralStatusId != GeneralStatus.Deleted).AsEnumerable();
             machine.SpareParts = _context.SpareParts.Where(w => w.GeneralStatusId != GeneralStatus.Deleted).AsEnumerable();
             machine.DepartmentIds = _context.VwCategories.Where(w => w.CategoryId == 2)
@@ -138,7 +141,6 @@ namespace PeyDej.Controllers
             return View(machine);
         }
 
-        // GET: Machine/Edit/5
         public async Task<IActionResult> Edit(long? id)
         {
             if (id == null)
@@ -175,9 +177,6 @@ namespace PeyDej.Controllers
             return View(machine);
         }
 
-        // POST: Machine/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(long id, Machine machine)
@@ -224,7 +223,7 @@ namespace PeyDej.Controllers
                             }
                         }
                     }
-                   
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -256,7 +255,6 @@ namespace PeyDej.Controllers
             return View(machine);
         }
 
-        // POST: Machine/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)

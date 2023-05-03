@@ -1,5 +1,4 @@
-@model PeyDej.Models.Dtos.LoadingReportDto
-
+@model PeyDej.Models.Report.LoadingReport
 @{
     ViewData["Title"] = "ایجاد تولید روزانه";
 }
@@ -20,122 +19,9 @@
                 </div>
                 <div class="col-md-5">
                     <div class="form-group">
-                        <label asp-for="DayCaption" class="control-label"></label>
-                        <input asp-for="DayCaption" class="form-control" />
-                        <span asp-validation-for="DayCaption" class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-
-            <hr>
-            <div class="row">
-                <div class="col-md-12 d-inline-block text-center">
-                    <div class="form-group">
-                        <label class="control-label border-bottom-dark w-100">
-                            6
-                            الی
-                            12
-                        </label>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3 d-inline-block text-center">
-                            <div class="form-group">
-                                <label class="control-label border-bottom-dark w-100">
-                                    10 * 20
-                                </label>
-                                <div class="form-group d-inline-block">
-                                    <input asp-for="BladKindId_101_LoadingIntervalId_104" class="form-control" />
-                                    <span asp-validation-for="BladKindId_101_LoadingIntervalId_104" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3  d-inline-block text-center">
-                            <div class="form-group">
-                                <label class="control-label border-bottom-dark w-100">
-                                    15 * 20
-                                </label>
-                                <div class="form-group d-inline-block">
-                                    <input asp-for="BladKindId_102_LoadingIntervalId_104" class="form-control" />
-                                    <span asp-validation-for="BladKindId_102_LoadingIntervalId_104" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 d-inline-block text-center">
-                            <div class="form-group">
-                                <label class="control-label border-bottom-dark w-100">
-                                    بلوک 20
-                                </label>
-                                <div class="form-group d-inline-block">
-                                    <input asp-for="BladKindId_103_LoadingIntervalId_104" class="form-control" />
-                                    <span asp-validation-for="BladKindId_103_LoadingIntervalId_104" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 d-inline-block text-center">
-                            <div class="form-group">
-                                <div class="form-group d-inline-block">
-                                    <label asp-for="Description_LoadingIntervalId_104" class="control-label"></label>
-                                    <textarea asp-for="Description_LoadingIntervalId_104" class="form-control"></textarea>
-                                    <span asp-validation-for="Description_LoadingIntervalId_104" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <hr>
-            <div class="row">
-                <div class="col-md-12 d-inline-block text-center">
-                    <div class="form-group">
-                        <label class="control-label border-bottom-dark w-100">
-                            12
-                            الی
-                            20
-                        </label>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3 d-inline-block text-center">
-                            <div class="form-group">
-                                <label class="control-label border-bottom-dark w-100">
-                                    10 * 20
-                                </label>
-                                <div class="form-group d-inline-block">
-                                    <input asp-for="BladKindId_101_LoadingIntervalId_105" class="form-control" />
-                                    <span asp-validation-for="BladKindId_101_LoadingIntervalId_105" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3  d-inline-block text-center">
-                            <div class="form-group">
-                                <label class="control-label border-bottom-dark w-100">
-                                    15 * 20
-                                </label>
-                                <div class="form-group d-inline-block">
-                                    <input asp-for="BladKindId_102_LoadingIntervalId_105" class="form-control" />
-                                    <span asp-validation-for="BladKindId_102_LoadingIntervalId_105" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 d-inline-block text-center">
-                            <div class="form-group">
-                                <label class="control-label border-bottom-dark w-100">
-                                    بلوک 20
-                                </label>
-                                <div class="form-group d-inline-block">
-                                    <input asp-for="BladKindId_103_LoadingIntervalId_105" class="form-control" />
-                                    <span asp-validation-for="BladKindId_103_LoadingIntervalId_105" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 d-inline-block text-center">
-                            <div class="form-group">
-                                <div class="form-group d-inline-block">
-                                    <label asp-for="Description_LoadingIntervalId_105" class="control-label"></label>
-                                    <textarea asp-for="Description_LoadingIntervalId_105" class="form-control"></textarea>
-                                    <span asp-validation-for="Description_LoadingIntervalId_105" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
+                        <label asp-for="LoadingCount" class="control-label"></label>
+                        <input asp-for="LoadingCount" class="form-control" />
+                        <span asp-validation-for="LoadingCount" class="text-danger"></span>
                     </div>
                 </div>
             </div>

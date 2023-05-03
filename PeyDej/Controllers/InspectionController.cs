@@ -140,6 +140,15 @@ public class InspectionController : Controller
         }
         start_date ??= PeyDejTools.GetCurPersianDate();
         end_date ??= PeyDejTools.GetCurPersianDate();
+        //var data2 = (from MachineIS in _context.MachineISs
+        //             join Machine in _context.Machines on MachineIS.MachineId equals Machine.Id
+        //             where Machine.GeneralStatusId == GeneralStatus.Active
+        //             select new
+        //             {
+        //                 MachineIS.Id,
+        //                 Machine.Name,
+        //                 Machine.Model
+        //             });
         var data = await _context.MachineISs
             .Where(m =>
                 m.Status == InspectionStatus.NotOk &&

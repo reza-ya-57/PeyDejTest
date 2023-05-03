@@ -19,16 +19,14 @@ public class LoadingReport
     [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "مقدار {0} الزامی می باشد")]
     public string Date { get; set; }
 
-    [Display(Name = "شرح روز")]
-    [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "مقدار {0} الزامی می باشد")]
-    public string DayCaption { get; set; } = null!;
-
     /// <summary>
     /// SELECT * FROM  Base.SubCategory WHERE CategoryId = 8
     /// </summary>
     ///
-    [Display(Name = "موجودی قابل باگیری کوره ها")]
-    public long? LoadingIntervalId { get; set; }
+
+
+    [Display(Name = "تعداد بارگیری")]
+    public long? LoadingCount { get; set; }
 
     [Display(Name = "توضیحات")] 
     public string? Description { get; set; }

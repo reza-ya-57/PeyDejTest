@@ -1,5 +1,5 @@
 @using Microsoft.AspNetCore.Mvc.TagHelpers
-@model PeyDej.Services.Pagination.PaginatedList<PeyDej.Models.Bases.Machine>
+@model PeyDej.Services.Pagination.PaginatedList<PeyDej.Models.Dtos.InspectionDto>
 
 <form asp-action="Machine" method="post">
     <div class="row">
@@ -35,12 +35,22 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <table id="datatables-reponsive" class="table table-striped table-bordered text-center" style="width: 100%">
+                    <table id="datatables-column-search-text-inputs" class="table table-striped table-bordered text-center" style="width: 100%">
                         <thead>
                             <tr>
-                                <th>انتخاب</th>
+                                <th>
+                                    <input class="form-check-input" type="checkbox" name="SelectedFruits" id="CheckAll">
+                                    <label class="form-check-label">
+                                        انتخاب
+                                    </label>
+                                </th>
                                 <th>نام ماشین</th>
                                 <th>مدل ماشین</th>
+                            </tr>
+                            <tr>
+                                <th class="search">انتخاب</th>
+                                <th class="search">نام ماشین</th>
+                                <th class="search">مدل ماشین</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -48,8 +58,8 @@
                             {
                                 <tr>
                                     <td>
-                                        <input class="form-check-input" type="checkbox" name="SelectedFruits" value="@item.Id" id="@item.Id">
-                                        <label class="form-check-label" for="@item.Id">
+                                        <input class="form-check-input" type="checkbox" name="SelectedFruits" value="@item.MachineId" id="Check_@item.MachineId">
+                                        <label class="form-check-label" for="@item.MachineId">
                                             @item.Name
                                         </label>
                                     </td>
@@ -72,9 +82,10 @@
     }
     <script src="~/js/datatables.js"></script>
     <script>
+
         document.addEventListener("DOMContentLoaded", function () {
             // Datatables Responsive
-            $("#datatables-reponsive").DataTable({
+            $("#datatables-column-search-text-inputs").DataTable({
                 responsive: true,
                 paginate: false,
                 previous: false,
@@ -84,6 +95,30 @@
             });
         });
 
+        document.addEventListener("DOMContentLoaded", function () {
+            // Setup - add a text input to each footer cell
+            $("#datatables-column-search-text-inputs thead .search").each(function () {
+                var title = $(this).text();
+                $(this).html("<input type=\"text\" class=\"form-control\" placeholder=\"جستجو در  " + title + "\" />");
+            });
+            // DataTables
+            var table = $("#datatables-column-search-text-inputs").DataTable();
+            // Apply the search
+            table.columns().every(function () {
+                var that = this;
+                $("input", this.footer()).on("keyup change clear", function () {
+                    if (that.search() !== this.value) {
+                        that
+                            .search(this.value)
+                            .draw();
+                    }
+                });
+            });
+        });
+
+        document.getElementById("CheckAll").addEventListener("change", function () {
+            document.querySelectorAll("[id^='Check_'").forEach(checkbox => checkbox.checked = this.checked);
+        });
     </script>
     <script type="text/javascript">
         $(function () {

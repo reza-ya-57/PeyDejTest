@@ -1,4 +1,4 @@
-using Ccms.Common.Utilities;
+﻿using Ccms.Common.Utilities;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -7,11 +7,13 @@ using Microsoft.EntityFrameworkCore;
 using PeyDej.Data;
 using PeyDej.Models;
 using PeyDej.Models.Bases;
+using PeyDej.Models.Dtos;
 using PeyDej.Models.Parameters;
 using PeyDej.Services.Pagination;
 using PeyDej.Tools;
 
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace PeyDej.Controllers;
 
@@ -49,24 +51,27 @@ public class InspectionController : Controller
         }
         start_date ??= PeyDejTools.GetCurPersianDate();
         end_date ??= PeyDejTools.GetCurPersianDate();
-        var data = await _context.MotorISs
-            .Where(m =>
-                m.Status == InspectionStatus.NotOk &&
-                m.InspectionDate >= (start_date + "T01:01:00.000").ToGregorianDateTime(false, 1200) &&
-                m.InspectionDate <= (end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200) &&
-                m.InspectionFinishedDate == null
-            ).ToListAsync();
-
-        var motorIDs = data.Select(item => item.MotorId).ToList();
-        var students = _context.Motors.Where(m => motorIDs.Contains(m.Id)).AsQueryable();
+        var data2 = _context.MotorISs
+            .Join(_context.Machines, motorIs => motorIs.MotorId,
+                machine => machine.Id,
+                (motorIs, motor) => new { motorIs, motor })
+            .Where((m) => m.motor.GeneralStatusId == GeneralStatus.Active
+                          && m.motorIs.InspectionDate >= (start_date + "T01:01:00.000").ToGregorianDateTime(false, 1200) &&
+                          m.motorIs.InspectionDate <= (end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200))
+            .Select(m =>
+                new InspectionDto()
+                {
+                    MachineId = m.motorIs.Id,
+                    Name = m.motor.Name,
+                    Model = m.motor.Model
+                });
         HttpContext.Session.SetString("start_date", start_date);
         HttpContext.Session.SetString("end_date", end_date);
-
         ViewBag.startDate = start_date;
         ViewBag.endDate = end_date;
         ViewData["CurrentFilter"] = searchString;
 
-        var result = await PaginatedList<Motor>.CreateAsync(students, pageIndex: pageNumber, pageSize);
+        var result = await PaginatedList<InspectionDto>.CreateAsync(data2, pageIndex: pageNumber, pageSize);
         return View(result);
     }
 
@@ -77,46 +82,45 @@ public class InspectionController : Controller
         List<string> SelectedFruits,
         string btnName)
     {
-        if (btnName == "search")
+        SelectedFruits.Remove("on");
+        return btnName switch
         {
-            return RedirectToAction("Motor", new { start_date, end_date });
-        }
-        else if (btnName == "print")
-        {
-            return RedirectToAction("MotorPrintPage", new { SelectedFruits });
-
-        }
-        else if (btnName == "save")
-        {
-            return RedirectToAction("Motor", "InspectionReport", new { SelectedFruits });
-        }
-        return RedirectToAction("Motor", new { start_date, end_date });
+            "search" => RedirectToAction("Motor", new { start_date, end_date }),
+            "print" => RedirectToAction("MotorPrintPage", new { SelectedFruits }),
+            "save" => RedirectToAction("Motor", "InspectionReport", new { SelectedFruits }),
+            _ => RedirectToAction("Motor", new { start_date, end_date })
+        };
     }
     public async Task<IActionResult> MotorPrintPage(List<string> selectedFruits)
     {
         var listId = selectedFruits.Select(long.Parse).ToList();
         var start_date = HttpContext.Session.GetString("start_date");
         var end_date = HttpContext.Session.GetString("end_date");
-        var data = await _context.MotorISs
-            .Where(m =>
-                m.Status == InspectionStatus.NotOk &&
-                !listId.Any() || listId.Contains(m.MotorId ?? 0) &&
-                m.InspectionDate >= (start_date + "T01:01:00.000").ToGregorianDateTime(false, 1200) &&
-                m.InspectionDate <= (end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200) &&
-                m.InspectionFinishedDate == null
-            ).ToListAsync();
-
-        var motorIDs = data.Select(item => item.MotorId).ToList();
-        var result = await _context.Motors.Where(m => motorIDs.Contains(m.Id)).ToListAsync();
+   
+        var data2 = _context.MotorISs
+            .Join(_context.Machines, motorIs => motorIs.MotorId,
+                machine => machine.Id,
+                (motorIs, motor) => new { motorIs, motor })
+            .Where((m) => m.motor.GeneralStatusId == GeneralStatus.Active
+                          && m.motorIs.InspectionDate >= (start_date + "T01:01:00.000").ToGregorianDateTime(false, 1200) &&
+                          m.motorIs.InspectionDate <= (end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200) &&
+                          !listId.Any() || listId.Contains(m.motorIs.Id))
+            .Select(m =>
+                new InspectionDto()
+                {
+                    MachineId = m.motorIs.Id,
+                    Name = m.motor.Name,
+                    Model = m.motor.Model
+                });
 
         ViewBag.startDate = start_date;
         ViewBag.endDate = end_date;
-        return View(result);
+        return View(data2);
     }
     #endregion
 
     #region Machine
-
+  
     public async Task<IActionResult> Machine(
         string start_date,
         string end_date,
@@ -140,33 +144,28 @@ public class InspectionController : Controller
         }
         start_date ??= PeyDejTools.GetCurPersianDate();
         end_date ??= PeyDejTools.GetCurPersianDate();
-        //var data2 = (from MachineIS in _context.MachineISs
-        //             join Machine in _context.Machines on MachineIS.MachineId equals Machine.Id
-        //             where Machine.GeneralStatusId == GeneralStatus.Active
-        //             select new
-        //             {
-        //                 MachineIS.Id,
-        //                 Machine.Name,
-        //                 Machine.Model
-        //             });
-        var data = await _context.MachineISs
-            .Where(m =>
-                m.Status == InspectionStatus.NotOk &&
-                m.InspectionDate >= (start_date + "T01:01:00.000").ToGregorianDateTime(false, 1200) &&
-                m.InspectionDate <= (end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200) &&
-                m.InspectionFinishedDate == null
-            ).ToListAsync();
 
-        var machineIDs = data.Select(item => item.MachineId).ToList();
-        var students = _context.Machines.Where(m => machineIDs.Contains(m.Id) && m.GeneralStatusId != GeneralStatus.Deleted).AsQueryable();
+        var data2 = _context.MachineISs
+            .Join(_context.Machines, machineIs => machineIs.MachineId,
+                Machine => Machine.Id,
+                (machineIs, machine) => new { MachineIS = machineIs, Machine = machine })
+            .Where((m) => m.Machine.GeneralStatusId == GeneralStatus.Active
+                          && m.MachineIS.InspectionDate >= (start_date + "T01:01:00.000").ToGregorianDateTime(false, 1200) &&
+                          m.MachineIS.InspectionDate <= (end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200))
+            .Select(m =>
+                new InspectionDto()
+                {
+                    MachineId = m.MachineIS.Id,
+                    Name = m.Machine.Name,
+                    Model = m.Machine.Model
+                });
         HttpContext.Session.SetString("start_date", start_date);
         HttpContext.Session.SetString("end_date", end_date);
-
         ViewBag.startDate = start_date;
         ViewBag.endDate = end_date;
         ViewData["CurrentFilter"] = searchString;
 
-        var result = await PaginatedList<Machine>.CreateAsync(students, pageIndex: pageNumber, pageSize);
+        var result = await PaginatedList<InspectionDto>.CreateAsync(data2, pageIndex: pageNumber, pageSize);
         return View(result);
     }
 
@@ -178,20 +177,14 @@ public class InspectionController : Controller
         List<string> SelectedFruits,
         string btnName)
     {
-        if (btnName == "search")
+        SelectedFruits.Remove("on");
+        return btnName switch
         {
-            return RedirectToAction("Machine", new { start_date, end_date });
-        }
-        else if (btnName == "print")
-        {
-            return RedirectToAction("MachinePrintPage", new { SelectedFruits });
-
-        }
-        else if (btnName == "save")
-        {
-            return RedirectToAction("Machine", "InspectionReport", new { SelectedFruits });
-        }
-        return RedirectToAction("Machine", new { start_date, end_date });
+            "search" => RedirectToAction("Machine", new { start_date, end_date }),
+            "print" => RedirectToAction("MachinePrintPage", new { SelectedFruits }),
+            "save" => RedirectToAction("Machine", "InspectionReport", new { SelectedFruits }),
+            _ => RedirectToAction("Machine", new { start_date, end_date })
+        };
     }
 
     public async Task<IActionResult> MachinePrintPage(List<string> selectedFruits)
@@ -199,22 +192,28 @@ public class InspectionController : Controller
         var listId = selectedFruits.Select(long.Parse).ToList();
         var start_date = HttpContext.Session.GetString("start_date");
         var end_date = HttpContext.Session.GetString("end_date");
-        var data = await _context.MachineISs
-            .Where(m =>
-                m.Status == InspectionStatus.NotOk &&
-                !listId.Any() || listId.Contains(m.MachineId) &&
-                m.InspectionDate >= (start_date + "T01:01:00.000").ToGregorianDateTime(false, 1200) &&
-                m.InspectionDate <= (end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200) &&
-                m.InspectionFinishedDate == null
-            ).ToListAsync();
 
-        var machineIDs = data.Select(item => item.MachineId).ToList();
-        var result = await _context.Machines.Where(m => machineIDs.Contains(m.Id)).ToListAsync();
+        var data2 = _context.MachineISs
+            .Join(_context.Machines, machineIs => machineIs.MachineId,
+                Machine => Machine.Id,
+                (machineIs, machine) => new { MachineIS = machineIs, Machine = machine })
+            .Where((m) => m.Machine.GeneralStatusId == GeneralStatus.Active
+                          && m.MachineIS.InspectionDate >= (start_date + "T01:01:00.000").ToGregorianDateTime(false, 1200) &&
+                          m.MachineIS.InspectionDate <= (end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200)&&
+                          !listId.Any() || listId.Contains(m.MachineIS.Id))
+            .Select(m =>
+                new InspectionDto()
+                {
+                    MachineId = m.MachineIS.Id,
+                    Name = m.Machine.Name,
+                    Model = m.Machine.Model
+                });
+        
 
         ViewBag.items = await _context.VwCategories.Where(m => m.CategoryId == 1).ToListAsync();
         ViewBag.startDate = start_date;
         ViewBag.endDate = end_date;
-        return View(result);
+        return View(data2);
     }
 
 

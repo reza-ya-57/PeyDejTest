@@ -1,4 +1,5 @@
-@model IEnumerable<PeyDej.Models.Bases.Machine>
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model IEnumerable<PeyDej.Models.Dtos.InspectionDto>
 @inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
 
 @functions {
@@ -74,8 +75,8 @@
                     @foreach (var item in ViewBag.items)
                     {
                         <td>
-                            <label class="m-2"><input name="chk_@{ @m.Id }_@{ @item.SubCategoryId }" value="1" type="radio"/>&nbsp;&nbsp;تایید</label>
-                            <label class="m-2"><input name="chk_@{ @m.Id }_@{ @item.SubCategoryId }" value="0" type="radio"/>&nbsp;&nbsp;رد</label>
+                            <label class="m-2"><input name="chk_@{ @m.MachineId }_@{ @item.SubCategoryId }" value="1" type="radio"/>&nbsp;&nbsp;تایید</label>
+                            <label class="m-2"><input name="chk_@{ @m.MachineId }_@{ @item.SubCategoryId }" value="0" type="radio"/>&nbsp;&nbsp;رد</label>
                         </td>
                     }
                 </tr>
@@ -90,6 +91,7 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
     <script type="text/javascript">
+        
     $(function(){
         $('#start_date,#end_date').datepicker({
             isRTL: true,
@@ -131,5 +133,6 @@
         },"JSON");
     }
    
-</script>
+
+    </script>
 }

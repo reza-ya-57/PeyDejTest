@@ -1,5 +1,5 @@
 @using Microsoft.AspNetCore.Mvc.TagHelpers
-@model PeyDej.Services.Pagination.PaginatedList<PeyDej.Models.Bases.Motor>
+@model PeyDej.Services.Pagination.PaginatedList<PeyDej.Models.Dtos.InspectionDto>
 <form asp-action="Motor" method="post">
     <div class="row">
         <div class="col-12">
@@ -36,24 +36,37 @@
                 <div class="card-footer">
                     <table id="datatables-reponsive" class="table table-striped table-bordered text-center" style="width: 100%">
                         <thead>
+                        <tr>
+                            <th>
+                                انتخاب
+                            </th>
+                            <th class="search">نام موتور</th>
+                            <th class="search">مدل موتور</th>
+                        </tr>
                             <tr>
-                                <th>انتخاب</th>
+                                <th>
+                                    <input class="form-check-input" type="checkbox" name="SelectedFruits" id="CheckAll">
+                                    <label class="form-check-label">
+                                        انتخاب
+                                    </label>
+                                </th>
                                 <th>نام موتور</th>
-                                <th>توضیحات</th>
+                                <th>مدل موتور</th>
                             </tr>
+                            
                         </thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
                                 <tr>
                                     <td>
-                                        <input class="form-check-input" type="checkbox" name="SelectedFruits" value="@item.Id" id="@item.Id">
-                                        <label class="form-check-label" for="@item.Id">
+                                        <input class="form-check-input" type="checkbox" name="SelectedFruits" value="@item.MachineId" id="Check_@item.MachineId">
+                                        <label class="form-check-label" for="@item.MachineId">
                                             @item.Name
                                         </label>
                                     </td>
                                     <td>@item.Name</td>
-                                    <td>@item.Description</td>
+                                    <td>@item.Model</td>
                                 </tr>
                             }
                         </tbody>
@@ -84,8 +97,29 @@
             });
         });
 
-    </script>
-    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+            // Setup - add a text input to each footer cell
+            $("#datatables-reponsive thead .search").each(function () {
+                var title = $(this).text();
+                $(this).html("<input type=\"text\" class=\"form-control\" placeholder=\"جستجو در " + title + "\" />");
+            });
+            // DataTables
+            var table = $("#datatables-reponsive").DataTable();
+            // Apply the search
+            table.columns().every(function () {
+                var that = this;
+                $("input", this.footer()).on("keyup change clear", function () {
+                    if (that.search() !== this.value) {
+                        that
+                            .search(this.value)
+                            .draw();
+                    }
+                });
+            });
+        });
+        document.getElementById("CheckAll").addEventListener("change", function () {
+            document.querySelectorAll("[id^='Check_'").forEach(checkbox => checkbox.checked = this.checked);
+        });
         $(function () {
             $('#start_date,#end_date').datepicker({
                 isRTL: true,

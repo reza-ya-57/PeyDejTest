@@ -1,8 +1,6 @@
 @using PeyDej.Models.Bases
 @model PeyDej.Models.Bases.Machine
-@{
-    var sparePartMachine = new SparePartMachine();
-}
+
 @{
     ViewData["Title"] = "معرفی ماشین جدید";
 }
@@ -241,7 +239,7 @@
             <div class="row">
                 <div class="col-6">
                     <div class="form-group">
-                        <input type="submit" value="ذخیره" class="btn btn-primary" />
+                        <input type="button" onclick="saveMachine()" value="ذخیره" class="btn btn-primary" />
                         <a asp-action="Index" asp-controller="Machine" class="btn btn-danger">انصراف</a>
                     </div>
                 </div>
@@ -252,124 +250,8 @@
         </form>
     </div>
 </div>
-
-<div class="row disabled">
-    <div class="col-6 offset-3 ">
-        <div class="row">
-            <div class=" col-md-6 col-lg-6">
-                <div class="form-group">
-                    <label asp-for="MotorIds" class="col-form-label"></label>
-                    <select asp-for="MotorIds" multiple class="form-control">
-                        <option name="انتخاب" value="0">انتخاب</option>
-                        @foreach (var item in Model.Motors)
-                        {
-                            <option name="@item.Name" value="@item.Id">@item.Name</option>
-                        }
-                    </select>
-                    <span asp-validation-for="MotorIds" class="text-danger"></span>
-                </div>
-            </div>
-            <div class=" col-md-6 col-lg-6">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                    Launch demo modal
-                </button>
-                <table class="table table-striped table-bordered text-center" style="width: 100%">
-                    <thead>
-                        <tr>
-                            <th>نام ماشین</th>
-                            <th>مدل ماشین</th>
-                        </tr>
-                    </thead>
-                    <tbody id="datatables-reponsive">
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Button trigger modal -->
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form asp-action="Create">
-                    <div class="row">
-                        @{
-                            sparePartMachine = new SparePartMachine();
-                        }
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label asp-for="@sparePartMachine.SparePartId" class="col-form-label"></label>
-                                <select asp-for="@sparePartMachine.SparePartId" class="form-control">
-                                    <option name="انتخاب" value="0">انتخاب</option>
-                                    @foreach (var item in Model.SpareParts)
-                                    {
-                                        <option name="@item.Name" value="@item.Id">@item.Name</option>
-                                    }
-                                </select>
-                                <span asp-validation-for="@sparePartMachine.SparePartId" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label asp-for="@sparePartMachine.SparePartCount" class="control-label"></label>
-                                <input asp-for="@sparePartMachine.SparePartCount" class="form-control" />
-                                <span asp-validation-for="@sparePartMachine.SparePartCount" class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button onclick="savesparePartMachine()" type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-    <script type="text/javascript">
-        $('#myModal').on('shown.bs.modal', function () {
-            $('#myInput').trigger('focus')
-        })
-        $(function () {
-            $('#InspectionStartDateDto,#LubricationStartDateDto,#UtilizationDateDto').datepicker({
-                isRTL: true,
-                dateFormat: "yy/mm/dd"
-            });
-        });
-
-
-
-        function savesparePartMachine () {
-
-            var SparePartId = $("#sparePartMachine_SparePartId").val();
-            var SparePartCount = $("#sparePartMachine_SparePartCount").val();
-            $.post("/Machine/SaveMachineReport", {
-                machineId: 1,
-                sparePartId: SparePartId,
-                sparePartCount: SparePartCount,
-            },
-                function (e) {
-                    document.getElementById("#datatables-reponsive").appendChild(`<tr>
-                                                                    <td>${ e.Name }</td>
-                                                                    <td>${ e.SparePartCount }</td>
-                                                                </tr>`);
-                }, "JSON");
-
-            $('#exampleModal').modal('hide');
-        }
-
-    </script>
 }

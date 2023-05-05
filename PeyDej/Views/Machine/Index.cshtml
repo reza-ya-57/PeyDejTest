@@ -1,7 +1,13 @@
 @using PeyDej.Tools
 @using Microsoft.AspNetCore.Mvc.TagHelpers
+@using PeyDej.Data
+@using PeyDej.Models.Bases
+@inject PeyDejContext _context;
 @model IEnumerable<PeyDej.Models.Bases.Machine>
-
+@{
+    var SpareParts = _context.SpareParts.Where(w => w.GeneralStatusId != GeneralStatus.Deleted).AsEnumerable();
+    var sparePartMachine = new SparePartMachine();
+}
 @{
     ViewData["Title"] = "لیست ماشین ها";
 }
@@ -36,6 +42,8 @@
                 columns.Add(model => model.SerialNumber).Titled(@Html.DisplayNameFor(model => model.SerialNumber));
                 columns.Add(model => model.Company).Titled(@Html.DisplayNameFor(model => model.Company));
                 columns.Add(model => model.EnergyType).Titled(@Html.DisplayNameFor(model => model.EnergyType));
+                columns.Add().Titled("لیست قطعات").Encoded(false).RenderedAs(model => PeyDejHelper.ActionLink("<i class=\"icon-list\"></i>", "ListMachineReport", "Machine", model.Id, "orange-text", "لیست قطعات"));
+
                 columns.Add().Titled("ویرایش").Encoded(false).RenderedAs(model => PeyDejHelper.ActionLink("<i class=\"icon-edit\"></i>", "Edit", "Machine", model.Id, "orange-text", "ویرایش"));
                 columns.Add().Titled("جزییات").Encoded(false).RenderedAs(model => PeyDejHelper.ActionLink("<i class=\"icon-info-sign\"></i>", "Details", "Machine", model.Id, "green-text", "جزییات"));
                 columns.Add().Titled("حذف").Encoded(false).RenderedAs(model => PeyDejHelper.ActiveLinkAjax($"javascript:DeleteItem('{model.Id}');", "<i class=\"icon-trash\"></i>", "red-text", "حذف"));
@@ -57,7 +65,6 @@
     </div>
 </div>
 
-
 <script type="text/javascript">
     function DeleteItem(id){
         if (confirm("برای حذف این آیتم مطمئن هستید؟")){
@@ -72,4 +79,5 @@
                 },"JSON");
             }
         }
+
 </script>

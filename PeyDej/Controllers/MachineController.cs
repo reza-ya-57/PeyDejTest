@@ -6,6 +6,7 @@ using PeyDej.Data;
 using PeyDej.Models;
 using PeyDej.Models.Bases;
 using PeyDej.Models.Dtos;
+using PeyDej.Services.Pagination;
 using PeyDej.Tools;
 
 namespace PeyDej.Controllers
@@ -63,20 +64,105 @@ namespace PeyDej.Controllers
             };
             return View(data);
         }
+
+
+        public async Task<IActionResult> ListMachineReport(
+            long id,
+            string sortOrder,
+            string currentFilter,
+            string searchString,
+            int pageNumber = 1,
+            int pageSize = 100)
+        {
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            var partMachines = _context.SparePartMachines.Where(w => w.MachineId == id).AsQueryable();
+            var machineMotors = _context.MachineMotors.Where(w => w.MachineId == id).AsQueryable();
+            var listSparePartIds = partMachines.Select(w => w.SparePartId).ToList();
+            var Motors = _context.Motors.Where(w => w.GeneralStatusId != GeneralStatus.Deleted).AsQueryable();
+            var listMotorIds = machineMotors.Select(w => w.MotorId).ToList();
+
+            ViewData["SpareParts"] = _context.SpareParts.Where(w => !listSparePartIds.Contains(w.Id) && w.GeneralStatusId != null).AsEnumerable();
+            ViewData["SparePartAll"] = _context.SpareParts.Where(w => w.GeneralStatusId != null).AsEnumerable();
+            ViewData["Motors"] = Motors.Where(w => !listMotorIds.Contains(w.Id)).AsEnumerable();
+            ViewData["MotorsAll"] = Motors.AsEnumerable();
+            ViewData["CurrentFilter"] = searchString;
+            ViewData["Machine"] = _context.Machines.Where(w => w.Id == id).FirstOrDefault();
+
+            var partMachineResult = await PaginatedList<SparePartMachine>.CreateAsync(partMachines, pageIndex: pageNumber, pageSize);
+            var machineMotorResult = await PaginatedList<MachineMotor>.CreateAsync(machineMotors, pageIndex: pageNumber, pageSize);
+            return View((partMachineResult, machineMotorResult));
+        }
+        
         [HttpPost]
         public IActionResult SaveMachineReport(long machineId, long sparePartId, int sparePartCount)
         {
+            var sparePart = _context.SpareParts.Where(w => w.Id == sparePartId).FirstOrDefault();
+            var machine = _context.Machines.Where(w => w.Id == machineId).FirstOrDefault();
             _context.SparePartMachines.Add(new SparePartMachine()
             {
+                InsDate = DateTime.Now,
                 MachineId = machineId,
                 SparePartCount = sparePartCount,
                 SparePartId = sparePartId
             });
-            return Json(new { r = true });
+            _context.SaveChanges();
+            return Json(new { SparePartName = sparePart.Name, MachineName = machine.Name });
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        public IActionResult SaveMachineMotor(long machineId, string[] motorIds)
+        {
+            foreach (var motorId in motorIds)
+            {
+                _context.MachineMotors.Add(new MachineMotor()
+                {
+                    InsDate = DateTime.Now,
+                    MachineId = machineId,
+                    MotorId = long.Parse(motorId),
+                });
+            }
+            _context.SaveChanges();
+            return Json("true");
+        }
+        [HttpPost]
+        public async Task<IActionResult> DeleteMachineMotor(long id)
+        {
+            var machineMotor = await _context.MachineMotors.FindAsync(id);
+            if (machineMotor != null)
+            {
+                _context.MachineMotors.Remove(machineMotor);
+            }
+
+            await _context.SaveChangesAsync();
+            return Json(new { hasError = false, message = "" });
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> DeleteSparePartMachine(long id)
+        {
+            var partMachine = await _context.SparePartMachines.FindAsync(id);
+            if (partMachine != null)
+            {
+                _context.SparePartMachines.Remove(partMachine);
+            }
+
+            await _context.SaveChangesAsync();
+            return Json(new { hasError = false, message = "" });
+        }
+
+        [HttpPost]
         public async Task<IActionResult> Create(Machine machine)
         {
             if (ModelState.IsValid)
@@ -129,7 +215,7 @@ namespace PeyDej.Controllers
                     InspectionFinishedDate = null
                 });
                 _context.SaveChanges();
-                return RedirectToAction(nameof(Index));
+                return Json(new { r = true });
             }
 
             machine.Motors = _context.Motors.Where(w => w.GeneralStatusId != GeneralStatus.Deleted).AsEnumerable();

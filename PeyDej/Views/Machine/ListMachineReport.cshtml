@@ -1,0 +1,475 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using PeyDej.Models.Bases
+@using PeyDej.Services.Pagination
+@model (PaginatedList<SparePartMachine>,PaginatedList<MachineMotor>)
+@{
+    SparePartMachine sparePartMachine;
+    var machine = (Machine)ViewData["Machine"]!;
+    var spareParts = (IEnumerable<SparePart>)ViewData["SpareParts"]!;
+    var sparePartAll = (IEnumerable<SparePart>)ViewData["SparePartAll"]!;
+    var motors = (IEnumerable<Motor>)ViewData["Motors"]!;
+    var motorAll = (IEnumerable<Motor>)ViewData["MotorsAll"]!;
+}
+<style>
+    .tablink {
+        background-color: #d3d3d3;
+        float: right;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        font-size: 17px;
+        width: 25%;
+        margin: 1px 12px 0px -12px;
+        border-radius: 10px;
+    }
+
+        .tablink:hover {
+            background-color: #777;
+        }
+
+    /* Style the tab content (and add height:100% for full page content) */
+    .tabcontent {
+        padding: 20px 20px;
+    }
+
+    #Home {
+        background-color: whitesmoke;
+    }
+
+    #News {
+        background-color: whitesmoke;
+    }
+
+</style>
+<div class="row">
+    <button class="tablink" onclick="openPage('Home', this, '#36b9cc')" id="defaultOpen"> قطعه ها</button>
+    <button class="tablink" onclick="openPage('News', this, '#36b9cc')">موتور ها</button>
+</div>
+
+<div id="Home" class="tabcontent">
+    <button type="button" class="btn btn-primary p-1 mb-3" data-toggle="modal" data-target="#machineModal" disable="true">
+        افزودن قطعه
+    </button>
+
+    <form asp-action="ListMachineReport" method="post">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <div class="row">
+                            <div class="col-3">
+                                <partial name="Partials/_PageSize" model='("Machine","ListMachineReport")' />
+                            </div>
+                            <div class="col-9">
+                                <div class="row">
+                                    <div class="col-3 border p-1 m-1" style="border-radius: 5px">
+                                        <label asp-for="@machine.Name"></label>:@machine.Name
+                                    </div>
+                                    <div class="col-3 border p-1 m-1" style="border-radius: 5px">
+                                        <label asp-for="@machine.Model"></label>:@machine.Model
+                                    </div>
+                                    <div class="col-3 border p-1 m-1" style="border-radius: 5px">
+                                        <label asp-for="@machine.Company"></label>:@machine.Company
+                                    </div>
+                                    <div class="col-3 border p-1 m-1" style="border-radius: 5px">
+                                        <label asp-for="@machine.Country"></label>:@machine.Country
+                                    </div>
+                                    <div class="col-3 border p-1 m-1" style="border-radius: 5px">
+                                        <label asp-for="@machine.EnergyType"></label>:@machine.EnergyType
+                                    </div>
+                                    <div class="col-3 border p-1 m-1" style="border-radius: 5px">
+                                        <label asp-for="@machine.GreaseType"></label>:@machine.GreaseType
+                                    </div>
+                                    <div class="col-3 border p-1 m-1" style="border-radius: 5px">
+                                        <label asp-for="@machine.Department"></label>:@machine.Department
+                                    </div>
+                                    <div class="col-3 border p-1 m-1" style="border-radius: 5px">
+                                        <label asp-for="@machine.CompanyAddress"></label>:@machine.CompanyAddress
+                                    </div>
+                                    <div class="col-3 border p-1 m-1" style="border-radius: 5px">
+                                        <label asp-for="@machine.EnergyConsumption"></label>:@machine.EnergyConsumption
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <table id="datatables-column-search-text-inputs" class="table table-striped table-bordered text-center" style="width: 100%">
+                            <thead>
+                                <tr>
+                                    <th>نام ماشین</th>
+                                    <th>نام قطعه</th>
+                                    <th>تعداد</th>
+                                    <th>امکانات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Item1)
+                                {
+                                    <tr>
+
+                                        <td>
+                                            @machine.Name
+                                        </td>
+                                        <td>
+                                            @{
+                                                var name = sparePartAll?.FirstOrDefault(f => f.Id == item.SparePartId)?.Name;
+                                            }
+                                            @name
+                                        </td>
+                                        <td>@item.SparePartCount</td>
+
+                                        <td>
+                                            <button class="btn btn-danger" type="button" onclick="DeleteSparePartMachine('@item.Id');"><i class="icon-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th class="search">نام ماشین</th>
+                                    <th class="search">نام قطعه</th>
+                                    <th class="search">تعداد</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <partial name="Partials/_Pagination" model='(Model.Item1.HasPreviousPage,Model.Item1.HasNextPage,Model.Item1.PageIndex,Model.Item1.TotalPages,"Machine","ListMachineReport")' />
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="modal fade" id="machineModal" tabindex="-1" role="dialog" aria-labelledby="machineLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="machineLabel">افزودن قطعه</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form asp-action="Create">
+                        <div class="row">
+                            @{
+                                sparePartMachine = new SparePartMachine();
+                            }
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label asp-for="@sparePartMachine.SparePartId" class="control-label"></label>
+                                    <select asp-for="@sparePartMachine.SparePartId" class="form-control">
+                                        @foreach (var item in spareParts)
+                                        {
+                                            <option name="@item.Name" value="@item.Id">@item.Name</option>
+                                        }
+                                    </select>
+                                    <span asp-validation-for="@sparePartMachine.SparePartId" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label asp-for="@sparePartMachine.SparePartCount" class="control-label"></label>
+                                    <input asp-for="@sparePartMachine.SparePartCount" class="form-control" />
+                                    <span asp-validation-for="@sparePartMachine.SparePartCount" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="closeS" class="btn btn-secondary" data-dismiss="modal">بستن</button>
+                    <button onclick="savesparePartMachine()" type="button" class="btn btn-primary">ذخیره</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="News" class="tabcontent">
+
+    <button type="button" class="btn btn-primary p-1 mb-3" data-toggle="modal" data-target="#motorModal" disable="true">
+        افزودن موتور
+    </button>
+
+    <form asp-action="ListMachineReport" method="post">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <div class="row">
+                            <div class="col-3">
+                                <partial name="Partials/_PageSize" model='("Machine","ListMachineReport")' />
+                            </div>
+                            <div class="col-9">
+                                <div class="row">
+                                    <div class="col-3 border p-1 m-1" style="border-radius: 5px">
+                                        <label asp-for="@machine.Name"></label>:@machine.Name
+                                    </div>
+                                    <div class="col-3 border p-1 m-1" style="border-radius: 5px">
+                                        <label asp-for="@machine.Model"></label>:@machine.Model
+                                    </div>
+                                    <div class="col-3 border p-1 m-1" style="border-radius: 5px">
+                                        <label asp-for="@machine.Company"></label>:@machine.Company
+                                    </div>
+                                    <div class="col-3 border p-1 m-1" style="border-radius: 5px">
+                                        <label asp-for="@machine.Country"></label>:@machine.Country
+                                    </div>
+                                    <div class="col-3 border p-1 m-1" style="border-radius: 5px">
+                                        <label asp-for="@machine.EnergyType"></label>:@machine.EnergyType
+                                    </div>
+                                    <div class="col-3 border p-1 m-1" style="border-radius: 5px">
+                                        <label asp-for="@machine.GreaseType"></label>:@machine.GreaseType
+                                    </div>
+                                    <div class="col-3 border p-1 m-1" style="border-radius: 5px">
+                                        <label asp-for="@machine.Department"></label>:@machine.Department
+                                    </div>
+                                    <div class="col-3 border p-1 m-1" style="border-radius: 5px">
+                                        <label asp-for="@machine.CompanyAddress"></label>:@machine.CompanyAddress
+                                    </div>
+                                    <div class="col-3 border p-1 m-1" style="border-radius: 5px">
+                                        <label asp-for="@machine.EnergyConsumption"></label>:@machine.EnergyConsumption
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <table id="datatables-reponsive2" class="table table-striped table-bordered text-center" style="width: 100%">
+                            <thead>
+                                <tr>
+                                    <th>نام موتور</th>
+                                    <th>نوع</th>
+                                    <th>امکانات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Item2)
+                                {
+                                    var name = motorAll?.FirstOrDefault(f => f.Id == item.MotorId);
+                                    <tr>
+
+                                        <td>
+                                            @name.Name
+                                        </td>
+                                        <td>
+                                            @name.Type
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-danger" type="button" onclick="DeleteMachineMotor('@item.Id');"><i class="icon-trash"></i></button>
+                                        </td>
+
+                                    </tr>
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th class="search">نام ماشین</th>
+                                    <th class="search">نوع</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <partial name="Partials/_Pagination" model='(Model.Item2.HasPreviousPage,Model.Item2.HasNextPage,Model.Item2.PageIndex,Model.Item2.TotalPages,"Machine","ListMachineReport")' />
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="motorModal" tabindex="-1" role="dialog" aria-labelledby="motorModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="motorModalLabel">افزودن قطعه</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        @{
+                            var machineMotor = new MachineMotor();
+                        }
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label asp-for="@machineMotor.MotorIds" class="control-label"></label>
+                                <select asp-for="@machineMotor.MotorIds" multiple class="form-control">
+                                    @foreach (var item in motors)
+                                    {
+                                        <option name="@item.Name" value="@item.Id">@item.Name</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="@machineMotor.MotorIds" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="closeM" class="btn btn-secondary" data-dismiss="modal">بستن</button>
+                    <button onclick="saveMachineMotor()" type="button" class="btn btn-primary">ذخیره</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    <script src="~/js/datatables.js"></script>
+    <script>
+        function openPage (pageName, elmnt, color) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[ i ].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablink");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[ i ].style.backgroundColor = "";
+            }
+            document.getElementById(pageName).style.display = "block";
+            elmnt.style.backgroundColor = color;
+        }
+
+        // Get the element with id="defaultOpen" and click on it
+        document.getElementById("defaultOpen").click();
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Datatables Responsive
+            $("#datatables-column-search-text-inputs").DataTable({
+                responsive: true,
+                paginate: false,
+                previous: false,
+                next: false,
+                info: false,
+                filter: true
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Setup - add a text input to each footer cell
+            $("#datatables-column-search-text-inputs tfoot .search").each(function () {
+                var title = $(this).text();
+                $(this).html("<input type=\"text\" class=\"form-control\" placeholder=\"جستجو در  " + title + "\" />");
+            });
+            // DataTables
+            var table = $("#datatables-column-search-text-inputs").DataTable();
+            // Apply the search
+            table.columns().every(function () {
+                var that = this;
+                $("input", this.footer()).on("keyup change clear", function () {
+                    if (that.search() !== this.value) {
+                        that
+                            .search(this.value)
+                            .draw();
+                    }
+                });
+            });
+
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Datatables Responsive
+            $("#datatables-reponsive2").DataTable({
+                responsive: true,
+                paginate: false,
+                previous: false,
+                next: false,
+                info: false,
+                filter: true,
+            });
+        });
+        document.addEventListener("DOMContentLoaded", function () {
+            $("#datatables-reponsive2 tfoot .search").each(function () {
+                var title = $(this).text();
+                $(this).html("<input type=\"text\" class=\"form-control\" placeholder=\"جستجو در  " + title + "\" />");
+            });
+            // DataTables
+            var table = $("#datatables-reponsive2").DataTable();
+            // Apply the search
+            table.columns().every(function () {
+                var that = this;
+                $("input", this.footer()).on("keyup change clear", function () {
+                    if (that.search() !== this.value) {
+                        that
+                            .search(this.value)
+                            .draw();
+                    }
+                });
+            });
+        });
+
+        function savesparePartMachine () {
+            var SparePartId = $("#sparePartMachine_SparePartId").val();
+            var SparePartCount = $("#sparePartMachine_SparePartCount").val();
+
+            $.post("/Machine/SaveMachineReport", {
+                machineId: "@machine.Id",
+                sparePartId: SparePartId,
+                sparePartCount: SparePartCount,
+            },
+                function (e) {
+                    window.location.reload();
+
+                }, "JSON");
+
+        }
+        function DeleteSparePartMachine (id) {
+            if (confirm("برای حذف این آیتم مطمئن هستید؟")) {
+                $.post("@Url.Action("DeleteSparePartMachine")", { id: id },
+                    function (data) {
+                        if (data.hasError == true) {
+                            alert(data.error);
+                        } else {
+                            location.reload();
+                        }
+                    }, "JSON");
+            }
+        }
+        function saveMachineMotor () {
+
+            var MotorIds = $("#machineMotor_MotorIds").val();
+            console.log(MotorIds)
+            $.post("/Machine/SaveMachineMotor", {
+                machineId: "@machine.Id",
+                motorIds: MotorIds,
+            },
+                function (e) {
+                    console.log(e)
+                    window.location.reload();
+
+                }, "JSON");
+
+        }
+        function DeleteMachineMotor (id) {
+            if (confirm("برای حذف این آیتم مطمئن هستید؟")) {
+                $.post("@Url.Action("DeleteMachineMotor")", { id: id },
+                    function (data) {
+                        if (data.hasError == true) {
+                            alert(data.error);
+                        } else {
+                            location.reload();
+                        }
+                    }, "JSON");
+            }
+        }
+        $(function () {
+            $('#start_date,#end_date').datepicker({
+                isRTL: true,
+                dateFormat: "yy/mm/dd",
+            });
+        });
+    </script>
+}

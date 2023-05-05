@@ -23,6 +23,7 @@ public class SparePartMachine
 
     public DateTime InsDate { get; set; }
 
+    [Display(Name = "نام قطعه")]
     public long SparePartId { get; set; }
     
     public long MachineId { get; set; }

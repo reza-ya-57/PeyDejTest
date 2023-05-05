@@ -1,0 +1,217 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using PeyDej.Models.Bases
+@using PeyDej.Services.Pagination
+@model PaginatedList<SparePartMotor>
+@{
+    SparePartMotor sparePartMotor;
+    var motor = (Motor)ViewData["Motor"]!;
+    var spareParts = (IEnumerable<SparePart>)ViewData["SpareParts"]!;
+    var sparePartAll = (IEnumerable<SparePart>)ViewData["SparePartAll"]!;
+}
+
+
+<button type="button" class="btn btn-primary p-1 mb-3" data-toggle="modal" data-target="#machineModal" disable="true">
+    افزودن قطعه
+</button>
+
+<form asp-action="ListMotorReport" method="post">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="row">
+                        <div class="col-3">
+                            <partial name="Partials/_PageSize" model='("Machine","ListMachineReport")' />
+                        </div>
+                        <div class="col-9">
+                            <div class="row">
+                                <div class="col-3 border p-1 m-1" style="border-radius: 5px">
+                                    <label asp-for="@motor.Name"></label>:@motor.Name
+                                </div>
+                                <div class="col-3 border p-1 m-1" style="border-radius: 5px">
+                                    <label asp-for="@motor.Fooli"></label>:@motor.Fooli
+                                </div>
+                                <div class="col-3 border p-1 m-1" style="border-radius: 5px">
+                                    <label asp-for="@motor.BeltCount"></label>:@motor.BeltCount
+                                </div>
+                                <div class="col-3 border p-1 m-1" style="border-radius: 5px">
+                                    <label asp-for="@motor.BeltSerial"></label>:@motor.BeltSerial
+                                </div>
+                                <div class="col-3 border p-1 m-1" style="border-radius: 5px">
+                                    <label asp-for="@motor.ChainSerial"></label>:@motor.ChainSerial
+                                </div>
+                                <div class="col-3 border p-1 m-1" style="border-radius: 5px">
+                                    <label asp-for="@motor.Emplacement"></label>:@motor.Emplacement
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <table id="datatables-column-search-text-inputs" class="table table-striped table-bordered text-center" style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th>نام قطعه</th>
+                                <th>امکانات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @{
+                                            var name = sparePartAll?.FirstOrDefault(f => f.Id == item.SparePartId)?.Name;
+                                        }
+                                        @name
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-danger" type="button" onclick="DeleteSparePartMotors('@item.Id');"><i class="icon-trash"></i></button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th class="search">نام قطعه</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <partial name="Partials/_Pagination" model='(Model.HasPreviousPage,Model.HasNextPage,Model.PageIndex,Model.TotalPages,"Machine","ListMachineReport")' />
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="modal fade" id="machineModal" tabindex="-1" role="dialog" aria-labelledby="machineLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="machineLabel">افزودن قطعه</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="Create">
+                    <div class="row">
+                        @{
+                            sparePartMotor = new SparePartMotor();
+                        }
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label asp-for="@sparePartMotor.SparePartIds" class="control-label"></label>
+                                <select asp-for="@sparePartMotor.SparePartIds" multiple class="form-control">
+                                    @foreach (var item in spareParts)
+                                    {
+                                        <option name="@item.Name" value="@item.Id">@item.Name</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="@sparePartMotor.SparePartIds" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="closeS" class="btn btn-secondary" data-dismiss="modal">بستن</button>
+                <button onclick="savesparePartMotor()" type="button" class="btn btn-primary">ذخیره</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script src="~/js/datatables.js"></script>
+    <script>
+        function openPage (pageName, elmnt, color) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[ i ].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablink");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[ i ].style.backgroundColor = "";
+            }
+            document.getElementById(pageName).style.display = "block";
+            elmnt.style.backgroundColor = color;
+        }
+
+        // Get the element with id="defaultOpen" and click on it
+        document.getElementById("defaultOpen").click();
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Datatables Responsive
+            $("#datatables-column-search-text-inputs").DataTable({
+                responsive: true,
+                paginate: false,
+                previous: false,
+                next: false,
+                info: false,
+                filter: true
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Setup - add a text input to each footer cell
+            $("#datatables-column-search-text-inputs tfoot .search").each(function () {
+                var title = $(this).text();
+                $(this).html("<input type=\"text\" class=\"form-control\" placeholder=\"جستجو در  " + title + "\" />");
+            });
+            // DataTables
+            var table = $("#datatables-column-search-text-inputs").DataTable();
+            // Apply the search
+            table.columns().every(function () {
+                var that = this;
+                $("input", this.footer()).on("keyup change clear", function () {
+                    if (that.search() !== this.value) {
+                        that
+                            .search(this.value)
+                            .draw();
+                    }
+                });
+            });
+
+        });
+
+        function savesparePartMotor () {
+            var SparePartIds = $("#sparePartMotor_SparePartIds").val();
+
+            $.post("/Motor/SaveMotorReport", {
+                motorId: "@motor.Id",
+                sparePartIds: SparePartIds
+            },
+                function (e) {
+                    window.location.reload();
+
+                }, "JSON");
+
+        }
+        function DeleteSparePartMotors (id) {
+            if (confirm("برای حذف این آیتم مطمئن هستید؟")) {
+                $.post("@Url.Action("DeleteSparePartMotors")", { id: id },
+                    function (data) {
+                        if (data.hasError == true) {
+                            alert(data.error);
+                        } else {
+                            location.reload();
+                        }
+                    }, "JSON");
+            }
+        }
+
+
+        $(function () {
+            $('#start_date,#end_date').datepicker({
+                isRTL: true,
+                dateFormat: "yy/mm/dd",
+            });
+        });
+    </script>
+}

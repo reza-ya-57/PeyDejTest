@@ -1,6 +1,9 @@
-﻿@model PeyDej.Models.Bases.Person
+﻿@using PeyDej.Models.Bases
+@using PeyDej.Models.Bases.Views
+@model PeyDej.Models.Bases.Person
 
 @{
+    List<Categories> list = ViewBag.Gender;
     ViewData["Title"] = "Details";
 }
 
@@ -44,7 +47,7 @@
             @Html.DisplayNameFor(model => model.GenderId)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.GenderId)
+            @Html.DisplayFor(model => list.FirstOrDefault(f => f.SubCategoryId == model.GenderId).SubCategoryCaption)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Description)

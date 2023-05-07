@@ -16,11 +16,13 @@
 <div class="row">
     <div class="col-12">
         <h3>لیست موتورها</h3>
-        <hr/>
+        <hr />
     </div>
 </div>
 
-@{ var i = 0; }
+@{
+    var i = 0;
+}
 <div class="row">
     <div class="col-8 offset-2">
 
@@ -37,29 +39,29 @@
 
                 <table class="table table-bordered">
                     <thead>
-                    <tr>
-                        <th scope="col">ردیف</th>
-                        <th scope="col">نام موتور</th>
-                        <th scope="col">وضعیت موتور</th>
-                        <th scope="col">توضیحات</th>
+                        <tr>
+                            <th scope="col">ردیف</th>
+                            <th scope="col">نام موتور</th>
+                            <th scope="col">وضعیت موتور</th>
+                            <th scope="col">توضیحات</th>
 
-                    </tr>
+                        </tr>
                     </thead>
                     <tbody>
-                    @foreach (var m in Model)
-                    {
-                        <tr>
-                            <th scope="row">@(++i)</th>
-                            <th scope="row">@m.Name</th>
-                            <th scope="row">
-                                <label class="m-2"><input name="status@{ @m.MachineId }" value="1" type="radio"/>&nbsp;تایید</label>
-                                <label class="m-2"><input name="status@{ @m.MachineId }" value="0" type="radio"/>&nbsp;رد</label>
-                            </th>
-                            <th scope="row">
-                                <input class="form-control" />
-                            </th>
-                        </tr>
-                    }
+                        @foreach (var m in Model)
+                        {
+                            <tr>
+                                <th scope="row">@(++i)</th>
+                                <th scope="row">@m.Name</th>
+                                <th scope="row">
+                                    <label class="m-2"><input name="status@{@m.MachineId}" value="1" type="radio" />&nbsp;تایید</label>
+                                    <label class="m-2"><input name="status@{@m.MachineId}" value="0" type="radio" />&nbsp;رد</label>
+                                </th>
+                                <th scope="row">
+                                    <input id="desk@{@m.MachineId}" value="0" type="text" class="form-control" />
+                                </th>
+                            </tr>
+                        }
                     </tbody>
                 </table>
 
@@ -74,43 +76,46 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
     <script type="text/javascript">
-    $(function(){
-        $('#start_date,#end_date').datepicker({
-            isRTL: true,
-            dateFormat: "yy/mm/dd"
+        $(function () {
+            $('#start_date,#end_date').datepicker({
+                isRTL: true,
+                dateFormat: "yy/mm/dd"
+            });
         });
-    });
-    
-    function save(){
-        var ids=[@foreach (var itm in Model)
-                 {
-                     @(itm.MachineId + ",")
-                 }];
-        var data=[];
-       ids.forEach(function (value,i){
-           var radios =$("input:radio[name=status"+value+"]:checked");
-               data.push({
+
+        function save () {
+            var ids = [ @foreach (var itm in Model)
+        {
+            @(itm.MachineId + ",")
+        }];
+            var data = [];
+            ids.forEach(function (value, i) {
+                var radios = $("input:radio[name=status" + value + "]:checked");
+                var desc = document.getElementById("desk" + value).value;
+                console.log(desc)
+                data.push({
                     Id: value,
-                    Status: radios.val() == 1,                 
-               });
-          });
-        var person=$("#person").val();
-        var token="@GetAntiXsrfRequestToken()";
-        $.post("@Url.Action("SaveMotorReport")",{ 
-                data: data, 
+                    Description : desc,
+                    Status: radios.val() == 1,
+                });
+            });
+            var person = $("#person").val();
+            var token = "@GetAntiXsrfRequestToken()";
+            $.post("@Url.Action("SaveMotorReport")", {
+                data: data,
                 person: person,
-                __RequestVerificationToken: token 
+                __RequestVerificationToken: token
             },
-            function (e){
-            if (e.r){
+                function (e) {
+                    if (e.r) {
                         alert("فرآیند ثبت اطلاعات با موفقیت به پابان رسید.");
                         window.location.replace(window.origin + "/Inspection/Motor");
-            }else{
-                alert("در هنگام پردازش اطلاعات خطایی رخ داد. دوباره سعی کنید."+"\n" + e.m);
+                    } else {
+                        alert("در هنگام پردازش اطلاعات خطایی رخ داد. دوباره سعی کنید." + "\n" + e.m);
                         window.location.replace(window.origin + "/Inspection/Motor");
-            }
-        },"JSON");
-    }
-   
-</script>
+                    }
+                }, "JSON");
+        }
+
+    </script>
 }

@@ -23,7 +23,7 @@ builder.Services.AddIdentity<PeyDejUser, IdentityRole>(options =>
         options.Password.RequiredLength = 6;
         options.Password.RequiredUniqueChars = 0;
         // Lockout settings.
-        options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+        options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromDays(1);
         options.Lockout.MaxFailedAccessAttempts = 5;
         options.Lockout.AllowedForNewUsers = true;
         // User settings.
@@ -39,7 +39,7 @@ builder.Services.ConfigureApplicationCookie(options =>
     // Cookie settings
     options.Cookie.HttpOnly = true;
     options.Cookie.Name = "PeyDej";
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+    options.ExpireTimeSpan = TimeSpan.FromDays(1);
     options.LoginPath = "/User/Login";
     options.AccessDeniedPath = "/User/AccessDenied";
     options.SlidingExpiration = true;

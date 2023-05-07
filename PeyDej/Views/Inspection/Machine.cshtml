@@ -47,11 +47,11 @@
                                 <th>نام ماشین</th>
                                 <th>مدل ماشین</th>
                             </tr>
-                            <tr>
+@*                            <tr>
                                 <th class="search">انتخاب</th>
                                 <th class="search">نام ماشین</th>
                                 <th class="search">مدل ماشین</th>
-                            </tr>
+                            </tr>*@
                         </thead>
                         <tbody>
                             @foreach (var item in Model)
@@ -59,7 +59,7 @@
                                 <tr>
                                     <td>
                                         <input class="form-check-input" type="checkbox" name="SelectedFruits" value="@item.MachineId" id="Check_@item.MachineId">
-                                        <label class="form-check-label" for="@item.MachineId">
+                                        <label class="form-check-label" for="Check_@item.MachineId">
                                             @item.Name
                                         </label>
                                     </td>
@@ -95,26 +95,27 @@
             });
         });
 
-        document.addEventListener("DOMContentLoaded", function () {
-            // Setup - add a text input to each footer cell
-            $("#datatables-column-search-text-inputs thead .search").each(function () {
-                var title = $(this).text();
-                $(this).html("<input type=\"text\" class=\"form-control\" placeholder=\"جستجو در  " + title + "\" />");
-            });
-            // DataTables
-            var table = $("#datatables-column-search-text-inputs").DataTable();
-            // Apply the search
-            table.columns().every(function () {
-                var that = this;
-                $("input", this.footer()).on("keyup change clear", function () {
-                    if (that.search() !== this.value) {
-                        that
-                            .search(this.value)
-                            .draw();
-                    }
-                });
-            });
-        });
+        //document.addEventListener("DOMContentLoaded", function () {
+        //    // Setup - add a text input to each footer cell
+        //    $("#datatables-column-search-text-inputs thead .search").each(function () {
+        //        var title = $(this).text();
+        //        $(this).html("<input type=\"text\" class=\"form-control\" placeholder=\"جستجو در  " + title + "\" />");
+        //    });
+        //    // DataTables
+        //    var table = $("#datatables-column-search-text-inputs").DataTable();
+        //    // Apply the search
+        //    table.columns().every(function () {
+        //        var that = this;
+        //        $("input", this.footer()).on("keyup change clear", function (e) {
+        //            console.table()
+        //            if (that.search() !== this.value) {
+        //                that
+        //                    .search(this.value)
+        //                    .draw();
+        //            }
+        //        });
+        //    });
+        //});
 
         document.getElementById("CheckAll").addEventListener("change", function () {
             document.querySelectorAll("[id^='Check_'").forEach(checkbox => checkbox.checked = this.checked);

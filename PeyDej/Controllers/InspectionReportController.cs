@@ -83,7 +83,7 @@ public class InspectionReportController : Controller
             foreach (var item in data)
             {
                 var status = (int)(item.status ? InspectionStatus.Ok : InspectionStatus.NotOk);
-                query += $"({item.Id},{person},{status},NULL), ";
+                query += $"({item.Id},{person},{status},'{item.Description}'), ";
             }
 
             if (data.Length > 0)

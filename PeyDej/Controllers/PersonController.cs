@@ -47,6 +47,8 @@ namespace PeyDej.Controllers
 
             var person = await _context.Persons
                 .FirstOrDefaultAsync(m => m.Id == id);
+
+            ViewBag.Gender = _context.VwCategories.Where(m => m.CategoryId == 5).ToList();
             if (person == null)
             {
                 return NotFound();

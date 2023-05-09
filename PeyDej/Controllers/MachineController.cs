@@ -215,6 +215,7 @@ namespace PeyDej.Controllers
             var machine = await _context.Machines.FindAsync(id);
             machine.InspectionStartDateDto = machine.InspectionStartDate.ToShamsi();
             machine.UtilizationDateDto = machine.UtilizationDate.ToShamsi();
+            machine.LubricationStartDateDto = machine.LubricationStartDate.ToShamsi();
             if (machine == null)
             {
                 return NotFound();
@@ -245,9 +246,9 @@ namespace PeyDej.Controllers
 
             if (ModelState.IsValid)
             {
-                machine.LubricationStartDate = machine.LubricationStartDateDto == null ? DateTime.Now : PeyDejTools.PersianStringToDateTime(machine.LubricationStartDateDto);
-                machine.InspectionStartDate = machine.InspectionStartDateDto == null ? DateTime.Now : PeyDejTools.PersianStringToDateTime(machine.InspectionStartDateDto);
-                machine.UtilizationDate = machine.UtilizationDateDto == null ? DateTime.Now : PeyDejTools.PersianStringToDateTime(machine.UtilizationDateDto);
+                machine.LubricationStartDate = machine.LubricationStartDateDto.ToGregorianDateTime(false, 1200);
+                machine.InspectionStartDate = machine.InspectionStartDateDto.ToGregorianDateTime(false, 1200);
+                machine.UtilizationDate = machine.UtilizationDateDto.ToGregorianDateTime(false, 1200);
 
                 try
                 {

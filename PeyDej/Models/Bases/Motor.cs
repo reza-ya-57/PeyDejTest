@@ -10,7 +10,7 @@ public class Motor
 {
     public Motor()
     {
-        SpareParts = new List<SparePart>();
+        SparePartIds = new();
     }
     [Key]
     public long Id { get; set; }
@@ -78,7 +78,6 @@ public class Motor
 
     [Display(Name = "قطعات")]
     [NotMapped]
-    [Required(ErrorMessage = "مقدار {0} را وارد کنید")]
     public List<long> SparePartIds { get; set; }
 
 
@@ -87,9 +86,6 @@ public class Motor
     [Display(Name = "تاریخ شروع بازرسی")]
     [NotMapped]
     public string? InspectionStartDateDto { get; set; }
-
-    [NotMapped]
-    public IEnumerable<SparePart> SpareParts { get; set; }
 
     public GeneralStatus GeneralStatusId { get; set; } = GeneralStatus.Active;
 

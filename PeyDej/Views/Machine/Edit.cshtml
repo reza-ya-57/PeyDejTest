@@ -11,7 +11,6 @@
         <hr />
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
             <div class="row">
                 <div class="col-6">
                     <div class="form-group">
@@ -91,9 +90,9 @@
             <div class="row">
                 <div class="col-6">
                     <div class="form-group">
-                        <label asp-for="UtilizationDate" class="control-label"></label>
-                        <input asp-for="UtilizationDate" class="form-control" />
-                        <span asp-validation-for="UtilizationDate" class="text-danger"></span>
+                        <label asp-for="UtilizationDateDto" class="control-label"></label>
+                        <input asp-for="UtilizationDateDto" class="form-control" />
+                        <span asp-validation-for="UtilizationDateDto" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-6">
@@ -218,30 +217,18 @@
                 </div>
             </div>
             <div class="row">
-                <div class=" col-md-6 col-lg-6">
+                <div class="col-6">
                     <div class="form-group">
-                        <label asp-for="MotorIds" class="col-form-label"></label>
-                        <select asp-for="MotorIds" multiple class="form-control">
-                            <option name="انتخاب" value="null">انتخاب</option>
-                            @foreach (var item in Model.Motors)
-                            {
-                                <option name="@item.Name" value="@item.Id">@item.Name</option>
-                            }
-                        </select>
-                        <span asp-validation-for="MotorIds" class="text-danger"></span>
+                        <label asp-for="InspectionStartDateDto" class="control-label"></label>
+                        <input asp-for="InspectionStartDateDto" class="form-control" />
+                        <span asp-validation-for="InspectionStartDateDto" class="text-danger"></span>
                     </div>
                 </div>
-                <div class=" col-md-6 col-lg-6">
+                <div class="col-6">
                     <div class="form-group">
-                        <label asp-for="SparePartIds" class="col-form-label"></label>
-                        <select asp-for="SparePartIds" multiple class="form-control">
-                            <option name="انتخاب" value="null">انتخاب</option>
-                            @foreach (var item in Model.SpareParts)
-                            {
-                                <option name="@item.Name" value="@item.Id">@item.Name</option>
-                            }
-                        </select>
-                        <span asp-validation-for="SparePartIds" class="text-danger"></span>
+                        <label asp-for="LubricationStartDateDto" class="control-label"></label>
+                        <input asp-for="LubricationStartDateDto" class="form-control" />
+                        <span asp-validation-for="LubricationStartDateDto" class="text-danger"></span>
                     </div>
                 </div>
             </div>
@@ -258,3 +245,15 @@
         </form>
     </div>
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $('#UtilizationDateDto,#InspectionStartDateDto').datepicker({
+            isRTL: true,
+            dateFormat: "yy/mm/dd"
+        });
+    </script>
+}

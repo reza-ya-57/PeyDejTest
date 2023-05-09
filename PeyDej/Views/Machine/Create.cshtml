@@ -239,7 +239,7 @@
             <div class="row">
                 <div class="col-6">
                     <div class="form-group">
-                        <input type="button" onclick="saveMachine()" value="ذخیره" class="btn btn-primary" />
+                        <input type="submit" value="ذخیره" class="btn btn-primary" />
                         <a asp-action="Index" asp-controller="Machine" class="btn btn-danger">انصراف</a>
                     </div>
                 </div>
@@ -254,4 +254,10 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    <script>
+        $('#UtilizationDateDto,#InspectionStartDateDto').datepicker({
+            isRTL: true,
+            dateFormat: "yy/mm/dd"
+        });
+    </script>
 }

@@ -1,3 +1,5 @@
+using Ccms.Common.Utilities;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -47,11 +49,7 @@ namespace PeyDej.Controllers
         // GET: Motor/Create
         public IActionResult Create()
         {
-            Motor data = new()
-            {
-                SpareParts = _context.SpareParts.Where(w => w.GeneralStatusId != GeneralStatus.Deleted).AsEnumerable()
-            };
-            return View(data);
+            return View();
         }
 
         // POST: Motor/Create
@@ -85,7 +83,6 @@ namespace PeyDej.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            motor.SpareParts = _context.SpareParts.Where(w => w.GeneralStatusId != GeneralStatus.Deleted).AsEnumerable();
             return View(motor);
         }
 
@@ -98,11 +95,11 @@ namespace PeyDej.Controllers
             }
 
             var motor = await _context.Motors.FindAsync(id);
+            motor.InspectionStartDateDto = motor.InspectionStartDate.ToShamsi();
             if (motor == null)
             {
                 return NotFound();
             }
-            motor.SpareParts = _context.SpareParts.Where(w => w.GeneralStatusId != GeneralStatus.Deleted).AsEnumerable();
             motor.SparePartIds = _context.SparePartMotors.Where(w => w.MotorId == id).Select(s => s.SparePartId).ToList();
             return View(motor);
         }
@@ -148,7 +145,6 @@ namespace PeyDej.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            motor.SpareParts = _context.SpareParts.Where(w => w.GeneralStatusId != GeneralStatus.Deleted).AsEnumerable();
             return View(motor);
         }
 

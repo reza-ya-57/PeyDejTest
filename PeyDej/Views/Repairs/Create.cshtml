@@ -22,15 +22,17 @@
                             </div>
                         </div>
                         <div class="col-6">
-                            <label asp-for="DepartmentId" class="col-form-label"></label>
-                            <select asp-for="DepartmentId" class="form-control">
-                                <option name="انتخاب" value="0">انتخاب</option>
-                                @foreach (var item in ViewBag.Department)
-                                {
-                                    <option name="@item.Text" value="@item.Value">@item.Text</option>
-                                }
-                            </select>
-                            <span asp-validation-for="DepartmentId" class="text-danger"></span>
+                            <div class="form-group">
+                                <label asp-for="DepartmentId" class="col-form-label"></label>
+                                <select asp-for="DepartmentId" class="form-control">
+                                    <option name="انتخاب" value="0">انتخاب</option>
+                                    @foreach (var item in ViewBag.Department)
+                                    {
+                                        <option name="@item.Text" value="@item.Value">@item.Text</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="DepartmentId" class="text-danger"></span>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -64,7 +66,7 @@
                             </div>
                         </div>
                     </div>
-                   
+
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
@@ -87,39 +89,45 @@
                     </div>
                     <div class="row">
                         <div class="col-6">
-                            <label asp-for="MachineId" class="col-form-label"></label>
-                            <select asp-for="MachineId" class="form-control">
-                                <option name="انتخاب" value="0">انتخاب</option>
-                                @foreach (var item in ViewBag.Machine)
-                                {
-                                    <option name="@item.Text" value="@item.Value">@item.Text</option>
-                                }
-                            </select>
-                            <span asp-validation-for="MachineId" class="text-danger"></span>
+                            <div class="form-group">
+                                <label asp-for="MachineId" class="col-form-label"></label>
+                                <select asp-for="MachineId" class="form-control">
+                                    <option name="انتخاب" value="0">انتخاب</option>
+                                    @foreach (var item in ViewBag.Machine)
+                                    {
+                                        <option name="@item.Text" value="@item.Value">@item.Text</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="MachineId" class="text-danger"></span>
+                            </div>
                         </div>
                         <div class="col-6">
-                            <label asp-for="MotorId" class="col-form-label"></label>
-                            <select asp-for="MotorId" class="form-control">
-                                <option name="انتخاب" value="0">انتخاب</option>
-                                @foreach (var item in ViewBag.Motor)
-                                {
-                                    <option name="@item.Text" value="@item.Value">@item.Text</option>
-                                }
-                            </select>
-                            <span asp-validation-for="MotorId" class="text-danger"></span>
+                            <div class="form-group">
+                                <label asp-for="MotorId" class="col-form-label"></label>
+                                <select asp-for="MotorId" class="form-control">
+                                    <option name="انتخاب" value="0">انتخاب</option>
+                                    @foreach (var item in ViewBag.Motor)
+                                    {
+                                        <option name="@item.Text" value="@item.Value">@item.Text</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="MotorId" class="text-danger"></span>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-6">
-                            <label asp-for="SparePartId" class="col-form-label"></label>
-                            <select asp-for="SparePartId" class="form-control">
-                                <option name="انتخاب" value="0">انتخاب</option>
-                                @foreach (var item in ViewBag.SparePart)
-                                {
-                                    <option name="@item.Text" value="@item.Value">@item.Text</option>
-                                }
-                            </select>
-                            <span asp-validation-for="SparePartId" class="text-danger"></span>
+                            <div class="form-group">
+                                <label asp-for="SparePartId" class="col-form-label"></label>
+                                <select asp-for="SparePartId" class="form-control">
+                                    <option name="انتخاب" value="0">انتخاب</option>
+                                    @foreach (var item in ViewBag.SparePart)
+                                    {
+                                        <option name="@item.Text" value="@item.Value">@item.Text</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="SparePartId" class="text-danger"></span>
+                            </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">

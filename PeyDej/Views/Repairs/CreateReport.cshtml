@@ -23,15 +23,17 @@
                             </div>
                         </div>
                         <div class="col-6">
-                            <label asp-for="PersonId" class="col-form-label"></label>
-                            <select asp-for="PersonId" class="form-control">
-                                <option name="انتخاب" value="0">انتخاب</option>
-                                @foreach (var item in Model.People)
-                                {
-                                    <option name="@(item.FirstName  + " " + item.LastName)" value="@item.Id">@(item.FirstName + " " + item.LastName)</option>
-                                }
-                            </select>
-                            <span asp-validation-for="PersonId" class="text-danger"></span>
+                            <div class="form-group">
+                                <label asp-for="PersonId" class="col-form-label"></label>
+                                <select asp-for="PersonId" class="form-control">
+                                    <option name="انتخاب" value="0">انتخاب</option>
+                                    @foreach (var item in Model.People)
+                                    {
+                                        <option name="@(item.FirstName  + " " + item.LastName)" value="@item.Id">@(item.FirstName + " " + item.LastName)</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="PersonId" class="text-danger"></span>
+                            </div>
                         </div>
                     </div>
 
@@ -44,9 +46,11 @@
                             </div>
                         </div>
                         <div class="col-6">
-                            <label asp-for="StartDateDto" class="control-label"></label>
-                            <input asp-for="StartDateDto" class="form-control" />
-                            <span asp-validation-for="StartDateDto" class="text-danger"></span>
+                            <div class="form-group">
+                                <label asp-for="StartDateDto" class="control-label"></label>
+                                <input asp-for="StartDateDto" class="form-control" />
+                                <span asp-validation-for="StartDateDto" class="text-danger"></span>
+                            </div>
                         </div>
 
                     </div>

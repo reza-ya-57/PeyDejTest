@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Ccms.Common.Utilities;
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -49,8 +51,6 @@ namespace PeyDej.Controllers
             {
                 Department = null,
                 Process = null,
-                Motors = _context.Motors.Where(w => w.GeneralStatusId != GeneralStatus.Deleted).AsEnumerable(),
-                SpareParts = _context.SpareParts.Where(w => w.GeneralStatusId != GeneralStatus.Deleted).AsEnumerable(),
                 DepartmentIds = _context.VwCategories.Where(w => w.CategoryId == 2).Select(s => new CategoryDto()
                 {
                     Id = s.SubCategoryId,
@@ -63,6 +63,48 @@ namespace PeyDej.Controllers
                 }).AsEnumerable()
             };
             return View(data);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Create(Machine machine)
+        {
+            if (ModelState.IsValid)
+            {
+                machine.LubricationStartDate = machine.LubricationStartDateDto == null ? DateTime.Now : PeyDejTools.PersianStringToDateTime(machine.LubricationStartDateDto);
+                machine.InspectionStartDate = machine.InspectionStartDateDto == null ? DateTime.Now : PeyDejTools.PersianStringToDateTime(machine.InspectionStartDateDto);
+                machine.UtilizationDate = machine.UtilizationDateDto == null ? DateTime.Now : PeyDejTools.PersianStringToDateTime(machine.UtilizationDateDto);
+
+                var result = _context.Add(machine);
+                await _context.SaveChangesAsync();
+
+
+
+                var result2 = _context.MachineISs.Add(new Models.Inspection.MachineIS()
+                {
+                    InspectionDate = PeyDejTools.PersianStringToDateTime(machine.InspectionStartDateDto),
+                    MachineId = result.Entity.Id,
+                    Status = 0,
+                    InsDate = DateTime.Now,
+                    InspectionFinishedDate = null
+                });
+                _context.SaveChanges();
+
+                var result3 = _context.MachineLubrications.Add(new Models.Inspection.MachineLubricationIS()
+                {
+                    InspectionDate = machine.LubricationStartDateDto == null ? DateTime.Now : PeyDejTools.PersianStringToDateTime(machine.LubricationStartDateDto),
+                    MachineId = result.Entity.Id,
+                    Status = 0,
+                    InsDate = DateTime.Now,
+                    InspectionFinishedDate = null
+                });
+                _context.SaveChanges();
+                return RedirectToAction(nameof(Index));
+            }
+
+            machine.DepartmentIds = _context.VwCategories.Where(w => w.CategoryId == 2)
+                .Select(s => new CategoryDto() { Id = s.SubCategoryId, Name = s.SubCategoryCaption }).AsEnumerable();
+            machine.ProcessIds = _context.VwCategories.Where(w => w.CategoryId == 3)
+                .Select(s => new CategoryDto() { Id = s.SubCategoryId, Name = s.SubCategoryCaption }).AsEnumerable();
+            return View(machine);
         }
 
 
@@ -162,70 +204,6 @@ namespace PeyDej.Controllers
             return Json(new { hasError = false, message = "" });
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Create(Machine machine)
-        {
-            if (ModelState.IsValid)
-            {
-                machine.LubricationStartDate = machine.LubricationStartDateDto == null ? DateTime.Now : PeyDejTools.PersianStringToDateTime(machine.LubricationStartDateDto);
-                machine.InspectionStartDate = machine.InspectionStartDateDto == null ? DateTime.Now : PeyDejTools.PersianStringToDateTime(machine.InspectionStartDateDto);
-                machine.UtilizationDate = machine.UtilizationDateDto == null ? DateTime.Now : PeyDejTools.PersianStringToDateTime(machine.UtilizationDateDto);
-
-                var result = _context.Add(machine);
-                await _context.SaveChangesAsync();
-
-                if (machine.MotorIds is not null)
-                {
-                    foreach (var motorId in machine.MotorIds)
-                    {
-                        if (motorId != 0)
-                        {
-                            _context.MachineMotors.Add(new MachineMotor(machineId: machine.Id, motorId));
-                            _context.SaveChanges();
-                        }
-                    }
-                }
-                if (machine.SparePartIds is not null)
-                {
-                    foreach (var sparePartId in machine.SparePartIds)
-                    {
-                        if (sparePartId != 0)
-                        {
-                            _context.SparePartMachines.Add(new SparePartMachine(machineId: machine.Id, sparePartId));
-                            _context.SaveChanges();
-                        }
-                    }
-                }
-                var result2 = _context.MachineISs.Add(new Models.Inspection.MachineIS()
-                {
-                    InspectionDate = PeyDejTools.PersianStringToDateTime(machine.InspectionStartDateDto),
-                    MachineId = result.Entity.Id,
-                    Status = 0,
-                    InsDate = DateTime.Now,
-                    InspectionFinishedDate = null
-                });
-                _context.SaveChanges();
-
-                var result3 = _context.MachineLubrications.Add(new Models.Inspection.MachineLubricationIS()
-                {
-                    InspectionDate = machine.LubricationStartDateDto == null ? DateTime.Now : PeyDejTools.PersianStringToDateTime(machine.LubricationStartDateDto),
-                    MachineId = result.Entity.Id,
-                    Status = 0,
-                    InsDate = DateTime.Now,
-                    InspectionFinishedDate = null
-                });
-                _context.SaveChanges();
-                return Json(new { r = true });
-            }
-
-            machine.Motors = _context.Motors.Where(w => w.GeneralStatusId != GeneralStatus.Deleted).AsEnumerable();
-            machine.SpareParts = _context.SpareParts.Where(w => w.GeneralStatusId != GeneralStatus.Deleted).AsEnumerable();
-            machine.DepartmentIds = _context.VwCategories.Where(w => w.CategoryId == 2)
-                .Select(s => new CategoryDto() { Id = s.SubCategoryId, Name = s.SubCategoryCaption }).AsEnumerable();
-            machine.ProcessIds = _context.VwCategories.Where(w => w.CategoryId == 3)
-                .Select(s => new CategoryDto() { Id = s.SubCategoryId, Name = s.SubCategoryCaption }).AsEnumerable();
-            return View(machine);
-        }
 
         public async Task<IActionResult> Edit(long? id)
         {
@@ -235,19 +213,12 @@ namespace PeyDej.Controllers
             }
 
             var machine = await _context.Machines.FindAsync(id);
+            machine.InspectionStartDateDto = machine.InspectionStartDate.ToShamsi();
+            machine.UtilizationDateDto = machine.UtilizationDate.ToShamsi();
             if (machine == null)
             {
                 return NotFound();
             }
-
-            machine.MotorIds = _context.MachineMotors
-                .Where(w => w.MachineId == id).Select(s => s.MotorId).ToList();
-
-            machine.SparePartIds = _context.SparePartMachines
-                .Where(w => w.MachineId == id).Select(s => s.SparePartId).ToList();
-
-            machine.Motors = _context.Motors.Where(w => w.GeneralStatusId != GeneralStatus.Deleted).AsEnumerable();
-            machine.SpareParts = _context.SpareParts.Where(w => w.GeneralStatusId != GeneralStatus.Deleted).AsEnumerable();
             machine.DepartmentIds = _context.VwCategories.Where(w => w.CategoryId == 2).Select(s => new CategoryDto()
             {
                 Id = s.SubCategoryId,
@@ -282,34 +253,6 @@ namespace PeyDej.Controllers
                 {
                     _context.Update(machine);
                     await _context.SaveChangesAsync();
-
-
-
-                    _context.MachineMotors.Where(w => w.MachineId == machine.Id).ExecuteDelete();
-                    if (machine.MotorIds is not null)
-                    {
-                        foreach (var motorId in machine.MotorIds)
-                        {
-                            if (motorId != 0)
-                            {
-                                _context.MachineMotors.Add(new MachineMotor(machineId: machine.Id, motorId));
-                                _context.SaveChanges();
-                            }
-                        }
-                    }
-                    _context.SparePartMachines.Where(w => w.MachineId == machine.Id).ExecuteDelete();
-                    if (machine.SparePartIds is not null)
-                    {
-                        foreach (var sparePartId in machine.SparePartIds)
-                        {
-                            if (sparePartId != 0)
-                            {
-                                _context.SparePartMachines.Add(new SparePartMachine(machineId: machine.Id, sparePartId));
-                                _context.SaveChanges();
-                            }
-                        }
-                    }
-
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -326,8 +269,6 @@ namespace PeyDej.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            machine.Motors = _context.Motors.Where(w => w.GeneralStatusId != GeneralStatus.Deleted).AsEnumerable();
-            machine.SpareParts = _context.SpareParts.Where(w => w.GeneralStatusId != GeneralStatus.Deleted).AsEnumerable();
             machine.DepartmentIds = _context.VwCategories.Where(w => w.CategoryId == 2).Select(s => new CategoryDto()
             {
                 Id = s.SubCategoryId,

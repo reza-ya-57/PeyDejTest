@@ -14,9 +14,6 @@ public class Machine
 {
     public Machine()
     {
-        Motors = new List<Motor>();
-        SpareParts = new List<SparePart>();
-        SparePartMachines = new List<SparePartMachine>();
         DepartmentIds = new List<CategoryDto>();
         ProcessIds = new List<CategoryDto>();
     }
@@ -137,17 +134,6 @@ public class Machine
     [NotMapped]
     public IEnumerable<CategoryDto> DepartmentIds { get; set; }
 
-    [DisplayName("موتور")]
-    [NotMapped]
-    public List<long>? MotorIds { get; set; }
-
-    [NotMapped]
-    public IEnumerable<Motor> Motors { get; set; }
-
-    [DisplayName("قطعات")]
-    [NotMapped]
-    public List<long>? SparePartIds { get; set; }
-
     [Display(Name = "تاریخ شروع بازرسی")]
     public DateTime? InspectionStartDate { get; set; }
     [Display(Name = "تاریخ شروع بازرسی")]
@@ -161,11 +147,6 @@ public class Machine
     [NotMapped]
     public string? LubricationStartDateDto { get; set; }
 
-    [NotMapped]
-    public List<SparePartMachine> SparePartMachines { get; set; }
- 
-    [NotMapped]
-    public IEnumerable<SparePart> SpareParts { get; set; }
 
     public GeneralStatus GeneralStatusId { get; set; } = GeneralStatus.Active;
 }

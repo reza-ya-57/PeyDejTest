@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using PeyDej.Data;
 using PeyDej.Models;
 using PeyDej.Models.Bases;
+using PeyDej.Models.Dtos;
 using PeyDej.Services.Pagination;
 using PeyDej.Tools;
 
@@ -49,7 +50,15 @@ namespace PeyDej.Controllers
         // GET: Motor/Create
         public IActionResult Create()
         {
-            return View();
+            var data = new Motor()
+            {
+                DepartmentIds = _context.VwCategories.Where(w => w.CategoryId == 2).Select(s => new CategoryDto()
+                {
+                    Id = s.SubCategoryId,
+                    Name = s.SubCategoryCaption
+                }).AsEnumerable(),
+            };
+            return View(data);
         }
 
         // POST: Motor/Create
@@ -83,6 +92,11 @@ namespace PeyDej.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
+            motor.DepartmentIds = _context.VwCategories.Where(w => w.CategoryId == 2).Select(s => new CategoryDto()
+            {
+                Id = s.SubCategoryId,
+                Name = s.SubCategoryCaption
+            }).AsEnumerable();
             return View(motor);
         }
 

@@ -41,7 +41,7 @@
 
                 columns.Add().Titled("ویرایش").Encoded(false).RenderedAs(model => PeyDejHelper.ActionLink("<i class=\"icon-edit\"></i>", "Edit", "Motor", model.Id, "orange-text", "ویرایش"));
                 columns.Add().Titled("جزییات").Encoded(false).RenderedAs(model => PeyDejHelper.ActionLink("<i class=\"icon-info-sign\"></i>", "Details", "Motor", model.Id, "green-text", "جزییات"));
-                @*columns.Add().Titled("حذف").Encoded(false).RenderedAs(model => PeyDejHelper.ActiveLinkAjax($"javascript:DeleteItem('{model.Id}');", "<i class=\"icon-trash\"></i>", "red-text", "حذف"));*@
+
             })
             .Empty("هیچ ایتمی وجود ندارد") 
             .Sortable()

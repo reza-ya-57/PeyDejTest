@@ -23,10 +23,11 @@ public class SparePartMotor
 
     public DateTime InsDate { get; set; }
 
-    public long SparePartId { get; set; }
-    [NotMapped]
     [Display(Name = "نام قطعه")]
-    public List<string> SparePartIds { get; set; }
+    public long SparePartId { get; set; }
+    [Display(Name = "تعداد")]
+    public int SparePartCount { get; set; }
+
 
     public long MotorId { get; set; }
 

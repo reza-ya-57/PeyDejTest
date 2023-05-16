@@ -209,17 +209,17 @@ namespace PeyDej.Controllers
         }
 
         [HttpPost]
-        public IActionResult SaveMotorReport(long motorId, List<string> sparePartIds)
+        public IActionResult SaveMotorReport(long motorId, int sparePartId, int sparePartCount)
         {
-            foreach (var sparePartId in sparePartIds)
+
+            _context.SparePartMotors.Add(new SparePartMotor()
             {
-                _context.SparePartMotors.Add(new SparePartMotor()
-                {
-                    InsDate = DateTime.Now,
-                    MotorId = motorId,
-                    SparePartId = long.Parse(sparePartId)
-                });
-            }
+                InsDate = DateTime.Now,
+                MotorId = motorId,
+                SparePartId = sparePartId,
+                SparePartCount = sparePartCount
+            });
+
             _context.SaveChanges();
             return Json(true);
         }

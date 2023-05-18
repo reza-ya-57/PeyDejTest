@@ -1,6 +1,10 @@
 @using Microsoft.AspNetCore.Mvc.TagHelpers
+@using System.Collections
+@using PeyDej.Models.Bases
 @model PeyDej.Services.Pagination.PaginatedList<PeyDej.Models.Dtos.InspectionDto>
-
+@{
+    long machineCheckListCategoryId = 0;
+}
 <form asp-action="Machine" method="post">
     <div class="row">
         <div class="col-12">
@@ -29,6 +33,23 @@
                         <div class="col-8">
                             <label class="text-left">از تاریخ: <input value="@ViewBag.startDate" readonly="readonly" id="start_date" name="start_date" class="form-control text-center" type="text" /></label>
                             <label class="text-left">تا تاریخ: <input value="@ViewBag.endDate" readonly="readonly" id="end_date" name="end_date" class="form-control text-center" type="text" /></label>
+                            <div class="form-group d-inline-block">
+                                <label id="machineCheckListCategoryId" value="@ViewBag.machineCheckListCategoryId" class="col-form-label"></label>
+                                <select id="machineCheckListCategoryId" name="machineCheckListCategoryId" class="form-control">
+                                    @for (int i = 0; i < ((List<CategoryResutl>)ViewData["MachineInspectionTypes"]).Count ; i++)
+                                    {
+                                        var item = ((List<CategoryResutl>)ViewData["MachineInspectionTypes"])[i];
+                                        if (i == 0)
+                                        {
+                                            <option selected name="@item.CategoryCaption" value="@item.CategoryId">@item.CategoryCaption</option>
+                                        }
+                                        else
+                                        {
+                                            <option name="@item.CategoryCaption" value="@item.CategoryId">@item.CategoryCaption</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
                             <button type="submit" class="btn btn-primary" name="btnName" value="search" target="_blank">جستجو</button>
 
                         </div>
@@ -47,11 +68,13 @@
                                 <th>نام ماشین</th>
                                 <th>مدل ماشین</th>
                             </tr>
-@*                            <tr>
-                                <th class="search">انتخاب</th>
-                                <th class="search">نام ماشین</th>
-                                <th class="search">مدل ماشین</th>
-                            </tr>*@
+                            @*
+                            <tr>
+                            <th class="search">انتخاب</th>
+                            <th class="search">نام ماشین</th>
+                            <th class="search">مدل ماشین</th>
+                            </tr>
+                            *@
                         </thead>
                         <tbody>
                             @foreach (var item in Model)
@@ -94,28 +117,6 @@
                 filter: true
             });
         });
-
-        //document.addEventListener("DOMContentLoaded", function () {
-        //    // Setup - add a text input to each footer cell
-        //    $("#datatables-column-search-text-inputs thead .search").each(function () {
-        //        var title = $(this).text();
-        //        $(this).html("<input type=\"text\" class=\"form-control\" placeholder=\"جستجو در  " + title + "\" />");
-        //    });
-        //    // DataTables
-        //    var table = $("#datatables-column-search-text-inputs").DataTable();
-        //    // Apply the search
-        //    table.columns().every(function () {
-        //        var that = this;
-        //        $("input", this.footer()).on("keyup change clear", function (e) {
-        //            console.table()
-        //            if (that.search() !== this.value) {
-        //                that
-        //                    .search(this.value)
-        //                    .draw();
-        //            }
-        //        });
-        //    });
-        //});
 
         document.getElementById("CheckAll").addEventListener("change", function () {
             document.querySelectorAll("[id^='Check_'").forEach(checkbox => checkbox.checked = this.checked);

@@ -1,9 +1,11 @@
-﻿using Ccms.Common.Utilities;
+﻿using System.Data;
+using Ccms.Common.Utilities;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-
+using Dapper;
 using PeyDej.Data;
 using PeyDej.Models;
 using PeyDej.Models.Bases;
@@ -17,10 +19,11 @@ namespace PeyDej.Controllers
     public class MachineController : Controller
     {
         private readonly PeyDejContext _context;
-
-        public MachineController(PeyDejContext context)
+        private IConfiguration Configuration { get; }
+        public MachineController(PeyDejContext context, IConfiguration configuration)
         {
             _context = context;
+            Configuration = configuration;
         }
 
         public IActionResult Index()
@@ -45,8 +48,10 @@ namespace PeyDej.Controllers
             return View(machine);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            IDbConnection connectionDb = new SqlConnection(Configuration.GetConnectionString("PeyDejContext_Online"));
+            connectionDb.Open();
             var data = new Machine()
             {
                 Department = null,
@@ -60,7 +65,8 @@ namespace PeyDej.Controllers
                 {
                     Id = s.SubCategoryId,
                     Name = s.SubCategoryCaption
-                }).AsEnumerable()
+                }).AsEnumerable(),
+                MachineCheckListCategoryList = await connectionDb.QueryAsync<CategoryResutl>("Base.GetMachineInspectionTypes",commandType:CommandType.StoredProcedure),
             };
             return View(data);
         }

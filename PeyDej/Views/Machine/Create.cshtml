@@ -234,7 +234,29 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="MachineInspectionTypeCategoryId" class="col-form-label"></label>
+                        <select asp-for="MachineInspectionTypeCategoryId" class="form-control">
+                            @for (var i = 0; i < Model.MachineCheckListCategoryList.Count(); i++)
+                            {
+                                var item = ((List<CategoryResutl>)Model.MachineCheckListCategoryList)[i];
+                                if (i == 0)
+                                {
+                                    <option selected="selected" name="@item.CategoryCaption" value="@item.CategoryId">@item.CategoryCaption</option>
+                                }
+                                else
+                                {
+                                    <option name="@item.CategoryCaption" value="@item.CategoryId">@item.CategoryCaption</option>
+                                }
+                            }
+                        </select>
+                        <span asp-validation-for="MachineInspectionTypeCategoryId" class="text-danger"></span>
+                    </div>
+                </div>
 
+            </div>
 
             <div class="row">
                 <div class="col-6">

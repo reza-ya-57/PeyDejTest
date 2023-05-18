@@ -1,9 +1,11 @@
-﻿using Ccms.Common.Utilities;
+﻿using System.Data;
+using Ccms.Common.Utilities;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-
+using Dapper;
 using PeyDej.Data;
 using PeyDej.Models;
 using PeyDej.Models.Bases;
@@ -17,10 +19,11 @@ namespace PeyDej.Controllers
     public class MachineController : Controller
     {
         private readonly PeyDejContext _context;
-
-        public MachineController(PeyDejContext context)
+        private IConfiguration Configuration { get; }
+        public MachineController(PeyDejContext context, IConfiguration configuration)
         {
             _context = context;
+            Configuration = configuration;
         }
 
         public IActionResult Index()
@@ -37,6 +40,7 @@ namespace PeyDej.Controllers
 
             var machine = await _context.Machines
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (machine == null)
             {
                 return NotFound();
@@ -45,8 +49,10 @@ namespace PeyDej.Controllers
             return View(machine);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            IDbConnection connectionDb = new SqlConnection(Configuration.GetConnectionString("PeyDejContext_Online"));
+            connectionDb.Open();
             var data = new Machine()
             {
                 Department = null,
@@ -60,7 +66,8 @@ namespace PeyDej.Controllers
                 {
                     Id = s.SubCategoryId,
                     Name = s.SubCategoryCaption
-                }).AsEnumerable()
+                }).AsEnumerable(),
+                MachineCheckListCategoryList = await connectionDb.QueryAsync<CategoryResutl>("Base.GetMachineInspectionTypes",commandType:CommandType.StoredProcedure),
             };
             return View(data);
         }
@@ -100,10 +107,15 @@ namespace PeyDej.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
+            IDbConnection connectionDb = new SqlConnection(Configuration.GetConnectionString("PeyDejContext_Online"));
+            connectionDb.Open();
             machine.DepartmentIds = _context.VwCategories.Where(w => w.CategoryId == 2)
                 .Select(s => new CategoryDto() { Id = s.SubCategoryId, Name = s.SubCategoryCaption }).AsEnumerable();
             machine.ProcessIds = _context.VwCategories.Where(w => w.CategoryId == 3)
                 .Select(s => new CategoryDto() { Id = s.SubCategoryId, Name = s.SubCategoryCaption }).AsEnumerable();
+            machine.MachineCheckListCategoryList =
+                await connectionDb.QueryAsync<CategoryResutl>("Base.GetMachineInspectionTypes",
+                    commandType: CommandType.StoredProcedure);
             return View(machine);
         }
 
@@ -212,6 +224,8 @@ namespace PeyDej.Controllers
                 return NotFound();
             }
 
+            IDbConnection connectionDb = new SqlConnection(Configuration.GetConnectionString("PeyDejContext_Online"));
+            connectionDb.Open();
             var machine = await _context.Machines.FindAsync(id);
             machine.InspectionStartDateDto = machine.InspectionStartDate.ToShamsi();
             machine.UtilizationDateDto = machine.UtilizationDate.ToShamsi();
@@ -230,6 +244,10 @@ namespace PeyDej.Controllers
                 Id = s.SubCategoryId,
                 Name = s.SubCategoryCaption
             }).AsEnumerable();
+
+            machine.MachineCheckListCategoryList =
+                await connectionDb.QueryAsync<CategoryResutl>("Base.GetMachineInspectionTypes",
+                    commandType: CommandType.StoredProcedure);
 
 
             return View(machine);
@@ -270,6 +288,8 @@ namespace PeyDej.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
+            IDbConnection connectionDb = new SqlConnection(Configuration.GetConnectionString("PeyDejContext_Online"));
+            connectionDb.Open();
             machine.DepartmentIds = _context.VwCategories.Where(w => w.CategoryId == 2).Select(s => new CategoryDto()
             {
                 Id = s.SubCategoryId,
@@ -280,6 +300,11 @@ namespace PeyDej.Controllers
                 Id = s.SubCategoryId,
                 Name = s.SubCategoryCaption
             }).AsEnumerable();
+
+            machine.MachineCheckListCategoryList =
+                await connectionDb.QueryAsync<CategoryResutl>("Base.GetMachineInspectionTypes",
+                    commandType: CommandType.StoredProcedure);
+
             return View(machine);
         }
 

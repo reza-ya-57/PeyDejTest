@@ -104,7 +104,7 @@ public class InspectionReportController : Controller
     }
 
 
-    public async Task<IActionResult> Machine(List<string> selectedFruits)
+    public async Task<IActionResult> Machine(List<string> selectedFruits, long machineCheckListCategoryId)
     {
         var listId = selectedFruits.Select(long.Parse).ToList();
         var start_date = HttpContext.Session.GetString("start_date");
@@ -118,6 +118,7 @@ public class InspectionReportController : Controller
                           && m.MachineIS.InspectionDate >= (start_date + "T01:01:00.000").ToGregorianDateTime(false, 1200) &&
                           m.MachineIS.InspectionDate <= (end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200) &&
                           !listId.Any() || listId.Contains(m.MachineIS.Id))
+            .Where(w => machineCheckListCategoryId == 0 || w.Machine.MachineInspectionTypeCategoryId == machineCheckListCategoryId)
             .Select(m =>
                 new InspectionDto()
                 {
@@ -133,7 +134,7 @@ public class InspectionReportController : Controller
 
 
         ViewBag.person = new SelectList(person, "Id", "Name");
-        ViewBag.items = await _context.VwCategories.Where(m => m.CategoryId == 1).ToListAsync();
+        ViewBag.items = await _context.VwCategories.Where(m => m.CategoryId == machineCheckListCategoryId).ToListAsync();
         ViewBag.startDate = start_date;
         ViewBag.endDate = end_date;
         return View(data2);

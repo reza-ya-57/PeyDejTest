@@ -33,7 +33,7 @@ public class InspectionReportController : Controller
         //    .Where(m =>
         //        m.Status == InspectionStatus.NotOk &&
         //        !listId.Any() || listId.Contains(m.MotorId ?? 0) &&
-        //        m.InspectionDate >= (start_date + "T01:01:00.000").ToGregorianDateTime(false, 1200) &&
+        //        m.InspectionDate >= (start_date + "T00:00:00.000").ToGregorianDateTime(false, 1200) &&
         //        m.InspectionDate <= (end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200) &&
         //        m.InspectionFinishedDate == null
         //    ).Join(_context.Motors, mIS => mIS.MotorId, mo => mo.Id, (mIS, motor) => new MotorReport
@@ -48,7 +48,7 @@ public class InspectionReportController : Controller
                 machine => machine.Id,
                 (motorIs, motor) => new { motorIs, motor })
             .Where((m) => m.motor.GeneralStatusId == GeneralStatus.Active
-                && m.motorIs.InspectionDate >= (start_date + "T01:01:00.000").ToGregorianDateTime(false, 1200) &&
+                && m.motorIs.InspectionDate >= (start_date + "T00:00:00.000").ToGregorianDateTime(false, 1200) &&
                 m.motorIs.InspectionDate <= (end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200) &&
                 !listId.Any() || listId.Contains(m.motorIs.Id))
             .Select(m =>
@@ -115,7 +115,7 @@ public class InspectionReportController : Controller
                 Machine => Machine.Id,
                 (machineIs, machine) => new { MachineIS = machineIs, Machine = machine })
             .Where((m) => m.Machine.GeneralStatusId == GeneralStatus.Active
-                          && m.MachineIS.InspectionDate >= (start_date + "T01:01:00.000").ToGregorianDateTime(false, 1200) &&
+                          && m.MachineIS.InspectionDate >= (start_date + "T00:00:00.000").ToGregorianDateTime(false, 1200) &&
                           m.MachineIS.InspectionDate <= (end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200) &&
                           !listId.Any() || listId.Contains(m.MachineIS.Id))
             .Where(w => machineCheckListCategoryId == 0 || w.Machine.MachineInspectionTypeCategoryId == machineCheckListCategoryId)
@@ -182,7 +182,7 @@ public class InspectionReportController : Controller
         var data = await _context.MachineLubrications
             .Where(m =>
                 m.Status == 0 &&
-                m.InspectionDate >= (start_date + "T01:01:00.000").ToGregorianDateTime(false, 1200) &&
+                m.InspectionDate >= (start_date + "T00:00:00.000").ToGregorianDateTime(false, 1200) &&
                 m.InspectionDate <= (end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200) &&
                 m.InspectionFinishedDate == null
             ).ToListAsync();

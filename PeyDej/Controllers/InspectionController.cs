@@ -62,7 +62,7 @@ public class InspectionController : Controller
                 machine => machine.Id,
                 (motorIs, motor) => new { motorIs, motor })
             .Where((m) => m.motor.GeneralStatusId == GeneralStatus.Active
-                          && m.motorIs.InspectionDate >= (start_date + "T01:01:00.000").ToGregorianDateTime(false, 1200) &&
+                          && m.motorIs.InspectionDate >= (start_date + "T00:00:00.000").ToGregorianDateTime(false, 1200) &&
                           m.motorIs.InspectionDate <= (end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200))
             .Select(m =>
                 new InspectionDto()
@@ -108,7 +108,7 @@ public class InspectionController : Controller
                 machine => machine.Id,
                 (motorIs, motor) => new { motorIs, motor })
             .Where((m) => m.motor.GeneralStatusId == GeneralStatus.Active
-                          && m.motorIs.InspectionDate >= (start_date + "T01:01:00.000").ToGregorianDateTime(false, 1200) &&
+                          && m.motorIs.InspectionDate >= (start_date + "T00:00:00.000").ToGregorianDateTime(false, 1200) &&
                           m.motorIs.InspectionDate <= (end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200) &&
                           !listId.Any() || listId.Contains(m.motorIs.Id))
             .Select(m =>
@@ -213,7 +213,7 @@ public class InspectionController : Controller
                 Machine => Machine.Id,
                 (machineIs, machine) => new { MachineIS = machineIs, Machine = machine })
             .Where((m) => m.Machine.GeneralStatusId == GeneralStatus.Active
-                          && m.MachineIS.InspectionDate >= (start_date + "T01:01:00.000").ToGregorianDateTime(false, 1200) &&
+                          && m.MachineIS.InspectionDate >= (start_date + "T00:00:00.000").ToGregorianDateTime(false, 1200) &&
                           m.MachineIS.InspectionDate <= (end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200) &&
                           !listId.Any() || listId.Contains(m.MachineIS.Id))
             .Where(w => machineCheckListCategoryId == 0 || w.Machine.MachineInspectionTypeCategoryId == machineCheckListCategoryId)

@@ -25,7 +25,7 @@
                             <div class="form-group">
                                 <label asp-for="DepartmentId" class="col-form-label"></label>
                                 <select asp-for="DepartmentId" class="form-control">
-                                    <option name="انتخاب" value="0">انتخاب</option>
+                                    <option value="" default="" selected="" >انتخاب</option>
                                     @foreach (var item in ViewBag.Department)
                                     {
                                         <option name="@item.Text" value="@item.Value">@item.Text</option>
@@ -40,7 +40,7 @@
                             <div class="form-group">
                                 <label asp-for="ProcessId" class="col-form-label"></label>
                                 <select asp-for="ProcessId" class="form-control">
-                                    <option name="انتخاب" value="0">انتخاب</option>
+                                    <option value="" default="" selected="" >انتخاب</option>
                                     @foreach (var item in ViewBag.Process)
                                     {
                                         <option name="@item.Text" value="@item.Value">@item.Text</option>
@@ -78,7 +78,7 @@
                         <div class="col-6">
                             <label asp-for="RepairKindId" class="col-form-label"></label>
                             <select asp-for="RepairKindId" class="form-control">
-                                <option name="انتخاب" value="0">انتخاب</option>
+                                <option value="" default="" selected="" >انتخاب</option>
                                 @foreach (var item in ViewBag.RepairKind)
                                 {
                                     <option name="@item.Text" value="@item.Value">@item.Text</option>
@@ -92,7 +92,7 @@
                             <div class="form-group">
                                 <label asp-for="MachineId" class="col-form-label"></label>
                                 <select asp-for="MachineId" class="form-control">
-                                    <option name="انتخاب" value="0">انتخاب</option>
+                                    <option value="" default="" selected="" >انتخاب</option>
                                     @foreach (var item in ViewBag.Machine)
                                     {
                                         <option name="@item.Text" value="@item.Value">@item.Text</option>
@@ -105,7 +105,7 @@
                             <div class="form-group">
                                 <label asp-for="MotorId" class="col-form-label"></label>
                                 <select asp-for="MotorId" class="form-control">
-                                    <option name="انتخاب" value="0">انتخاب</option>
+                                    <option value="" default="" selected="" >انتخاب</option>
                                     @foreach (var item in ViewBag.Motor)
                                     {
                                         <option name="@item.Text" value="@item.Value">@item.Text</option>
@@ -120,7 +120,7 @@
                             <div class="form-group">
                                 <label asp-for="SparePartId" class="col-form-label"></label>
                                 <select asp-for="SparePartId" class="form-control">
-                                    <option name="انتخاب" value="0">انتخاب</option>
+                                    <option value="" default="" selected="" >انتخاب</option>
                                     @foreach (var item in ViewBag.SparePart)
                                     {
                                         <option name="@item.Text" value="@item.Value">@item.Text</option>
@@ -133,7 +133,7 @@
                             <div class="form-group">
                                 <label asp-for="PartId" class="control-label"></label>
                                 <select asp-for="PartId" class="form-control select-v2" asp-items="ViewBag.Parts">
-                                    <option value="0">انتخاب</option>
+                                    <option value="" default="" selected="" >انتخاب</option>
                                 </select>
                                 <span asp-validation-for="PartId" class="text-danger"></span>
                             </div>
@@ -144,7 +144,7 @@
                             <div class="form-group">
                                 <label asp-for="PersonFromId" class="col-form-label"></label>
                                 <select asp-for="PersonFromId" class="form-control">
-                                    <option name="انتخاب" value="0">انتخاب</option>
+                                    <option value="" default="" selected="" >انتخاب</option>
                                     @foreach (PeyDej.Models.Bases.Person item in ViewBag.Person)
                                     {
                                         <option value="@item.Id">@(item.FirstName + ' ' + item.LastName)</option>
@@ -157,7 +157,7 @@
                             <div class="form-group">
                                 <label asp-for="PersonToId" class="col-form-label"></label>
                                 <select asp-for="PersonToId" class="form-control">
-                                    <option name="انتخاب" value="0">انتخاب</option>
+                                    <option value="" default="" selected="" >انتخاب</option>
                                     @foreach (PeyDej.Models.Bases.Person item in ViewBag.Person)
                                     {
                                         <option value="@item.Id">@(item.FirstName + ' ' + item.LastName)</option>

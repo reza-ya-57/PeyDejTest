@@ -138,7 +138,7 @@
                     <div class="form-group">
                         <label asp-for="DepartmentId" class="col-form-label"></label>
                         <select asp-for="DepartmentId" class="form-control">
-                            <option name="انتخاب" value="0">انتخاب</option>
+                            <option value="" default="" selected="" >انتخاب</option>
                             @foreach (var item in Model.DepartmentIds)
                             {
                                 <option name="@item.Name" value="@item.Id">@item.Name</option>

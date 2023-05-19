@@ -150,7 +150,7 @@ public class Machine
 
     [Display(Name = "نوع بازرسی")]
     [Required(ErrorMessage = "مقدار {0} را وارد کنید")]
-    public long? MachineInspectionTypeCategoryId { get; set; }
+    public long MachineInspectionTypeCategoryId { get; set; }
     [NotMapped]
     public IEnumerable<CategoryResutl> MachineCheckListCategoryList { get; set; }
 

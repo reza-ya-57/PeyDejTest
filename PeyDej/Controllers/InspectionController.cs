@@ -162,7 +162,7 @@ public class InspectionController : Controller
                 Machine => Machine.Id,
                 (machineIs, machine) => new { MachineIS = machineIs, Machine = machine })
             .Where((m) => m.Machine.GeneralStatusId == GeneralStatus.Active
-                          && m.MachineIS.InspectionDate >= (start_date + "T01:01:00.000").ToGregorianDateTime(false, 1200) &&
+                          && m.MachineIS.InspectionDate >= (start_date + "T00:00:00.000").ToGregorianDateTime(false, 1200) &&
                           m.MachineIS.InspectionDate <= (end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200))
             .Where(w => machineCheckListCategoryId == 0 || w.Machine.MachineInspectionTypeCategoryId == machineCheckListCategoryId)
             .Select(m =>

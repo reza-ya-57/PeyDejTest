@@ -12,6 +12,8 @@ using PeyDej.Models.Bases;
 using PeyDej.Models.Dtos;
 using PeyDej.Services.Pagination;
 using PeyDej.Tools;
+using PeyDej.Models.Inspection;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace PeyDej.Controllers
 {
@@ -283,6 +285,24 @@ namespace PeyDej.Controllers
                     {
                         throw;
                     }
+                }
+
+                try
+                {
+                    var MachineIS = _context.MachineISs.Where(m => m.MachineId == machine.Id && m.Status == 0).AsEnumerable<MachineIS>().First();
+                    var newInspectionDate = machine.InspectionStartDateDto.ToGregorianDateTime(false, 1200);
+                    if (newInspectionDate is not null)
+                    {
+                        MachineIS.InspectionDate = (DateTime)(newInspectionDate);
+                        _context.SaveChanges();
+                        Console.WriteLine("hello");
+
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
                 }
 
                 return RedirectToAction(nameof(Index));

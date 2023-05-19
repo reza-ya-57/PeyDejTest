@@ -265,12 +265,12 @@ namespace PeyDej.Controllers
             }
 
             //_context.Entry().State = EntityState.Detached;
-            DateTime OldMachine = (DateTime)_context.Machines.AsNoTracking().Where(w => w.Id == machine.Id).AsEnumerable<Machine>().First().InspectionStartDate;
             if (ModelState.IsValid)
             {
                 // get current machine field to compare with new machine field (decide wether to update InspectionDate in Inspecton.MachineIS or not)
-                var test = _context.Machines;
-                //DateTime OldMachine = (DateTime)machine.InspectionStartDateDto.ToGregorianDateTime(false, 1200);
+                DateTime OldMachineInspectionStartDate = (DateTime)_context.Machines.AsNoTracking().Where(w => w.Id == machine.Id).AsEnumerable<Machine>().First().InspectionStartDate;
+                DateTime OldMachineLubricationStartDate = (DateTime)_context.Machines.AsNoTracking().Where(w => w.Id == machine.Id).AsEnumerable<Machine>().First().LubricationStartDate;
+
                 machine.LubricationStartDate = machine.LubricationStartDateDto.ToGregorianDateTime(false, 1200);
                 machine.InspectionStartDate = machine.InspectionStartDateDto.ToGregorianDateTime(false, 1200);
                 machine.UtilizationDate = machine.UtilizationDateDto.ToGregorianDateTime(false, 1200);
@@ -296,12 +296,20 @@ namespace PeyDej.Controllers
                 {
                     // get machine Inspection that not completed yet
                     var MachineIS = _context.MachineISs.Where(m => m.MachineId == machine.Id && m.Status == 0).AsEnumerable<MachineIS>().First();
+                    var MachineLubricationIS = _context.MachineLubrications.Where(m => m.MachineId == machine.Id && m.Status == 0).AsEnumerable<MachineLubricationIS>().First();
                     // if old value of InspectionStartDate equal to new value then we should not update Inspection.MachineIS
                     // it mean that user do not edite InspectionStartDate of machine 
-                    if (!DateTime.Equals(OldMachine, machine.InspectionStartDate))
+                    if (!DateTime.Equals(OldMachineInspectionStartDate, machine.InspectionStartDate))
                     {
                         var newInspectionDate = machine.InspectionStartDateDto.ToGregorianDateTime(false, 1200);
                         MachineIS.InspectionDate = (DateTime)(newInspectionDate);
+                        _context.SaveChanges();
+                    }
+                    // do the same as above for lubrication
+                    if (!DateTime.Equals(OldMachineLubricationStartDate, machine.LubricationStartDate))
+                    {
+                        var newLubricationDate = machine.LubricationStartDateDto.ToGregorianDateTime(false, 1200);
+                        MachineLubricationIS.InspectionDate = (DateTime)(newLubricationDate);
                         _context.SaveChanges();
                     }
 

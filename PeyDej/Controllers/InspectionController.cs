@@ -191,11 +191,12 @@ public class InspectionController : Controller
         List<string> SelectedFruits,
         string btnName)
     {
+        ViewBag.machineCheckListCategoryId = machineCheckListCategoryId;
         SelectedFruits.Remove("on");
         return btnName switch
         {
             "search" => RedirectToAction("Machine", new { start_date, end_date, machineCheckListCategoryId }),
-            "print" => RedirectToAction("MachinePrintPage", new { SelectedFruits , machineCheckListCategoryId }),
+            "print" => RedirectToAction("MachinePrintPage", new { SelectedFruits , machineCheckListCategoryId  , target = "_blank" }),
             "save" => RedirectToAction("Machine", "InspectionReport", new { SelectedFruits, machineCheckListCategoryId }),
             _ => RedirectToAction("Machine", new { start_date, end_date })
         };

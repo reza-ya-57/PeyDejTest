@@ -39,7 +39,12 @@
                                     @for (int i = 0; i < ((List<CategoryResutl>)ViewData["MachineInspectionTypes"]).Count ; i++)
                                     {
                                         var item = ((List<CategoryResutl>)ViewData["MachineInspectionTypes"])[i];
-                                        if (i == 0)
+                                        
+                                         if (item.CategoryId == (int)ViewBag.machineCheckListCategoryId)
+                                        {
+                                            <option selected name="@item.CategoryCaption" value="@item.CategoryId">@item.CategoryCaption</option>
+                                        }
+                                        else if (i == 0)
                                         {
                                             <option selected name="@item.CategoryCaption" value="@item.CategoryId">@item.CategoryCaption</option>
                                         }

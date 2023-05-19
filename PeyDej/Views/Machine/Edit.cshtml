@@ -13,6 +13,8 @@
         <hr />
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        
+        <div asp-validation-summary="All" class="text-danger"></div>
             <div class="row">
                 <div class="col-6">
                     <div class="form-group">
@@ -34,7 +36,7 @@
                     <div class="form-group">
                         <label asp-for="Department" class="col-form-label"></label>
                         <select asp-for="Department" class="form-control">
-                            <option value="" default="" selected="" >انتخاب</option>
+                            <option value="" default="" selected="">انتخاب</option>
                             @foreach (var item in Model.DepartmentIds)
                             {
                                 <option name="@item.Name" value="@item.Id">@item.Name</option>
@@ -72,7 +74,7 @@
                     <div class="form-group">
                         <label asp-for="Process" class="col-form-label"></label>
                         <select asp-for="Process" class="form-control">
-                            <option value="" default="" selected="" >انتخاب</option>
+                            <option value="" default="" selected="">انتخاب</option>
                             @foreach (var item in Model.ProcessIds)
                             {
                                 <option name="@item.Name" value="@item.Id">@item.Name</option>
@@ -203,17 +205,18 @@
                 </div>
             </div>
             <div class="row">
+
                 <div class="col-6">
                     <div class="form-group">
-                        <label asp-for="InspectionCycle" class="control-label"></label>
-                        <input asp-for="InspectionCycle" class="form-control" />
-                        <span asp-validation-for="InspectionCycle" class="text-danger"></span>
+                        <label asp-for="LubricationStartDateDto" class="control-label"></label>
+                        <input disabled asp-for="LubricationStartDateDto" class="form-control" />
+                        <span asp-validation-for="LubricationStartDateDto" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="form-group">
                         <label asp-for="LubricationCycle" class="control-label"></label>
-                        <input asp-for="LubricationCycle" class="form-control" />
+                        <input disabled asp-for="LubricationCycle" class="form-control" />
                         <span asp-validation-for="LubricationCycle" class="text-danger"></span>
                     </div>
                 </div>
@@ -222,41 +225,35 @@
                 <div class="col-6">
                     <div class="form-group">
                         <label asp-for="InspectionStartDateDto" class="control-label"></label>
-                        <input asp-for="InspectionStartDateDto" class="form-control" />
+                        <input  asp-for="InspectionStartDateDto" class="form-control" />
                         <span asp-validation-for="InspectionStartDateDto" class="text-danger"></span>
                     </div>
                 </div>
+
                 <div class="col-6">
                     <div class="form-group">
-                        <label asp-for="LubricationStartDateDto" class="control-label"></label>
-                        <input asp-for="LubricationStartDateDto" class="form-control" />
-                        <span asp-validation-for="LubricationStartDateDto" class="text-danger"></span>
+                        <label asp-for="InspectionCycle" class="control-label"></label>
+                        <input asp-for="InspectionCycle" class="form-control" />
+                        <span asp-validation-for="InspectionCycle" class="text-danger"></span>
                     </div>
                 </div>
             </div>
-        <div class="row">
-            <div class="col-6">
-                <div class="form-group">
-                    <label asp-for="MachineInspectionTypeCategoryId" class="col-form-label"></label>
-                    <select asp-for="MachineInspectionTypeCategoryId" class="form-control">
-                        @for (var i = 0; i < Model.MachineCheckListCategoryList.Count(); i++)
-                        {
-                            var item = ((List<CategoryResutl>)Model.MachineCheckListCategoryList)[i];
-                            if (i == 0)
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="MachineInspectionTypeCategoryId" class="col-form-label"></label>
+                        <select required asp-for="MachineInspectionTypeCategoryId" class="form-control">
+                            <option value="" default="" selected="">انتخاب</option>
+                            @for (var i = 0; i < Model.MachineCheckListCategoryList.Count(); i++)
                             {
-                                <option selected="selected" name="@item.CategoryCaption" value="@item.CategoryId">@item.CategoryCaption</option>
-                            }
-                            else
-                            {
+                                var item = ((List<CategoryResutl>)Model.MachineCheckListCategoryList)[i];
                                 <option name="@item.CategoryCaption" value="@item.CategoryId">@item.CategoryCaption</option>
                             }
-                        }
-                    </select>
-                    <span asp-validation-for="MachineInspectionTypeCategoryId" class="text-danger"></span>
+                        </select>
+                        <span asp-validation-for="MachineInspectionTypeCategoryId" class="text-danger"></span>
+                    </div>
                 </div>
             </div>
-
-        </div>
 
             <div class="row">
                 <div class="col-6">
@@ -268,6 +265,7 @@
                 <div class="col-6">
                 </div>
             </div>
+
         </form>
     </div>
 </div>

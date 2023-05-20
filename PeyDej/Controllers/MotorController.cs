@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using PeyDej.Data;
 using PeyDej.Models;
 using PeyDej.Models.Bases;
+using PeyDej.Models.Dtos;
 using PeyDej.Services.Pagination;
 using PeyDej.Tools;
 
@@ -49,7 +50,15 @@ namespace PeyDej.Controllers
         // GET: Motor/Create
         public IActionResult Create()
         {
-            return View();
+            var data = new Motor()
+            {
+                DepartmentIds = _context.VwCategories.Where(w => w.CategoryId == 2).Select(s => new CategoryDto()
+                {
+                    Id = s.SubCategoryId,
+                    Name = s.SubCategoryCaption
+                }).AsEnumerable(),
+            };
+            return View(data);
         }
 
         // POST: Motor/Create
@@ -83,6 +92,11 @@ namespace PeyDej.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
+            motor.DepartmentIds = _context.VwCategories.Where(w => w.CategoryId == 2).Select(s => new CategoryDto()
+            {
+                Id = s.SubCategoryId,
+                Name = s.SubCategoryCaption
+            }).AsEnumerable();
             return View(motor);
         }
 
@@ -209,17 +223,17 @@ namespace PeyDej.Controllers
         }
 
         [HttpPost]
-        public IActionResult SaveMotorReport(long motorId, List<string> sparePartIds)
+        public IActionResult SaveMotorReport(long motorId, int sparePartId, int sparePartCount)
         {
-            foreach (var sparePartId in sparePartIds)
+
+            _context.SparePartMotors.Add(new SparePartMotor()
             {
-                _context.SparePartMotors.Add(new SparePartMotor()
-                {
-                    InsDate = DateTime.Now,
-                    MotorId = motorId,
-                    SparePartId = long.Parse(sparePartId)
-                });
-            }
+                InsDate = DateTime.Now,
+                MotorId = motorId,
+                SparePartId = sparePartId,
+                SparePartCount = sparePartCount
+            });
+
             _context.SaveChanges();
             return Json(true);
         }

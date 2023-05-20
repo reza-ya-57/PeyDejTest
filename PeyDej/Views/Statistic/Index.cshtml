@@ -35,7 +35,7 @@
                 columns.Add(model => model.LoadingCount).Titled(@Html.DisplayNameFor(model => model.LoadingCount));
                 columns.Add(model => model.NumberOfOpenPort).Titled(@Html.DisplayNameFor(model => model.NumberOfOpenPort));
                 columns.Add().Titled("ویرایش").Encoded(false).RenderedAs(model => PeyDejHelper.ActionLink("<i class=\"icon-edit\"></i>", "Edit", "Statistic", model.Id, "orange-text", "ویرایش"));
-                columns.Add().Titled("حذف").Encoded(false).RenderedAs(model => PeyDejHelper.ActiveLinkAjax($"javascript:DeleteItem('{model.Id}');", "<i class=\"icon-trash\"></i>", "red-text", "حذف"));
+    @*            columns.Add().Titled("حذف").Encoded(false).RenderedAs(model => PeyDejHelper.ActiveLinkAjax($"javascript:DeleteItem('{model.Id}');", "<i class=\"icon-trash\"></i>", "red-text", "حذف"));*@
             })
             .Empty("هیچ ایتمی وجود ندارد")
             .Sortable()

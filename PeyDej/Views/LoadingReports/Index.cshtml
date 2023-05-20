@@ -40,7 +40,7 @@
                 @*columns.Add(model => _context.VwCategories.FirstOrDefault(m => m.SubCategoryId == model.LoadingIntervalId)!.SubCategoryCaption).Titled(@Html.DisplayNameFor(model => model.LoadingIntervalId));
                 columns.Add(model => model.Description).Titled(@Html.DisplayNameFor(model => model.Description));*@
                 columns.Add().Titled("ویرایش").Encoded(false).RenderedAs(model => Html.ActionLink("ویرایش", "Edit", new { Id = model.Id }));
-                columns.Add().Titled("حذف").Encoded(false).RenderedAs(model => PeyDejHelper.ActiveLinkAjax($"javascript:DeleteItem('{model.Id}');", "<i class=\"icon-trash\"></i>", "red-text", "حذف"));
+   @*             columns.Add().Titled("حذف").Encoded(false).RenderedAs(model => PeyDejHelper.ActiveLinkAjax($"javascript:DeleteItem('{model.Id}');", "<i class=\"icon-trash\"></i>", "red-text", "حذف"));*@
             })
             .Empty("هیچ ایتمی وجود ندارد")
             .Sortable()

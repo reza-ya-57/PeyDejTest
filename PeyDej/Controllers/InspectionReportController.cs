@@ -29,26 +29,14 @@ public class InspectionReportController : Controller
         var listId = selectedFruits.Select(long.Parse).ToList();
         var start_date = HttpContext.Session.GetString("start_date");
         var end_date = HttpContext.Session.GetString("end_date");
-        //var data = await _context.MotorISs
-        //    .Where(m =>
-        //        m.Status == InspectionStatus.NotOk &&
-        //        !listId.Any() || listId.Contains(m.MotorId ?? 0) &&
-        //        m.InspectionDate >= (start_date + "T01:01:00.000").ToGregorianDateTime(false, 1200) &&
-        //        m.InspectionDate <= (end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200) &&
-        //        m.InspectionFinishedDate == null
-        //    ).Join(_context.Motors, mIS => mIS.MotorId, mo => mo.Id, (mIS, motor) => new MotorReport
-        //    {
-        //        Id = mIS.Id,
-        //        Name = motor.Name,
-        //        Description = motor.Description
-        //    }).ToListAsync();
 
         var data2 = _context.MotorISs
             .Join(_context.Machines, motorIs => motorIs.MotorId,
                 machine => machine.Id,
                 (motorIs, motor) => new { motorIs, motor })
-            .Where((m) => m.motor.GeneralStatusId == GeneralStatus.Active
-                && m.motorIs.InspectionDate >= (start_date + "T01:01:00.000").ToGregorianDateTime(false, 1200) &&
+            .Where((m) => m.motor.GeneralStatusId == GeneralStatus.Active &&
+                m.motorIs.Status == InspectionStatus.NotOk &&
+                m.motorIs.InspectionDate >= (start_date + "T00:00:00.000").ToGregorianDateTime(false, 1200) &&
                 m.motorIs.InspectionDate <= (end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200) &&
                 !listId.Any() || listId.Contains(m.motorIs.Id))
             .Select(m =>
@@ -104,7 +92,7 @@ public class InspectionReportController : Controller
     }
 
 
-    public async Task<IActionResult> Machine(List<string> selectedFruits)
+    public async Task<IActionResult> Machine(List<string> selectedFruits, long machineCheckListCategoryId)
     {
         var listId = selectedFruits.Select(long.Parse).ToList();
         var start_date = HttpContext.Session.GetString("start_date");
@@ -114,10 +102,12 @@ public class InspectionReportController : Controller
             .Join(_context.Machines, machineIs => machineIs.MachineId,
                 Machine => Machine.Id,
                 (machineIs, machine) => new { MachineIS = machineIs, Machine = machine })
-            .Where((m) => m.Machine.GeneralStatusId == GeneralStatus.Active
-                          && m.MachineIS.InspectionDate >= (start_date + "T01:01:00.000").ToGregorianDateTime(false, 1200) &&
+            .Where((m) => m.Machine.GeneralStatusId == GeneralStatus.Active &&
+                          m.MachineIS.Status == InspectionStatus.NotOk && 
+                          m.MachineIS.InspectionDate >= (start_date + "T00:00:00.000").ToGregorianDateTime(false, 1200) &&
                           m.MachineIS.InspectionDate <= (end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200) &&
                           !listId.Any() || listId.Contains(m.MachineIS.Id))
+            .Where(w => machineCheckListCategoryId == 0 || w.Machine.MachineInspectionTypeCategoryId == machineCheckListCategoryId)
             .Select(m =>
                 new InspectionDto()
                 {
@@ -133,7 +123,7 @@ public class InspectionReportController : Controller
 
 
         ViewBag.person = new SelectList(person, "Id", "Name");
-        ViewBag.items = await _context.VwCategories.Where(m => m.CategoryId == 1).ToListAsync();
+        ViewBag.items = await _context.VwCategories.Where(m => m.CategoryId == machineCheckListCategoryId).ToListAsync();
         ViewBag.startDate = start_date;
         ViewBag.endDate = end_date;
         return View(data2);
@@ -181,7 +171,7 @@ public class InspectionReportController : Controller
         var data = await _context.MachineLubrications
             .Where(m =>
                 m.Status == 0 &&
-                m.InspectionDate >= (start_date + "T01:01:00.000").ToGregorianDateTime(false, 1200) &&
+                m.InspectionDate >= (start_date + "T00:00:00.000").ToGregorianDateTime(false, 1200) &&
                 m.InspectionDate <= (end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200) &&
                 m.InspectionFinishedDate == null
             ).ToListAsync();

@@ -68,7 +68,7 @@ public class InspectionCriteriaCategory : Controller
                 	Inspection.InspectionCriteriaSubCategoryIS
                 	INNER JOIN Base.InspectionCriteriaSubCategory c ON c.Id = InspectionCriteriaSubCategoryIS.InspectionCriteriaSubCategoryId
                 WHERE
-                	InspectionCriteriaSubCategoryIS.InspectionDate >= '{(start_date + "T01:01:00.000").ToGregorianDateTime(false, 1200)}'
+                	InspectionCriteriaSubCategoryIS.InspectionDate >= '{(start_date + "T00:00:00.000").ToGregorianDateTime(false, 1200)}'
                     AND InspectionCriteriaSubCategoryIS.InspectionDate <= '{(end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200)}'
                     AND InspectionCriteriaSubCategoryIS.InspectionFinishedDate IS NULL
                 	AND [Status] = 0
@@ -97,7 +97,7 @@ public class InspectionCriteriaCategory : Controller
                 	Inspection.InspectionCriteriaSubCategoryIS
                 	INNER JOIN Base.InspectionCriteriaSubCategory c ON c.Id = InspectionCriteriaSubCategoryIS.InspectionCriteriaSubCategoryId
                 WHERE
-                	InspectionCriteriaSubCategoryIS.InspectionDate >= '{(start_date + "T01:01:00.000").ToGregorianDateTime(false, 1200)}'
+                	InspectionCriteriaSubCategoryIS.InspectionDate >= '{(start_date + "T00:00:00.000").ToGregorianDateTime(false, 1200)}'
                     AND InspectionCriteriaSubCategoryIS.InspectionDate <= '{(end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200)}'
                     AND InspectionCriteriaSubCategoryIS.InspectionFinishedDate IS NULL
                 	AND [Status] = 0
@@ -133,7 +133,7 @@ public class InspectionCriteriaCategory : Controller
                 	INNER JOIN Base.InspectionCriteriaSubCategory c ON c.Id = InspectionCriteriaSubCategoryIS.InspectionCriteriaSubCategoryId
 	                INNER JOIN Base.InspectionCriteriaCategory cc ON cc.Id = c.InspectionCriteriaCategoryId
                 WHERE
-                	InspectionCriteriaSubCategoryIS.InspectionDate >= '{(start_date + "T01:01:00.000").ToGregorianDateTime(false, 1200)}'
+                	InspectionCriteriaSubCategoryIS.InspectionDate >= '{(start_date + "T00:00:00.000").ToGregorianDateTime(false, 1200)}'
                     AND InspectionCriteriaSubCategoryIS.InspectionDate <= '{(end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200)}'
                     AND InspectionCriteriaSubCategoryIS.InspectionFinishedDate IS NULL
                 	AND [Status] = 0

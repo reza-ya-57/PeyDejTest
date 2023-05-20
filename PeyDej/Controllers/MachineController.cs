@@ -1,15 +1,19 @@
-﻿using Ccms.Common.Utilities;
+﻿using System.Data;
+using Ccms.Common.Utilities;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-
+using Dapper;
 using PeyDej.Data;
 using PeyDej.Models;
 using PeyDej.Models.Bases;
 using PeyDej.Models.Dtos;
 using PeyDej.Services.Pagination;
 using PeyDej.Tools;
+using PeyDej.Models.Inspection;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace PeyDej.Controllers
 {
@@ -17,10 +21,11 @@ namespace PeyDej.Controllers
     public class MachineController : Controller
     {
         private readonly PeyDejContext _context;
-
-        public MachineController(PeyDejContext context)
+        private IConfiguration Configuration { get; }
+        public MachineController(PeyDejContext context, IConfiguration configuration)
         {
             _context = context;
+            Configuration = configuration;
         }
 
         public IActionResult Index()
@@ -37,6 +42,7 @@ namespace PeyDej.Controllers
 
             var machine = await _context.Machines
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (machine == null)
             {
                 return NotFound();
@@ -45,8 +51,10 @@ namespace PeyDej.Controllers
             return View(machine);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            IDbConnection connectionDb = new SqlConnection(Configuration.GetConnectionString("PeyDejContext_Online"));
+            connectionDb.Open();
             var data = new Machine()
             {
                 Department = null,
@@ -60,7 +68,8 @@ namespace PeyDej.Controllers
                 {
                     Id = s.SubCategoryId,
                     Name = s.SubCategoryCaption
-                }).AsEnumerable()
+                }).AsEnumerable(),
+                MachineCheckListCategoryList = await connectionDb.QueryAsync<CategoryResutl>("Base.GetMachineInspectionTypes", commandType: CommandType.StoredProcedure),
             };
             return View(data);
         }
@@ -69,7 +78,7 @@ namespace PeyDej.Controllers
         {
             if (ModelState.IsValid)
             {
-                machine.LubricationStartDate = machine.LubricationStartDateDto == null ? DateTime.Now : PeyDejTools.PersianStringToDateTime(machine.LubricationStartDateDto);
+                machine.LubricationStartDate = machine.LubricationStartDateDto == null ? null : PeyDejTools.PersianStringToDateTime(machine.LubricationStartDateDto);
                 machine.InspectionStartDate = machine.InspectionStartDateDto == null ? DateTime.Now : PeyDejTools.PersianStringToDateTime(machine.InspectionStartDateDto);
                 machine.UtilizationDate = machine.UtilizationDateDto == null ? DateTime.Now : PeyDejTools.PersianStringToDateTime(machine.UtilizationDateDto);
 
@@ -87,23 +96,30 @@ namespace PeyDej.Controllers
                     InspectionFinishedDate = null
                 });
                 _context.SaveChanges();
-
-                var result3 = _context.MachineLubrications.Add(new Models.Inspection.MachineLubricationIS()
+                if (machine.LubricationStartDateDto != null)
                 {
-                    InspectionDate = machine.LubricationStartDateDto == null ? DateTime.Now : PeyDejTools.PersianStringToDateTime(machine.LubricationStartDateDto),
-                    MachineId = result.Entity.Id,
-                    Status = 0,
-                    InsDate = DateTime.Now,
-                    InspectionFinishedDate = null
-                });
-                _context.SaveChanges();
+                    var result3 = _context.MachineLubrications.Add(new Models.Inspection.MachineLubricationIS()
+                    {
+                        InspectionDate = PeyDejTools.PersianStringToDateTime(machine.LubricationStartDateDto),
+                        MachineId = result.Entity.Id,
+                        Status = 0,
+                        InsDate = DateTime.Now,
+                        InspectionFinishedDate = null
+                    });
+                    _context.SaveChanges();
+                }
                 return RedirectToAction(nameof(Index));
             }
 
+            IDbConnection connectionDb = new SqlConnection(Configuration.GetConnectionString("PeyDejContext_Online"));
+            connectionDb.Open();
             machine.DepartmentIds = _context.VwCategories.Where(w => w.CategoryId == 2)
                 .Select(s => new CategoryDto() { Id = s.SubCategoryId, Name = s.SubCategoryCaption }).AsEnumerable();
             machine.ProcessIds = _context.VwCategories.Where(w => w.CategoryId == 3)
                 .Select(s => new CategoryDto() { Id = s.SubCategoryId, Name = s.SubCategoryCaption }).AsEnumerable();
+            machine.MachineCheckListCategoryList =
+                await connectionDb.QueryAsync<CategoryResutl>("Base.GetMachineInspectionTypes",
+                    commandType: CommandType.StoredProcedure);
             return View(machine);
         }
 
@@ -146,7 +162,7 @@ namespace PeyDej.Controllers
             var machineMotorResult = await PaginatedList<MachineMotor>.CreateAsync(machineMotors, pageIndex: pageNumber, pageSize);
             return View((partMachineResult, machineMotorResult));
         }
-        
+
         [HttpPost]
         public IActionResult SaveMachineReport(long machineId, long sparePartId, int sparePartCount)
         {
@@ -190,7 +206,7 @@ namespace PeyDej.Controllers
             await _context.SaveChangesAsync();
             return Json(new { hasError = false, message = "" });
         }
-        
+
         [HttpPost]
         public async Task<IActionResult> DeleteSparePartMachine(long id)
         {
@@ -212,6 +228,8 @@ namespace PeyDej.Controllers
                 return NotFound();
             }
 
+            IDbConnection connectionDb = new SqlConnection(Configuration.GetConnectionString("PeyDejContext_Online"));
+            connectionDb.Open();
             var machine = await _context.Machines.FindAsync(id);
             machine.InspectionStartDateDto = machine.InspectionStartDate.ToShamsi();
             machine.UtilizationDateDto = machine.UtilizationDate.ToShamsi();
@@ -231,6 +249,10 @@ namespace PeyDej.Controllers
                 Name = s.SubCategoryCaption
             }).AsEnumerable();
 
+            machine.MachineCheckListCategoryList =
+                await connectionDb.QueryAsync<CategoryResutl>("Base.GetMachineInspectionTypes",
+                    commandType: CommandType.StoredProcedure);
+
 
             return View(machine);
         }
@@ -244,12 +266,41 @@ namespace PeyDej.Controllers
                 return NotFound();
             }
 
+            IDbConnection connectionDb = new SqlConnection(Configuration.GetConnectionString("PeyDejContext_Online"));
+            connectionDb.Open();
+            //_context.Entry().State = EntityState.Detached;
             if (ModelState.IsValid)
             {
+                // get current machine field to compare with new machine field (decide wether to update InspectionDate in Inspecton.MachineIS or not)
+
                 machine.LubricationStartDate = machine.LubricationStartDateDto.ToGregorianDateTime(false, 1200);
                 machine.InspectionStartDate = machine.InspectionStartDateDto.ToGregorianDateTime(false, 1200);
                 machine.UtilizationDate = machine.UtilizationDateDto.ToGregorianDateTime(false, 1200);
 
+                var l = _context.Machines.AsNoTracking().Where(w => w.Id == machine.Id).FirstOrDefault();
+                DateTime? oldMachineInspectionStartDate = l?.InspectionStartDate;
+                DateTime? oldMachineLubricationStartDate = l?.LubricationStartDate;
+                if (machine.LubricationStartDate == null && oldMachineLubricationStartDate != null)
+                {
+                    ModelState.AddModelError("LubricationStartDate", "تاریخ شروع روغن کاری اشتباه است");
+
+                    machine.DepartmentIds = _context.VwCategories.Where(w => w.CategoryId == 2).Select(s => new CategoryDto()
+                    {
+                        Id = s.SubCategoryId,
+                        Name = s.SubCategoryCaption
+                    }).AsEnumerable();
+                    machine.ProcessIds = _context.VwCategories.Where(w => w.CategoryId == 3).Select(s => new CategoryDto()
+                    {
+                        Id = s.SubCategoryId,
+                        Name = s.SubCategoryCaption
+                    }).AsEnumerable();
+
+                    machine.MachineCheckListCategoryList =
+                        await connectionDb.QueryAsync<CategoryResutl>("Base.GetMachineInspectionTypes",
+                            commandType: CommandType.StoredProcedure);
+
+                    return View(machine);
+                }
                 try
                 {
                     _context.Update(machine);
@@ -267,6 +318,35 @@ namespace PeyDej.Controllers
                     }
                 }
 
+                try
+                {
+
+                    // if old value of InspectionStartDate equal to new value then we should not update Inspection.MachineIS
+                    // it mean that user do not edite InspectionStartDate of machine 
+                    // get machine Inspection that not completed yet
+                    var MachineIS = _context.MachineISs.Where(m => m.MachineId == machine.Id && m.Status == 0).FirstOrDefault();
+                    var MachineLubricationIS = _context.MachineLubrications.Where(m => m.MachineId == machine.Id && m.Status == 0).FirstOrDefault();
+                    if (!DateTime.Equals(oldMachineInspectionStartDate, machine.InspectionStartDate))
+                    {
+                        var newInspectionDate = machine.InspectionStartDateDto.ToGregorianDateTime(false, 1200);
+                        MachineIS.InspectionDate = (DateTime)(newInspectionDate);
+                        _context.SaveChanges();
+                    }
+                    // do the same as above for lubrication
+                    if (!DateTime.Equals(oldMachineLubricationStartDate, machine.LubricationStartDate))
+                    {
+                        var newLubricationDate = machine.LubricationStartDateDto.ToGregorianDateTime(false, 1200);
+                        MachineLubricationIS.InspectionDate = (DateTime)(newLubricationDate);
+                        _context.SaveChanges();
+                    }
+
+
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+
                 return RedirectToAction(nameof(Index));
             }
 
@@ -280,6 +360,11 @@ namespace PeyDej.Controllers
                 Id = s.SubCategoryId,
                 Name = s.SubCategoryCaption
             }).AsEnumerable();
+
+            machine.MachineCheckListCategoryList =
+                await connectionDb.QueryAsync<CategoryResutl>("Base.GetMachineInspectionTypes",
+                    commandType: CommandType.StoredProcedure);
+
             return View(machine);
         }
 

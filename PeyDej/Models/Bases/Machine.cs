@@ -14,6 +14,7 @@ public class Machine
 {
     public Machine()
     {
+        MachineCheckListCategoryList = new List<CategoryResutl>();
         DepartmentIds = new List<CategoryDto>();
         ProcessIds = new List<CategoryDto>();
     }
@@ -134,11 +135,14 @@ public class Machine
     [NotMapped]
     public IEnumerable<CategoryDto> DepartmentIds { get; set; }
 
+    [Required(ErrorMessage = "مقدار {0} را وارد کنید")]
     [Display(Name = "تاریخ شروع بازرسی")]
     public DateTime? InspectionStartDate { get; set; }
-    [Display(Name = "تاریخ شروع بازرسی")]
+    
     [NotMapped]
-    public string? InspectionStartDateDto { get; set; }
+    [Display(Name = "تاریخ شروع بازرسی")]
+    [Required(ErrorMessage = "مقدار {0} را وارد کنید")]
+    public string InspectionStartDateDto { get; set; }
 
     [Display(Name = "تاریخ شروع روانکاری")]
     public DateTime? LubricationStartDate { get; set; }
@@ -147,6 +151,16 @@ public class Machine
     [NotMapped]
     public string? LubricationStartDateDto { get; set; }
 
+    [Display(Name = "نوع بازرسی")]
+    [Required(ErrorMessage = "مقدار {0} را وارد کنید")]
+    public long MachineInspectionTypeCategoryId { get; set; }
+    [NotMapped]
+    public IEnumerable<CategoryResutl> MachineCheckListCategoryList { get; set; }
 
     public GeneralStatus GeneralStatusId { get; set; } = GeneralStatus.Active;
+}
+public class CategoryResutl
+{
+    public long CategoryId { get; set; }
+    public string CategoryCaption { get; set; }
 }

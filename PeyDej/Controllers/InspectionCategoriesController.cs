@@ -27,7 +27,7 @@ public class InspectionCategoriesController : Controller
         var data = await _context.VwInspectionSubCategoryISs
             .Where(m =>
                 m.Status == false &&
-                m.InspectionDate >= (start_date + "T01:01:00.000").ToGregorianDateTime(false, 1200) &&
+                m.InspectionDate >= (start_date + "T00:00:00.000").ToGregorianDateTime(false, 1200) &&
                 m.InspectionDate <= (end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200) &&
                 m.InspectionFinishedDate == null &&
                 m.InspectionCategoryId == id
@@ -54,7 +54,7 @@ public class InspectionCategoriesController : Controller
         var data = await _context.VwInspectionSubCategoryISs
             .Where(m =>
                 m.Status == false &&
-                m.InspectionDate >= (start_date + "T01:01:00.000").ToGregorianDateTime(false, 1200) &&
+                m.InspectionDate >= (start_date + "T00:00:00.000").ToGregorianDateTime(false, 1200) &&
                 m.InspectionDate <= (end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200) &&
                 m.InspectionCategoryId == id
             ).ToListAsync();
@@ -81,7 +81,7 @@ public class InspectionCategoriesController : Controller
         var data = await _context.VwInspectionSubCategoryISs
             .Where(m =>
                 m.Status == false &&
-                m.InspectionDate >= (start_date + "T01:01:00.000").ToGregorianDateTime(false, 1200) &&
+                m.InspectionDate >= (start_date + "T00:00:00.000").ToGregorianDateTime(false, 1200) &&
                 m.InspectionDate <= (end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200) &&
                 m.InspectionCategoryId == id
             ).ToListAsync();

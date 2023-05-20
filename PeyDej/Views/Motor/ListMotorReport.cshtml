@@ -52,6 +52,7 @@
                         <thead>
                             <tr>
                                 <th>نام قطعه</th>
+                                <th>تعداد</th>
                                 <th>امکانات</th>
                             </tr>
                         </thead>
@@ -65,9 +66,10 @@
                                         }
                                         @name
                                     </td>
-                                    <td>
+                                    <td>@item.SparePartCount</td>
+                                    @*<td>
                                         <button class="btn btn-danger" type="button" onclick="DeleteSparePartMotors('@item.Id');"><i class="icon-trash"></i></button>
-                                    </td>
+                                    </td>*@
                                 </tr>
                             }
                         </tbody>
@@ -97,16 +99,23 @@
                         }
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                        <div class="col-12">
+                        <div class="col-6">
                             <div class="form-group">
-                                <label asp-for="@sparePartMotor.SparePartIds" class="control-label"></label>
-                                <select asp-for="@sparePartMotor.SparePartIds" multiple class="form-control">
+                                <label asp-for="@sparePartMotor.SparePartId" class="control-label"></label>
+                                <select asp-for="@sparePartMotor.SparePartId" class="form-control">
                                     @foreach (var item in spareParts)
                                     {
                                         <option name="@item.Name" value="@item.Id">@item.Name</option>
                                     }
                                 </select>
-                                <span asp-validation-for="@sparePartMotor.SparePartIds" class="text-danger"></span>
+                                <span asp-validation-for="@sparePartMotor.SparePartId" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="@sparePartMotor.SparePartCount" class="control-label"></label>
+                                <input asp-for="@sparePartMotor.SparePartCount" class="form-control" />
+                                <span asp-validation-for="@sparePartMotor.SparePartCount" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
@@ -176,11 +185,13 @@
         });
 
         function savesparePartMotor () {
-            var SparePartIds = $("#sparePartMotor_SparePartIds").val();
+            var SparePartId = $("#sparePartMotor_SparePartId").val();
+            var SparePartCount = $("#sparePartMotor_SparePartCount").val();
 
             $.post("/Motor/SaveMotorReport", {
                 motorId: "@motor.Id",
-                sparePartIds: SparePartIds
+                sparePartId: SparePartId,
+                sparePartCount: SparePartCount,
             },
                 function (e) {
                     window.location.reload();

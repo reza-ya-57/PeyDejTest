@@ -34,7 +34,7 @@
                     <div class="form-group">
                         <label asp-for="Department" class="col-form-label"></label>
                         <select asp-for="Department" class="form-control">
-                            <option value="" default="" selected="" >انتخاب</option>
+                            <option value="0" default="" selected="" >انتخاب</option>
                             @foreach (var item in Model.DepartmentIds)
                             {
                                 <option name="@item.Name" value="@item.Id">@item.Name</option>
@@ -72,7 +72,7 @@
                     <div class="form-group">
                         <label asp-for="Process" class="col-form-label"></label>
                         <select asp-for="Process" class="form-control">
-                            <option value="" default="" selected="" >انتخاب</option>
+                            <option value="0" default="" selected="" >انتخاب</option>
                             @foreach (var item in Model.ProcessIds)
                             {
                                 <option name="@item.Name" value="@item.Id">@item.Name</option>
@@ -241,7 +241,7 @@
                     <div class="form-group">
                         <label asp-for="MachineInspectionTypeCategoryId" class="col-form-label"></label>
                         <select required asp-for="MachineInspectionTypeCategoryId" class="form-control">
-                         <option value="" default="" selected="" >انتخاب</option>
+                         <option value="0" default="" selected="" >انتخاب</option>
                             @for (var i = 0; i < Model.MachineCheckListCategoryList.Count(); i++)
                             {
                                 var item = ((List<CategoryResutl>)Model.MachineCheckListCategoryList)[i];

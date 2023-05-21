@@ -50,7 +50,7 @@
                     <div class="form-group">
                         <label asp-for="DepartmentId" class="control-label"></label>
                        <select asp-for="DepartmentId" class="form-control select-v2" asp-items="ViewBag.Department">
-                           <option value="" default="" selected="" >انتخاب</option>
+                           <option value="0" default="" selected="" >انتخاب</option>
                        </select>
                         <span asp-validation-for="DepartmentId" class="text-danger"></span>
                     </div>
@@ -59,7 +59,7 @@
                     <div class="form-group">
                         <label asp-for="GenderId" class="control-label"></label>
                         <select asp-for="GenderId" class="form-control select-v2" asp-items="ViewBag.Gender">
-                            <option value="" default="" selected="" >انتخاب</option>
+                            <option value="0" default="" selected="" >انتخاب</option>
                         </select>
                         <span asp-validation-for="GenderId" class="text-danger"></span>
                     </div>
@@ -70,7 +70,7 @@
                     <div class="form-group">
                         <label asp-for="PartId" class="control-label"></label>
                         <select asp-for="PartId" class="form-control select-v2" asp-items="ViewBag.Parts">
-                            <option value="" default="" selected="" >انتخاب</option>
+                            <option value="0" default="" selected="" >انتخاب</option>
                         </select>
                         <span asp-validation-for="PartId" class="text-danger"></span>
                     </div>

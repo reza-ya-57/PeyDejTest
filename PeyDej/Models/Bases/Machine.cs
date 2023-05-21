@@ -17,6 +17,7 @@ public class Machine
         MachineCheckListCategoryList = new List<CategoryResutl>();
         DepartmentIds = new List<CategoryDto>();
         ProcessIds = new List<CategoryDto>();
+        InspectionStartDate = DateTime.Now;
     }
     [Key] public long Id { get; set; }
 
@@ -130,6 +131,7 @@ public class Machine
 
 
     [DisplayName("دپارتمان")]
+    [Required(ErrorMessage = "مقدار {0} را وارد کنید")]
     public int? Department { get; set; }
 
     [NotMapped]

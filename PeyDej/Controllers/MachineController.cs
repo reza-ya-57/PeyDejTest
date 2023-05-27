@@ -39,9 +39,13 @@ namespace PeyDej.Controllers
             {
                 return NotFound();
             }
-
             var machine = await _context.Machines
                 .FirstOrDefaultAsync(m => m.Id == id);
+            ViewData["MotorsAll"] = _context.Motors.Where(w =>
+                _context.MachineMotors.Where(f => f.MachineId == machine.Id).Select(s => s.MotorId).ToList().Contains(w.Id)).AsEnumerable();
+
+            ViewData["SparePartAll"] = _context.SpareParts.Where(sw =>
+                _context.SparePartMachines.Where(w => w.MachineId == machine.Id).Select(s => s.SparePartId).ToList().Contains(sw.Id)).AsEnumerable();
 
             if (machine == null)
             {

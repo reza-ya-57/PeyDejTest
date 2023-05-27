@@ -1,9 +1,13 @@
+@using PeyDej.Models.Bases
+@using System.Collections
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model PeyDej.Models.Bases.Machine
 
 @{
     ViewData["Title"] = "جزییات ماشین";
+    IEnumerable<Motor> listMotors = (IEnumerable<Motor>)ViewData["MotorsAll"];
+    IEnumerable<SparePart> listrSpareParts = (IEnumerable<SparePart>)ViewData["SparePartAll"];
 }
-
 <div class="row">
     <div class="col-8 offset-2">
         <h4>@ViewData["Title"]</h4>
@@ -152,6 +156,24 @@
             </dt>
             <dd class="col-9">
                 @Html.DisplayFor(model => model.LubricationCycle)
+            </dd>
+            <dt class="col-3">
+                موتور ها
+            </dt>
+            <dd class="col-9">
+                @foreach (var m in listMotors)
+                {
+                    <p>@m.Name</p>
+                }
+            </dd>
+            <dt class="col-3">
+                قطعه ها
+            </dt>
+            <dd class="col-9">
+                @foreach (var s in listrSpareParts)
+                {
+                    <p>@s.Name</p>
+                }
             </dd>
         </dl>
 

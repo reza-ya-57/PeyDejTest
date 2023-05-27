@@ -80,12 +80,13 @@ namespace PeyDej.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Machine machine)
         {
+
+            machine.LubricationStartDate = machine.LubricationStartDateDto == null ? DateTime.Now : PeyDejTools.PersianStringToDateTime(machine.LubricationStartDateDto);
+            machine.InspectionStartDate = machine.InspectionStartDateDto == null ? DateTime.Now : PeyDejTools.PersianStringToDateTime(machine.InspectionStartDateDto);
+            machine.UtilizationDate = machine.UtilizationDateDto == null ? DateTime.Now : PeyDejTools.PersianStringToDateTime(machine.UtilizationDateDto);
+
             if (ModelState.IsValid)
             {
-                machine.LubricationStartDate = machine.LubricationStartDateDto == null ? null : PeyDejTools.PersianStringToDateTime(machine.LubricationStartDateDto);
-                machine.InspectionStartDate = machine.InspectionStartDateDto == null ? DateTime.Now : PeyDejTools.PersianStringToDateTime(machine.InspectionStartDateDto);
-                machine.UtilizationDate = machine.UtilizationDateDto == null ? DateTime.Now : PeyDejTools.PersianStringToDateTime(machine.UtilizationDateDto);
-
                 var result = _context.Add(machine);
                 await _context.SaveChangesAsync();
 

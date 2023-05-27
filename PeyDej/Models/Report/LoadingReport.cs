@@ -25,8 +25,11 @@ public class LoadingReport
     ///
 
 
-    [Display(Name = "تعداد بارگیری")]
+    [Display(Name = "مجموع بارگیری")]
     public long? LoadingCount { get; set; }
+
+    [Display(Name = "تعداد درگاه بازشده")]
+    public long? OpenGateCount { get; set; }
 
     [Display(Name = "توضیحات")] 
     public string? Description { get; set; }

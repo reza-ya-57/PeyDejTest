@@ -1,14 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+
 using PeyDej.Data;
+using PeyDej.Enums;
 using PeyDej.Models;
 using PeyDej.Models.Bases;
+using PeyDej.Service.File;
 
 namespace PeyDej.Controllers
 {
@@ -16,22 +15,22 @@ namespace PeyDej.Controllers
     public class SparePartController : Controller
     {
         private readonly PeyDejContext _context;
+        private IFileInterface FileInterface { get; }
 
-        public SparePartController(PeyDejContext context)
+        public SparePartController(PeyDejContext context, IFileInterface fileInterface)
         {
             _context = context;
+            FileInterface = fileInterface;
         }
 
-        // GET: SparePart
         public IActionResult Index()
         {
             return View(_context.SpareParts.Where(m => m.GeneralStatusId == GeneralStatus.Active).AsEnumerable());
         }
 
-        // GET: SparePart/Details/5
         public async Task<IActionResult> Details(long? id)
         {
-            if (id == null || _context.SpareParts == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -46,35 +45,30 @@ namespace PeyDej.Controllers
             return View(sparePart);
         }
 
-        // GET: SparePart/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: SparePart/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(
-            [Bind("Id,InsDate,Name,Model,Description,GeneralStatusId")]
-            SparePart sparePart)
+        public async Task<IActionResult> Create(SparePart sparePart)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return View(sparePart);
+            if (sparePart.FormFiles is not null)
             {
-                _context.Add(sparePart);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                sparePart.FileId = FileInterface.AddFile(UploadFor.SparePart, sparePart.FormFiles);
             }
+            _context.Add(sparePart);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
 
-            return View(sparePart);
         }
 
         // GET: SparePart/Edit/5
         public async Task<IActionResult> Edit(long? id)
         {
-            if (id == null || _context.SpareParts == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -88,46 +82,37 @@ namespace PeyDej.Controllers
             return View(sparePart);
         }
 
-        // POST: SparePart/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id,
-            [Bind("Id,InsDate,Name,Model,Description,GeneralStatusId")]
-            SparePart sparePart)
+        public async Task<IActionResult> Edit(long id, SparePart sparePart)
         {
             if (id != sparePart.Id)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return View(sparePart);
+            try
             {
-                try
+                if (sparePart.FormFiles is not null)
                 {
-                    _context.Update(sparePart);
-                    await _context.SaveChangesAsync();
+                    sparePart.FileId = FileInterface.EditFile(UploadFor.SparePart, sparePart.FormFiles, sparePart.FileId ?? Guid.Empty);
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!SparePartExists(sparePart.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-
-                return RedirectToAction(nameof(Index));
+                _context.Update(sparePart);
+                await _context.SaveChangesAsync();
             }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!SparePartExists(sparePart.Id))
+                {
+                    return NotFound();
+                }
+                throw;
+            }
+            return RedirectToAction(nameof(Index));
 
-            return View(sparePart);
         }
 
-        // POST: SparePart/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)

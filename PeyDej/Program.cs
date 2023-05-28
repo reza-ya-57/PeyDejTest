@@ -3,13 +3,14 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PeyDej.Data;
 using PeyDej.Models.Users;
+using PeyDej.Service.File;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession(option => { option.IOTimeout = TimeSpan.FromMinutes(5); }); //you've configured session
-
+builder.Services.AddTransient<IFileInterface, FileService>();
 builder.Services.AddDbContext<PeyDejContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("PeyDejContext_Online") ??
                          throw new InvalidOperationException("Connection string 'PeyDejContext' not found.")));

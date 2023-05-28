@@ -34,7 +34,10 @@ public class SparePart
     [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]
     public string? Description { get; set; }
 
+    public Guid? FileId { get; set; }
     public virtual IEnumerable<SparePartMachine> SparePartMachines { get; } = new List<SparePartMachine>();
 
     public GeneralStatus GeneralStatusId { get; set; } = GeneralStatus.Active;
+    [NotMapped]
+    public IFormFile? FormFiles { get; set; }
 }

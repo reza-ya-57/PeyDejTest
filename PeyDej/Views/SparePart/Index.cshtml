@@ -21,7 +21,7 @@
         <h3>@ViewData["Title"]</h3>
         <hr />
         <p>
-            <a class="btn btn-primary" asp-action="Create">معرفی قطعه جدید</a>
+            <a class="btn btn-primary fa " asp-action="Create">معرفی قطعه جدید</a>
         </p>
         <hr />
         <style>
@@ -41,6 +41,8 @@
                
                 columns.Add().Titled("ویرایش").Encoded(false).RenderedAs(model => PeyDejHelper.ActionLink("<i class=\"icon-edit\"></i>", "Edit", "SparePart", model.Id, "orange-text", "ویرایش"));
                 columns.Add().Titled("جزییات").Encoded(false).RenderedAs(model => PeyDejHelper.ActionLink("<i class=\"icon-info-sign\"></i>", "Details", "SparePart", model.Id, "green-text", "جزییات"));
+             
+                columns.Add().Titled("دانلود").Encoded(false).RenderedAs(model => model.FileId == null? "-": PeyDejHelper.ActionLink("<i class=\"fa fa-download\"></i>", "D", "H", model.FileId, "success-text", "دانلود"));
                 @*columns.Add().Titled("حذف").Encoded(false).RenderedAs(model => PeyDejHelper.ActiveLinkAjax($"javascript:DeleteItem('{model.Id}');", "<i class=\"icon-trash\"></i>", "red-text", "حذف"));*@
             })
             .Empty("هیچ ایتمی وجود ندارد")

@@ -1,6 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+
 using Microsoft.AspNetCore.Identity;
+
+using PeyDej.Enums;
 
 namespace PeyDej.Models.Users;
 

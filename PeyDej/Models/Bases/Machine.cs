@@ -72,8 +72,8 @@ public class Machine
     public string? EnergyType { get; set; }
 
     [Display(Name = "میزان مصرف")]
-    [Range(typeof(long), "0", "65536", ErrorMessage = "مقدار {0} باید بین {1} تا این {2} باشد")]
-    public long? EnergyConsumption { get; set; }
+    //[Range(typeof(long), "0", "65536", ErrorMessage = "مقدار {0} باید بین {1} تا این {2} باشد")]
+    public float? EnergyConsumption { get; set; }
 
     [Display(Name = "نوع روغن")]
     [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]

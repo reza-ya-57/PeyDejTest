@@ -43,5 +43,8 @@ public partial class Person
     [Display(Name = "بخش")]
     public long? PartId { get; set; }
 
+    [Display(Name = "واحد")]
+    public long? UnitId { get; set; }
+
     public GeneralStatus GeneralStatusId { get; set; } = GeneralStatus.Active;
 }

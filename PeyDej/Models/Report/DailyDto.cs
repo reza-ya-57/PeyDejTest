@@ -20,7 +20,7 @@ public class DailyDto
     /// <summary>
     /// تعداد درگاه بازشده
     /// </summary>
-    [Display(Name = "تعداد درگاه بازشده")]
+    [Display(Name = "تعداد درگاه باز شده")]
     [Required(ErrorMessage = "مقدار {0} الزامی می باشد")]
     public long? NumberOfOpenPort { get; set; } = null;
 

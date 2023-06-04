@@ -1,4 +1,4 @@
-@model PeyDej.Models.Report.DailyDto
+@model PeyDej.Models.Report.DailyStatisticsProduction
 
 @{
     ViewData["Title"] = "ویرایش آمار روزانه";
@@ -10,13 +10,13 @@
         <h3 xmlns="http://www.w3.org/1999/html">@ViewData["Title"]</h3>
         <hr />
         <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+@*            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ShiftId_99_DepartmentId_106_Id" />
             <input type="hidden" asp-for="ShiftId_100_DepartmentId_106_Id" />
             <input type="hidden" asp-for="ShiftId_99_DepartmentId_107_Id" />
             <input type="hidden" asp-for="ShiftId_100_DepartmentId_107_Id" />
             <input type="hidden" asp-for="Id"/>
-            <input type="hidden" asp-for="InsDate"/>
+            <input type="hidden" asp-for="InsDate"/>*@
 
             <div class="row">
                 <div class="col-md-5">
@@ -29,15 +29,27 @@
 
                 <div class="col-md-5">
                     <div class="form-group">
-                        <label asp-for="Week" class="control-label"></label>
-                        <select asp-items="PeyDej.Tools.PeyDejTools.Week()" asp-for="Week" class="form-control"></select>
-                        <span asp-validation-for="Week" class="text-danger"></span>
+                        <label asp-for="LoadingCount" class="control-label"></label>
+                        <select asp-items="PeyDej.Tools.PeyDejTools.Week()" asp-for="LoadingCount" class="form-control"></select>
+                        <span asp-validation-for="LoadingCount" class="text-danger"></span>
                     </div>
                 </div>
             </div>
 
-            <hr />
 
+
+
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label asp-for="OpenPortCount" class="control-label"></label>
+                        <input id="date" asp-for="OpenPortCount" class="form-control text-center" />
+                        <span asp-validation-for="OpenPortCount" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <hr />
+@*
             <div class="row">
                 <div class="col-md-5 d-inline-block text-center">
                     <div class="form-group">
@@ -171,7 +183,7 @@
                         <span asp-validation-for="LoadingCount" class="text-danger"></span>
                     </div>
                 </div>
-            </div>
+            </div>*@
 
             <div class="row">
                 <div class="col-12">

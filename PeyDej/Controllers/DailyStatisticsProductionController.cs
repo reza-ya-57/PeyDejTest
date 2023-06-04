@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,16 +6,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PeyDej.Data;
+using PeyDej.Models;
 using PeyDej.Models.Bases.Views;
 using PeyDej.Models.Report;
+using PeyDej.Tools;
 
 namespace PeyDej.Controllers
 {
-    public class DailyProductionStatisticsController : Controller
+    public class DailyStatisticsProductionController : Controller
     {
         private readonly PeyDejContext _context;
 
-        public DailyProductionStatisticsController(PeyDejContext context)
+        public DailyStatisticsProductionController(PeyDejContext context)
         {
             _context = context;
         }
@@ -35,9 +37,9 @@ namespace PeyDej.Controllers
         // GET: DailyProductionStatistics
         public async Task<IActionResult> Index(long dailyStatisticsId)
         {
-            ViewBag.dailyStatisticsId = dailyStatisticsId;
-            return View(await _context.ProductionStatistics.Where(m => m.DailyStatisticsId == dailyStatisticsId)
-                .ToListAsync());
+            //ViewBag.dailyStatisticsId = dailyStatisticsId;
+            var result = await _context.DailyStatisticsProduction.ToListAsync();
+            return View(result);
         }
 
 
@@ -47,32 +49,34 @@ namespace PeyDej.Controllers
             ViewBag.departments = departments();
             ViewBag.shifts = shifts();
             ViewBag.dailyStatisticsId = dailyStatisticsId;
-            return View(new DailyProductionStatistic()
+            return View(new DailyStatisticsProduction()
             {
-                DailyStatisticsId = dailyStatisticsId
+                Id = dailyStatisticsId
             });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(long dailyStatisticsId,
-            [Bind("Id,InsDate,ShiftId,DepartmentId,ProductionCount,StopsHour,DailyStatisticsId")]
-            DailyProductionStatistic dailyProductionStatistic)
+        public async Task<IActionResult> Create([Bind("Date,LoadingCount,OpenPortCount")] DailyStatisticsProduction dailyStatisticsProduction)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(dailyProductionStatistic);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "DailyProductionStatistics", new
+                var checkDate = _context.DailyStatisticsProduction.ToList().Exists(m => m.Date == dailyStatisticsProduction.Date);
+                var result = _context.DailyStatisticsProduction.Select(m => m.Date == dailyStatisticsProduction.Date).ToList();
+                if (checkDate == true)
                 {
-                    dailyStatisticsId = dailyStatisticsId
-                });
+                    ViewBag.ErrorMessage = "این تاریخ قبلا وارد شده است";
+                    return View();
+                }
+                _context.Add(dailyStatisticsProduction);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index", "DailyStatisticsProduction");
             }
-
-            ViewBag.departments = departments();
-            ViewBag.shifts = shifts();
-            ViewBag.dailyStatisticsId = dailyStatisticsId;
-            return View(dailyProductionStatistic);
+            return View(dailyStatisticsProduction);
+            //ViewBag.departments = departments();
+            //ViewBag.shifts = shifts();
+            //ViewBag.dailyStatisticsId = dailyStatisticsId;
+            //return View(dailyProductionStatistic);
         }
 
         // GET: DailyProductionStatistics/Edit/5
@@ -83,7 +87,7 @@ namespace PeyDej.Controllers
                 return NotFound();
             }
 
-            var dailyProductionStatistic = await _context.ProductionStatistics.FindAsync(id);
+            var dailyProductionStatistic = await _context.DailyStatisticsProduction.FindAsync(id);
             if (dailyProductionStatistic == null)
             {
                 return NotFound();
@@ -102,7 +106,7 @@ namespace PeyDej.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(long id, long dailyStatisticsId,
             [Bind("Id,InsDate,ShiftId,DepartmentId,ProductionCount,StopsHour,DailyStatisticsId")]
-            DailyProductionStatistic dailyProductionStatistic)
+            DailyStatisticsProduction dailyProductionStatistic)
         {
             if (id != dailyProductionStatistic.Id)
             {
@@ -128,7 +132,7 @@ namespace PeyDej.Controllers
                     }
                 }
 
-                return RedirectToAction("Index", "DailyProductionStatistics", new
+                return RedirectToAction("Index", "DailyStatisticsProduction", new
                 {
                     dailyStatisticsId = dailyStatisticsId
                 });
@@ -146,10 +150,10 @@ namespace PeyDej.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
-            var dailyProductionStatistic = await _context.ProductionStatistics.FindAsync(id);
+            var dailyProductionStatistic = await _context.DailyStatisticsProduction.FindAsync(id);
             if (dailyProductionStatistic != null)
             {
-                _context.ProductionStatistics.Remove(dailyProductionStatistic);
+                _context.DailyStatisticsProduction.Remove(dailyProductionStatistic);
             }
 
             await _context.SaveChangesAsync();
@@ -158,7 +162,7 @@ namespace PeyDej.Controllers
 
         private bool DailyProductionStatisticExists(long id)
         {
-            return (_context.ProductionStatistics?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.DailyStatisticsProduction?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

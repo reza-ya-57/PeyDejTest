@@ -38,8 +38,9 @@ public partial class PeyDejContext : IdentityDbContext<PeyDejUser>
     public virtual DbSet<VwInspectionSubCategoryIS> VwInspectionSubCategoryISs { get; set; } = null!;
     public virtual DbSet<RepairRequest> RepairRequests { get; set; }
     public virtual DbSet<RepairReport> RepairReports { get; set; }
-    public virtual DbSet<DailyProductionStatistic> ProductionStatistics { get; set; } = null!;
-    public virtual DbSet<DailyStatistic> DailyStatistics { get; set; } = null!;
+    public virtual DbSet<DailyStatisticsProduction> DailyStatisticsProduction { get; set; }
+    //public virtual DbSet<DailyProductionStatistic> ProductionStatistics { get; set; } = null!;
+    //public virtual DbSet<DailyStatistic> DailyStatistics { get; set; } = null!;
     public virtual DbSet<LoadingReport> LoadingReports { get; set; } = null!;
     public virtual DbSet<FileInformation> FileInformations { get; set; } = null!;
 }

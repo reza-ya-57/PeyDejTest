@@ -1,5 +1,5 @@
 @using PeyDej.Tools
-@model IEnumerable<PeyDej.Models.Report.DailyStatistic>
+@model IEnumerable<PeyDej.Models.Report.DailyStatisticsProduction>
 @{
     ViewData["Title"] = "فهرست آمار روزانه";
 }
@@ -18,7 +18,7 @@
         <h3>@ViewData["Title"]</h3>
         <hr />
         <p>
-            <a class="btn btn-primary" asp-action="Create">آمار روزانه جدید</a>
+            <a class="btn btn-primary" asp-action="Create">ثبت تولید روزانه</a>
         </p>
         <hr />
         <style>
@@ -33,7 +33,7 @@
                 columns.Add(model => model.Date).Titled(@Html.DisplayNameFor(model => model.Date));
                 @*columns.Add(model => model.Week).Titled(@Html.DisplayNameFor(model => model.Week));*@
                 columns.Add(model => model.LoadingCount).Titled(@Html.DisplayNameFor(model => model.LoadingCount));
-                columns.Add(model => model.NumberOfOpenPort).Titled(@Html.DisplayNameFor(model => model.NumberOfOpenPort));
+                columns.Add(model => model.OpenPortCount).Titled(@Html.DisplayNameFor(model => model.OpenPortCount));
                 columns.Add().Titled("ویرایش").Encoded(false).RenderedAs(model => PeyDejHelper.ActionLink("<i class=\"icon-edit\"></i>", "Edit", "Statistic", model.Id, "orange-text", "ویرایش"));
     @*            columns.Add().Titled("حذف").Encoded(false).RenderedAs(model => PeyDejHelper.ActiveLinkAjax($"javascript:DeleteItem('{model.Id}');", "<i class=\"icon-trash\"></i>", "red-text", "حذف"));*@
             })

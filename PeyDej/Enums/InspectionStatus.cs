@@ -1,6 +1,6 @@
 namespace PeyDej.Models;
 
-public enum InspectionStatus
+public enum InspectionStatus:int
 {
     NotOk = 0,
     Ok = 1

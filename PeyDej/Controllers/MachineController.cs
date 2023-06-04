@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Security.Claims;
 using Ccms.Common.Utilities;
 
 using Microsoft.AspNetCore.Authorization;
@@ -87,6 +88,7 @@ namespace PeyDej.Controllers
 
             if (ModelState.IsValid)
             {
+                machine.LastEditorUserId = User.Claims.Where(w => w.Type == ClaimTypes.Sid)?.FirstOrDefault()?.Value;
                 var result = _context.Add(machine);
                 await _context.SaveChangesAsync();
 
@@ -98,7 +100,7 @@ namespace PeyDej.Controllers
                     MachineId = result.Entity.Id,
                     Status = 0,
                     InsDate = DateTime.Now,
-                    InspectionFinishedDate = null
+                    InspectionFinishedDate = null,
                 });
                 _context.SaveChanges();
                 if (machine.LubricationStartDateDto != null)
@@ -308,6 +310,8 @@ namespace PeyDej.Controllers
                 }
                 try
                 {
+                    machine.LastEditorUserId = User.Claims.Where(w => w.Type == ClaimTypes.Sid).FirstOrDefault().Value;
+                    machine.LastEditDate = DateTime.Now;
                     _context.Update(machine);
                     await _context.SaveChangesAsync();
                 }

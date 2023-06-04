@@ -33,19 +33,3 @@
     </div>
 </div>
 
-
-<script type="text/javascript">
-    function DeleteItem (id) {
-        if (confirm("برای حذف این آیتم مطمئن هستید؟")) {
-            var token = "@GetAntiXsrfRequestToken()";
-            $.post("@Url.Action("Delete")", { id: id, __RequestVerificationToken: token },
-                function (data) {
-                    if (data.hasError == true) {
-                        alert(data.error);
-                    } else {
-                        location.reload();
-                    }
-                }, "JSON");
-        }
-    }
-</script>

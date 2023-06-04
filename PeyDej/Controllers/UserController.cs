@@ -1,7 +1,9 @@
 using System.Security.Claims;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+
 using PeyDej.Data;
 using PeyDej.Models.Users;
 
@@ -39,26 +41,26 @@ public class UserController : Controller
             return View(login);
         }
 
-        if (_userManage.Users.ToList().Count == 0)
-        {
-            PeyDejUser tblUser = new PeyDejUser()
-            {
-                FirstName = "کاربر",
-                LastName = "ارشد",
-                UserName = "admin",
-                Email = "admin@localhost.local",
-                Department = "فناوری اطلاعات",
-                Enable = true,
-            };
-            var resultUser = _userManage.CreateAsync(tblUser, "Admin@123");
-            if (resultUser.Result != IdentityResult.Success)
-            {
-                ModelState.AddModelError("", "خطا در ایجاد کاربر");
-            }
+        //if (_userManage.Users.ToList().Count == 0)
+        //{
+        //    PeyDejUser tblUser = new PeyDejUser()
+        //    {
+        //        FirstName = "کاربر",
+        //        LastName = "ارشد",
+        //        UserName = "admin",
+        //        Email = "admin@localhost.local",
+        //        Department = "فناوری اطلاعات",
+        //        Enable = true,
+        //    };
+        //    var resultUser = _userManage.CreateAsync(tblUser, "Admin@123");
+        //    if (resultUser.Result != IdentityResult.Success)
+        //    {
+        //        ModelState.AddModelError("", "خطا در ایجاد کاربر");
+        //    }
 
-            await _userManage.AddClaimAsync(tblUser, new Claim(ClaimTypes.Role, "Admin"));
-        }
-
+        //    await _userManage.AddClaimAsync(tblUser, new Claim(ClaimTypes.Role, "Admin"));
+        //}
+       
         if (ModelState.IsValid)
         {
             var result =
@@ -96,7 +98,7 @@ public class UserController : Controller
         login.RememberMe = true;
         return View(login);
     }
-    
+
     public IActionResult Logout()
     {
         _signInManager.SignOutAsync();

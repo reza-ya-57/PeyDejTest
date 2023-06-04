@@ -19,7 +19,8 @@ public class Machine
         ProcessIds = new List<CategoryDto>();
         InspectionStartDate = DateTime.Now;
     }
-    [Key] public long Id { get; set; }
+    [Key] 
+    public long Id { get; set; }
 
     public DateTime InsDate { get; set; } = DateTime.Now;
     [NotMapped]
@@ -155,7 +156,12 @@ public class Machine
 
     [Display(Name = "نوع بازرسی")]
     [Required(ErrorMessage = "مقدار {0} را وارد کنید")]
-    public long MachineInspectionTypeCategoryId { get; set; }
+    public long? MachineInspectionTypeCategoryId { get; set; }
+
+    public string? CreatorUserId { get; set; }
+    public string? LastEditorUserId { get; set; }
+
+    public DateTime? LastEditDate { get; set; }
     [NotMapped]
     public IEnumerable<CategoryResutl> MachineCheckListCategoryList { get; set; }
 

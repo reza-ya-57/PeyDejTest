@@ -86,7 +86,7 @@ public class Motor
 
 
     [DisplayName("دپارتمان")]
-    public int? DepartmentId { get; set; }
+    public long? DepartmentId { get; set; }
 
     [NotMapped]
     public IEnumerable<CategoryDto> DepartmentIds { get; set; }

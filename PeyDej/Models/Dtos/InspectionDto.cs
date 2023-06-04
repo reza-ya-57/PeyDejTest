@@ -10,5 +10,8 @@ public class InspectionDto
 
     [Display(Name = "مدل ماشین")]
     public string Model { get; set; }
+    public int? Status { get; set; }
+    public string? Description { get; set; }
+    public long? PersonId{ get; set; }
 }
 

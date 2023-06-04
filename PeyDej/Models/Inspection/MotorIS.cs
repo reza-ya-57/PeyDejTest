@@ -16,7 +16,7 @@ public class MotorIS
   [Display(Name = "نام موتور")]
   [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]
   [Required(ErrorMessage = "مقدار {0} را وارد کنید")]
-  public long? MotorId { get; set; }
+  public long MotorId { get; set; }
 
   [Display(Name = "تاریخ بازرسی")]
   [Required(ErrorMessage = "مقدار {0} را وارد کنید")]

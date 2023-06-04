@@ -33,6 +33,72 @@ public class InspectionController : Controller
         Configuration = configuration;
     }
     private IConfiguration Configuration { get; }
+    #region HistoryMotor
+    public async Task<IActionResult> HistoryMotor(
+        string start_date,
+        string end_date,
+        string sortOrder,
+        string currentFilter,
+        string searchString,
+        int pageNumber = 1,
+        int pageSize = 100)
+    {
+        ViewData["CurrentSort"] = sortOrder;
+        ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+        ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+
+        if (searchString != null)
+        {
+            pageNumber = 1;
+        }
+        else
+        {
+            searchString = currentFilter;
+        }
+        start_date ??= PeyDejTools.GetCurPersianDate();
+        end_date ??= PeyDejTools.GetCurPersianDate();
+        var data2 = _context.MotorISs
+            .Join(_context.Motors, motorIs => motorIs.MotorId,
+                machine => machine.Id,
+                (motorIs, motor) => new { motorIs, motor })
+            .Where((m) => m.motor.GeneralStatusId == GeneralStatus.Active &&
+                          m.motorIs.Status == InspectionStatus.Ok &&
+                          m.motorIs.InspectionDate >= (start_date + "T00:00:00.000").ToGregorianDateTime(false, 1200) &&
+                          m.motorIs.InspectionDate <= (end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200))
+            .OrderByDescending(s => s.motorIs.InspectionFinishedDate)
+            .Select(m =>
+                new InspectionDto()
+                {
+                    MachineId = m.motorIs.Id,
+                    Name = m.motor.Name,
+                    //Model = m.motor.Model
+                });
+        HttpContext.Session.SetString("start_date", start_date);
+        HttpContext.Session.SetString("end_date", end_date);
+        ViewBag.startDate = start_date;
+        ViewBag.endDate = end_date;
+        ViewData["CurrentFilter"] = searchString;
+
+        var result = await PaginatedList<InspectionDto>.CreateAsync(data2, pageIndex: pageNumber, pageSize);
+        return View(result);
+    }
+    [HttpPost]
+    public IActionResult HistoryMotor(
+        string start_date,
+        string end_date,
+        List<string> SelectedFruits,
+        string btnName)
+    {
+        SelectedFruits.Remove("on");
+        return btnName switch
+        {
+            "search" => RedirectToAction("HistoryMotor", new { start_date, end_date }),
+            "save" => RedirectToAction("HistoryMotor", "InspectionReport", new { SelectedFruits }),
+            _ => RedirectToAction("HistoryMotor", new { start_date, end_date })
+        };
+    }
+    #endregion
+
     #region Motor
     public async Task<IActionResult> Motor(
         string start_date,
@@ -58,7 +124,7 @@ public class InspectionController : Controller
         start_date ??= PeyDejTools.GetCurPersianDate();
         end_date ??= PeyDejTools.GetCurPersianDate();
         var data2 = _context.MotorISs
-            .Join(_context.Machines, motorIs => motorIs.MotorId,
+            .Join(_context.Motors, motorIs => motorIs.MotorId,
                 machine => machine.Id,
                 (motorIs, motor) => new { motorIs, motor })
             .Where((m) => m.motor.GeneralStatusId == GeneralStatus.Active &&
@@ -70,7 +136,7 @@ public class InspectionController : Controller
                 {
                     MachineId = m.motorIs.Id,
                     Name = m.motor.Name,
-                    Model = m.motor.Model
+                    //Model = m.motor.Model
                 });
         HttpContext.Session.SetString("start_date", start_date);
         HttpContext.Session.SetString("end_date", end_date);
@@ -125,6 +191,86 @@ public class InspectionController : Controller
         ViewBag.endDate = end_date;
         return View(data2);
     }
+    #endregion
+
+    #region HsitoryMachine
+
+    public async Task<IActionResult> HistoryMachine(
+        string start_date,
+        string end_date,
+        long machineCheckListCategoryId,
+        string sortOrder,
+        string currentFilter,
+        string searchString,
+        int pageNumber = 1,
+        int pageSize = 100)
+    {
+        ViewBag.machineCheckListCategoryId = machineCheckListCategoryId;
+        IDbConnection connectionDb = new SqlConnection(Configuration.GetConnectionString("PeyDejContext_Online"));
+        connectionDb.Open();
+        ViewData["CurrentSort"] = sortOrder;
+        ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+        ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+        ViewData["MachineInspectionTypes"] =
+            await connectionDb.QueryAsync<CategoryResutl>("Base.GetMachineInspectionTypes",
+                commandType: CommandType.StoredProcedure);
+        if (searchString != null)
+        {
+            pageNumber = 1;
+        }
+        else
+        {
+            searchString = currentFilter;
+        }
+        start_date ??= PeyDejTools.GetCurPersianDate();
+        end_date ??= PeyDejTools.GetCurPersianDate();
+
+        var data2 = _context.MachineISs
+            .Join(_context.Machines, machineIs => machineIs.MachineId,
+                Machine => Machine.Id,
+                (machineIs, machine) => new { MachineIS = machineIs, Machine = machine })
+            .Where((m) => m.Machine.GeneralStatusId == GeneralStatus.Active &&
+                          m.MachineIS.Status == InspectionStatus.Ok &&
+                          m.MachineIS.InspectionDate >= (start_date + "T00:00:00.000").ToGregorianDateTime(false, 1200) &&
+                          m.MachineIS.InspectionDate <= (end_date + "T23:59:00.000").ToGregorianDateTime(false, 1200))
+            .Where(w => machineCheckListCategoryId == 0 || w.Machine.MachineInspectionTypeCategoryId == machineCheckListCategoryId)
+            .OrderByDescending(o => o.MachineIS.InspectionFinishedDate)
+            .Select(m =>
+                new InspectionDto()
+                {
+                    MachineId = m.MachineIS.Id,
+                    Name = m.Machine.Name,
+                    Model = m.Machine.Model
+                });
+        HttpContext.Session.SetString("start_date", start_date);
+        HttpContext.Session.SetString("end_date", end_date);
+        ViewBag.startDate = start_date;
+        ViewBag.endDate = end_date;
+        ViewData["CurrentFilter"] = searchString;
+
+        var result = await PaginatedList<InspectionDto>.CreateAsync(data2, pageIndex: pageNumber, pageSize);
+        return View(result);
+    }
+
+
+    [HttpPost]
+    public IActionResult HistoryMachine(
+        string start_date,
+        string end_date,
+        long machineCheckListCategoryId,
+        List<string> SelectedFruits,
+        string btnName)
+    {
+        ViewBag.machineCheckListCategoryId = machineCheckListCategoryId;
+        SelectedFruits.Remove("on");
+        return btnName switch
+        {
+            "search" => RedirectToAction("HistoryMachine", new { start_date, end_date, machineCheckListCategoryId }),
+            "save" => RedirectToAction("HistoryMachine", "InspectionReport", new { SelectedFruits, machineCheckListCategoryId }),
+            _ => RedirectToAction("HistoryMachine", new { start_date, end_date })
+        };
+    }
+
     #endregion
 
     #region Machine

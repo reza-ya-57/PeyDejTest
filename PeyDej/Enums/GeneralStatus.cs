@@ -1,6 +1,6 @@
 namespace PeyDej.Models;
 
-public enum GeneralStatus
+public enum GeneralStatus:int
 {
     Active = 1,
     Disable = 2,

@@ -1,7 +1,8 @@
 @using Microsoft.AspNetCore.Mvc.Rendering
 @using Microsoft.AspNetCore.Mvc
 @using Microsoft.AspNetCore.Mvc.TagHelpers
-@model IEnumerable<PeyDej.Models.Dtos.InspectionDto>
+@using PeyDej.Models.Dtos
+@model IEnumerable<PeyDej.Models.Dtos.InspectionDto>?
 @inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
 
 @functions {
@@ -29,8 +30,9 @@
         <div class="row mb-5">
             <div class="col-12">
                 <label>پرسنل:</label>
-                <select id="person" asp-items="@ViewBag.person" class="form-select"></select>
-                <button onclick="save()" class="btn btn-success">ثبت نتایج</button>
+                <select id="person" asp-items="@ViewBag.person" class="form-select">
+
+                </select>
             </div>
         </div>
 
@@ -48,19 +50,30 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var m in Model)
+                        @if (Model?.Any() ?? false)
                         {
-                            <tr>
-                                <th scope="row">@(++i)</th>
-                                <th scope="row">@m.Name</th>
-                                <th scope="row">
-                                    <label class="m-2"><input name="status@{@m.MachineId}" value="1" type="radio" />&nbsp;تایید</label>
-                                    <label class="m-2"><input name="status@{@m.MachineId}" value="0" type="radio" />&nbsp;رد</label>
-                                </th>
-                                <th scope="row">
-                                    <input id="desk@{@m.MachineId}" value="" type="text" class="form-control" />
-                                </th>
-                            </tr>
+                            @foreach (var m in Model)
+                            {
+                                <tr>
+                                    <th scope="row">@(++i)</th>
+                                    <th scope="row">@m.Name</th>
+                                    <th scope="row">
+                                        @if (m.Status == 1)
+                                        {
+                                            <label class="m-2"><input disabled="disabled" name="status@{@m.MachineId}"  checked="checked" value="1" type="radio" />&nbsp;تایید</label>
+                                            <label class="m-2"><input disabled="disabled" name="status@{ @m.MachineId}" value="0" type="radio" />&nbsp;رد</label>
+                                        }
+                                        else
+                                        {
+                                            <label class="m-2"><input disabled="disabled" name="status@{@m.MachineId}" value="1" type="radio" />&nbsp;تایید</label>
+                                            <label class="m-2"><input disabled="disabled" name="status@{@m.MachineId}" checked="checked"  value="0" type="radio" />&nbsp;رد</label>
+                                        }
+                                    </th>
+                                    <th scope="row">
+                                        <input id="desk@{@m.MachineId}" value="0" type="text" class="form-control" />
+                                    </th>
+                                </tr>
+                            }
                         }
                     </tbody>
                 </table>
@@ -95,7 +108,7 @@
                 console.log(desc)
                 data.push({
                     Id: value,
-                    Description : desc,
+                    Description: desc,
                     Status: radios.val() == 1,
                 });
             });

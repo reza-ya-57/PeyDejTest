@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using PeyDej.Data;
 using PeyDej.Models;
 using PeyDej.Models.Bases;
+
+using System.Security.Claims;
 
 namespace PeyDej.Controllers
 {
@@ -71,21 +73,19 @@ namespace PeyDej.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(
-            [Bind(
-                "Id,InsDate,FirstName,LastName,NationalCode,PhoneNumber,DepartmentId,PartId,GenderId,Description,GeneralStatusId")]
-            Person person)
+        public async Task<IActionResult> Create(Person person)
         {
             if (ModelState.IsValid)
             {
                 _ = person.GenderId == 0 ? person.GenderId = null : person.GenderId = person.GenderId;
                 _ = person.PartId == 0 ? person.PartId = null : person.PartId = person.PartId;
                 _ = person.DepartmentId == 0 ? person.DepartmentId = null : person.DepartmentId = person.DepartmentId;
-                _context.Add(person);
-                await _context.SaveChangesAsync();
+
+                person.CreatorUserId = User.Claims.Where(w => w.Type == ClaimTypes.Sid)?.FirstOrDefault()?.Value;
+                //_context.Add(person);
+                //await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-
             ViewBag.Gender = this.Gender();
             ViewBag.Parts = this.Parts();
             ViewBag.Department = this.Department();
@@ -118,8 +118,7 @@ namespace PeyDej.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(long id,
-            [Bind(
-                "Id,InsDate,FirstName,LastName,NationalCode,PhoneNumber,DepartmentId,GenderId,Description,GeneralStatusId")]
+            [Bind("Id,InsDate,FirstName,LastName,NationalCode,PhoneNumber,DepartmentId,GenderId,Description,GeneralStatusId")]
             Person person)
         {
             if (id != person.Id)
@@ -134,6 +133,8 @@ namespace PeyDej.Controllers
                     _ = person.GenderId == 0 ? person.GenderId = null : person.GenderId = person.GenderId;
                     _ = person.PartId == 0 ? person.PartId = null : person.PartId = person.PartId;
                     _ = person.DepartmentId == 0 ? person.DepartmentId = null : person.DepartmentId = person.DepartmentId;
+                    person.LastEditorUserId = User.Claims.Where(w => w.Type == ClaimTypes.Sid).FirstOrDefault().Value;
+                    person.LastEditDate = DateTime.Now;
                     _context.Update(person);
                     await _context.SaveChangesAsync();
                 }

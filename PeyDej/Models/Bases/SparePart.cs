@@ -40,4 +40,8 @@ public class SparePart
     public GeneralStatus GeneralStatusId { get; set; } = GeneralStatus.Active;
     [NotMapped]
     public IFormFile? FormFiles { get; set; }
+    public string? CreatorUserId { get; set; }
+    public string? LastEditorUserId { get; set; }
+
+    public DateTime? LastEditDate { get; set; }
 }

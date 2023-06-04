@@ -98,6 +98,9 @@ public class Motor
     public string? InspectionStartDateDto { get; set; }
 
     public GeneralStatus GeneralStatusId { get; set; } = GeneralStatus.Active;
+    public string? CreatorUserId { get; set; }
+    public string? LastEditorUserId { get; set; }
 
+    public DateTime? LastEditDate { get; set; }
 
 }

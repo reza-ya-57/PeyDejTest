@@ -11,6 +11,9 @@ using PeyDej.Models.Dtos;
 using PeyDej.Services.Pagination;
 using PeyDej.Tools;
 
+using System.Reflection.PortableExecutable;
+using System.Security.Claims;
+
 namespace PeyDej.Controllers
 {
     [Authorize]
@@ -70,6 +73,7 @@ namespace PeyDej.Controllers
         {
             if (ModelState.IsValid)
             {
+                motor.CreatorUserId = User.Claims.Where(w => w.Type == ClaimTypes.Sid)?.FirstOrDefault()?.Value;
                 motor.InspectionStartDate = PeyDejTools.PersianStringToDateTime(motor.InspectionStartDateDto);
                 var result = _context.Add(motor);
                 await _context.SaveChangesAsync();
@@ -134,6 +138,8 @@ namespace PeyDej.Controllers
             {
                 try
                 {
+                    motor.LastEditorUserId = User.Claims.Where(w => w.Type == ClaimTypes.Sid).FirstOrDefault().Value;
+                    motor.LastEditDate = DateTime.Now;
                     var result = _context.Update(motor);
                     await _context.SaveChangesAsync();
 

@@ -42,6 +42,10 @@ public partial class Person
 
     [Display(Name = "بخش")]
     public long? PartId { get; set; }
+    public string? CreatorUserId { get; set; }
+    public string? LastEditorUserId { get; set; }
+
+    public DateTime? LastEditDate { get; set; }
 
     public GeneralStatus GeneralStatusId { get; set; } = GeneralStatus.Active;
 }

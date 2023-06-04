@@ -88,7 +88,7 @@ namespace PeyDej.Controllers
 
             if (ModelState.IsValid)
             {
-                machine.LastEditorUserId = User.Claims.Where(w => w.Type == ClaimTypes.Sid)?.FirstOrDefault()?.Value;
+                machine.CreatorUserId = User.Claims.Where(w => w.Type == ClaimTypes.Sid)?.FirstOrDefault()?.Value;
                 var result = _context.Add(machine);
                 await _context.SaveChangesAsync();
 

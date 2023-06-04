@@ -9,6 +9,9 @@ using PeyDej.Models;
 using PeyDej.Models.Bases;
 using PeyDej.Service.File;
 
+using System.Reflection.PortableExecutable;
+using System.Security.Claims;
+
 namespace PeyDej.Controllers
 {
     [Authorize]
@@ -59,6 +62,7 @@ namespace PeyDej.Controllers
             {
                 sparePart.FileId = FileInterface.AddFile(UploadFor.SparePart, sparePart.FormFiles);
             }
+            sparePart.CreatorUserId = User.Claims.Where(w => w.Type == ClaimTypes.Sid)?.FirstOrDefault()?.Value;
             _context.Add(sparePart);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -98,6 +102,8 @@ namespace PeyDej.Controllers
                 {
                     sparePart.FileId = FileInterface.EditFile(UploadFor.SparePart, sparePart.FormFiles, sparePart.FileId ?? Guid.Empty);
                 }
+                sparePart.LastEditorUserId = User.Claims.Where(w => w.Type == ClaimTypes.Sid).FirstOrDefault().Value;
+                sparePart.LastEditDate = DateTime.Now;
                 _context.Update(sparePart);
                 await _context.SaveChangesAsync();
             }

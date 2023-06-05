@@ -35,10 +35,10 @@
             .Grid(Model)
             .Build(columns =>
             {
+                columns.Add(model => model.MachineId).Titled(@Html.DisplayNameFor(model => _context.Machines.FirstOrDefault(w => w.Id == model.MachineId).Name));
                 columns.Add(model => model.Caption).Titled(@Html.DisplayNameFor(model => model.Caption));
-                columns.Add(model => model.Reporter).Titled(@Html.DisplayNameFor(model => model.Reporter));
-                columns.Add(model => _context.RepairReports.Where(w => w.RepairRequestId == model.Id).Any() == true ? "تایید شده" : "تاییید نشده" ).Titled("وضعیت");
-                columns.Add().Titled("ثبت تعمیر").Encoded(false).RenderedAs(model => PeyDejHelper.ActionLink("<i class=\"icon-edit\"></i>", "CreateReport", "Repairs", model.Id, "orange-info", "ثبت تعمیر"));
+                columns.Add(model => model.Status == 1 ? "تایید شده" : "تاییید نشده" ).Titled("وضعیت");
+       @*         columns.Add().Titled("ثبت تعمیر").Encoded(false).RenderedAs(model => PeyDejHelper.ActionLink("<i class=\"icon-edit\"></i>", "CreateReport", "Repairs", model.Id, "orange-info", "ثبت تعمیر"));*@
             })
             .Empty("هیچ ایتمی وجود ندارد")
             .Sortable()
@@ -56,4 +56,3 @@
             )
     </div>
 </div>
-

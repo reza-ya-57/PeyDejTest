@@ -39,6 +39,10 @@ namespace PeyDej.Controllers
             Parts() => new SelectList(_context.VwCategories.Where(m => m.CategoryId == 15).ToList(),
             "SubCategoryId", "SubCategoryCaption");
 
+        private IEnumerable<object>
+            Units() => new SelectList(_context.VwCategories.Where(m => m.CategoryId == 20).ToList(),
+            "SubCategoryId", "SubCategoryCaption");
+
         // GET: Person/Details/5
         public async Task<IActionResult> Details(long? id)
         {
@@ -65,6 +69,7 @@ namespace PeyDej.Controllers
             ViewBag.Gender = this.Gender();
             ViewBag.Department = this.Department();
             ViewBag.Parts = this.Parts();
+            ViewBag.Units = this.Units();
             return View();
         }
 
@@ -73,12 +78,16 @@ namespace PeyDej.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Person person)
+        public async Task<IActionResult> Create(
+            [Bind(
+                "Id,InsDate,FirstName,LastName,NationalCode,PhoneNumber,DepartmentId,PartId,UnitId,GenderId,Description,GeneralStatusId")]
+            Person person)
         {
             if (ModelState.IsValid)
             {
                 _ = person.GenderId == 0 ? person.GenderId = null : person.GenderId = person.GenderId;
                 _ = person.PartId == 0 ? person.PartId = null : person.PartId = person.PartId;
+                _ = person.UnitId == 0 ? person.UnitId = null : person.UnitId = person.UnitId;
                 _ = person.DepartmentId == 0 ? person.DepartmentId = null : person.DepartmentId = person.DepartmentId;
 
                 person.CreatorUserId = User.Claims.Where(w => w.Type == ClaimTypes.Sid)?.FirstOrDefault()?.Value;
@@ -88,6 +97,7 @@ namespace PeyDej.Controllers
             }
             ViewBag.Gender = this.Gender();
             ViewBag.Parts = this.Parts();
+            ViewBag.Units = this.Units();
             ViewBag.Department = this.Department();
             return View(person);
         }
@@ -107,6 +117,7 @@ namespace PeyDej.Controllers
             }
 
             ViewBag.Parts = this.Parts();
+            ViewBag.Units = this.Units();
             ViewBag.Gender = this.Gender();
             ViewBag.Department = this.Department();
             return View(person);
@@ -118,7 +129,8 @@ namespace PeyDej.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(long id,
-            [Bind("Id,InsDate,FirstName,LastName,NationalCode,PhoneNumber,DepartmentId,GenderId,Description,GeneralStatusId")]
+            [Bind(
+                "Id,InsDate,FirstName,LastName,NationalCode,PhoneNumber,DepartmentId,PartId,UnitId,GenderId,Description,GeneralStatusId")]
             Person person)
         {
             if (id != person.Id)
@@ -132,6 +144,7 @@ namespace PeyDej.Controllers
                 {
                     _ = person.GenderId == 0 ? person.GenderId = null : person.GenderId = person.GenderId;
                     _ = person.PartId == 0 ? person.PartId = null : person.PartId = person.PartId;
+                    _ = person.UnitId == 0 ? person.UnitId = null : person.UnitId = person.UnitId;
                     _ = person.DepartmentId == 0 ? person.DepartmentId = null : person.DepartmentId = person.DepartmentId;
                     person.LastEditorUserId = User.Claims.Where(w => w.Type == ClaimTypes.Sid).FirstOrDefault().Value;
                     person.LastEditDate = DateTime.Now;
@@ -154,6 +167,7 @@ namespace PeyDej.Controllers
             }
 
             ViewBag.Parts = this.Parts();
+            ViewBag.Units = this.Units();
             ViewBag.Gender = this.Gender();
             ViewBag.Department = this.Department();
             return View(person);

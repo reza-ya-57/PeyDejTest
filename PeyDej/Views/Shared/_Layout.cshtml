@@ -114,24 +114,19 @@
                 </a>
                 <div id="accordionRepairs" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionRepairs">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a asp-action="Index" asp-controller="Repairs" class="collapse-item">درخواست تعمیر</a>
+                        @{
+                            if (User.IsInRole("Admin"))
+                            {
+                                <a asp-action="RequestIndex" asp-controller="Repairs" class="collapse-item">دستورات کار</a>
+                            }
+                            else if (User.IsInRole("Lubricator"))
+                            {
+                                <a asp-action="RequestIndex" asp-controller="Repairs" class="collapse-item">درخواست تعمیرات</a>
+                            }
+                        }
+                        <a asp-action="RepairUnitAgendumOrderIndex" asp-controller="Repairs" class="collapse-item">گزارش تعمیرات</a>
                     </div>
                 </div>
-            </li>
-            <li class="nav-item">
-          @*      <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSetting" aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-cogs"></i>
-                    <span>تعمیرات</span>
-                </a>
-                <div id="collapseSetting" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a asp-action="Index" asp-controller="Repairs" class="collapse-item">لیست تعمیر</a>
-                    </div>
-                </div>*@
-                <a class="nav-link" asp-action="Index" asp-controller="Repairs">
-                    <i class="fas fa-fw fa-cogs"></i>
-                    <span>تعمیرات</span>
-                </a>
             </li>
 
             <li class="nav-item">

@@ -42,11 +42,4 @@
       <_ContentIncludedByDefault Remove="Areas\Report\Views\DailyStatistics\Index.cshtml" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Content Update="Views\Repairs\Index.cshtml">
-        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      </Content>
-    </ItemGroup>
-
 </Project>

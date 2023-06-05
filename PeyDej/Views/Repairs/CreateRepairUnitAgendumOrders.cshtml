@@ -1,0 +1,75 @@
+﻿@using PeyDej.Service
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model PeyDej.Models.Report.RepairUnitAgendumOrder
+
+@{
+    ViewData["Title"] = "درخواست تعمیر جدید";
+}
+
+<div class="row">
+    <div class="col-6 offset-3">
+        <div class="card">
+            <div class="card-header">
+                <h3 xmlns="http://www.w3.org/1999/html">@ViewData["Title"]</h3>
+            </div>
+            <div class="card-body">
+                <form asp-action="CreateRepairUnitAgendumOrders">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="RepairRequestId"/>
+                    
+                    
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="ActionKindId" class="col-form-label"></label>
+                                <select asp-for="ActionKindId" asp-items="@SystemExtenstion.Select(Model.ActionKinds,"Id","Value")" class="form-control"></select>
+                                <span asp-validation-for="ActionKindId" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="LocationId" class="col-form-label"></label>
+                                <select asp-for="LocationId" asp-items="@SystemExtenstion.Select(Model.Locations,"Id","Value")" class="form-control"></select>
+                                <span asp-validation-for="LocationId" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="PersonId" class="col-form-label"></label>
+                                <select asp-for="PersonId" asp-items="@SystemExtenstion.Select(Model.Persons,"Id","FullName")" class="form-control"></select>
+                                <span asp-validation-for="PersonId" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <input type="submit" value="ذخیره" class="btn btn-primary" />
+                                <a asp-action="RequestIndex" class="btn btn-danger">بازگشت</a>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script type="text/javascript">
+        $(function () {
+            $('#DateDto').datepicker({
+                isRTL: true,
+                dateFormat: "yy/mm/dd"
+            });
+        });
+
+    </script>
+}

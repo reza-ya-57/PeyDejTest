@@ -11,7 +11,7 @@
                 <h3 xmlns="http://www.w3.org/1999/html">@ViewData["Title"]</h3>
             </div>
             <div class="card-body">
-                <form asp-action="CreateReport">
+                <form asp-action="RequestCreate">
                     <input type="hidden" asp-for="RepairRequestId" />
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="row">
@@ -94,7 +94,7 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <input type="submit" value="ذخیره" class="btn btn-primary" />
-                                <a asp-action="Index" class="btn btn-danger">بازگشت</a>
+                                <a asp-action="RequestIndex" class="btn btn-danger">بازگشت</a>
                             </div>
                         </div>
                         <div class="col-6">

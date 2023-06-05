@@ -8,6 +8,10 @@ namespace PeyDej.Models.Bases;
 [Table(name: "Person", Schema = "Base")]
 public partial class Person
 {
+    public Person()
+    {
+    }
+
     [Key] 
     public long Id { get; set; }
 
@@ -57,5 +61,7 @@ public partial class Person
     [NotZero(ErrorMessage = "مقدار {0} را وارد کنید")]
     public long? UnitId { get; set; }
 
+    [Display(Name ="نام کامل کاربر")]
+    [NotMapped] public string FullName => $"{FirstName} {LastName}";
     public GeneralStatus GeneralStatusId { get; set; } = GeneralStatus.Active;
 }

@@ -1,0 +1,104 @@
+@using PeyDej.Tools
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using PeyDej.Data
+@inject PeyDejContext _context
+@model IEnumerable<PeyDej.Models.Report.RepairRequest>
+
+@{
+    if (User.IsInRole("Admin"))
+    {
+        ViewData["Title"] = "درخواست ها";
+    }
+    else if (User.IsInRole("Lubricator"))
+    {
+        ViewData["Title"] = "دستورات کار";
+    }
+}
+
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+@functions {
+
+    private string? GetAntiXsrfRequestToken()
+    {
+        return Xsrf.GetAndStoreTokens(Context).RequestToken;
+    }
+}
+
+<div class="row">
+    <div class="col-12 offset-0">
+        <h3>@ViewData["Title"]</h3>
+        <hr />
+        <p>
+            @{
+                if (User.IsInRole("Admin"))
+                {
+                    <a class="btn btn-primary" asp-action="RequestCreate">ثبت دستورات کار جدید</a>
+                }
+                else if (User.IsInRole("Lubricator"))
+                {
+                    <a class="btn btn-primary" asp-action="RequestCreate">درخواست تعمیر جدید</a>
+                }
+            }
+            <a class="btn btn-success" target="_blank" asp-action="Print"> پرینت فرم تعمییرات</a>
+        </p>
+        <hr />
+        <style>
+            .gCol {
+                text-align: center;
+            }
+        </style>
+        @(Html
+            .Grid(Model)
+            .Build(columns =>
+            {
+                columns.Add(model => _context.Machines.FirstOrDefault(w => w.Id == model.MachineId).Name).Titled("ماشین");
+                columns.Add(model => model.Caption).Titled(@Html.DisplayNameFor(model => model.Caption));
+
+                if (User.IsInRole("Lubricator"))
+                {
+                    columns.Add(model => model.Status == 1 ? "تایید شده" : "تاییید نشده").Titled("وضعیت");
+                    columns.Add().Titled("تایید درخواست").Encoded(false).RenderedAs(model =>
+                    PeyDejHelper.ActiveLinkAjax(
+                    $"javascript:SetStatusRepairRequest('{model.Id}');", "تایید درخواست", "btn btn-success btn-sm")
+                    );
+                }
+                if (User.IsInRole("Admin"))
+                {
+                    columns.Add(model => _context.RepairUnitAgendumOrders.Any(w => w.RepairRequestId == model.Id) ? "ثبت شده" : "ثبت نشده").Titled(" وضعیت دستور کار");
+                    columns.Add().Titled("ثبت دستور کار").Encoded(false).RenderedAs(model =>
+                    Html.ActionLink("ثبت دستور کار", "CreateRepairUnitAgendumOrders", "Repairs", new { id = model.Id },
+                    new { @class = "btn btn-warning btn-sm" }));
+                }
+            })
+            .Empty("هیچ ایتمی وجود ندارد")
+            .Sortable()
+            .Filterable()
+            .Using(GridFilterMode.Row)
+            .Pageable(pager =>
+            {
+                pager.PageSizes = new Dictionary<Int32, String> { { 10, "10" }, { 20, "20" }, { 50, "50" }, { 0, "همه" } };
+                pager.ShowPageSizes = true;
+                pager.PagesToDisplay = 5;
+                pager.CurrentPage = 1;
+                pager.RowsPerPage = 20;
+            })
+            .Css("table table-bordered")
+            )
+    </div>
+</div>
+
+<script type="text/javascript">
+    function SetStatusRepairRequest (id) {
+        if (confirm("برای تایید این آیتم مطمئن هستید؟")) {
+            var token = "@GetAntiXsrfRequestToken()";
+            $.post("@Url.Action("SetStatusRepairRequest")", { id: id, __RequestVerificationToken: token },
+                function (data) {
+                    if (data.hasError == true) {
+                        alert(data.error);
+                    } else {
+                        location.reload();
+                    }
+                }, "JSON");
+        }
+    }
+</script>

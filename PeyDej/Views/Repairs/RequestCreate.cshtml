@@ -1,0 +1,67 @@
+﻿@model PeyDej.Models.Report.RepairRequest
+
+@{
+    ViewData["Title"] = "درخواست تعمیر جدید";
+}
+
+<div class="row">
+    <div class="col-6 offset-3">
+        <div class="card">
+            <div class="card-header">
+                <h3 xmlns="http://www.w3.org/1999/html">@ViewData["Title"]</h3>
+            </div>
+            <div class="card-body">
+                <form asp-action="RequestCreate">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="Caption" class="col-form-label"></label>
+                                <textarea asp-for="Caption" class="form-control"></textarea>
+                                <span asp-validation-for="Caption" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="MachineId" class="col-form-label"></label>
+                                <select asp-for="MachineId" class="form-control">
+                                    <option value="0" default="" selected="" >انتخاب</option>
+                                    @foreach (var item in ViewBag.Machine)
+                                    {
+                                        <option name="@item.Text" value="@item.Value">@item.Text</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="MachineId" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <input type="submit" value="ذخیره" class="btn btn-primary" />
+                                <a asp-action="RequestIndex" class="btn btn-danger">بازگشت</a>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script type="text/javascript">
+        $(function () {
+            $('#DateDto').datepicker({
+                isRTL: true,
+                dateFormat: "yy/mm/dd"
+            });
+        });
+
+    </script>
+}

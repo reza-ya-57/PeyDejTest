@@ -45,4 +45,6 @@ public partial class PeyDejContext : IdentityDbContext<PeyDejUser>
     public virtual DbSet<FileInformation> FileInformations { get; set; } = null!;
     public virtual DbSet<MachineIR> MachineIRs { get; set; } = null!;
     public virtual DbSet<MotorIR> MotorIRs { get; set; } = null!;
+    public virtual DbSet<RepairUnitAgendumOrder> RepairUnitAgendumOrders { get; set; } = null!;
+    public virtual DbSet<RepairUnitAgendumOrderActionType> RepairUnitAgendumOrderActionTypes { get; set; } = null!;
 }

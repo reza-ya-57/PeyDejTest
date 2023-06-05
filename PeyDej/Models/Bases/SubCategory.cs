@@ -17,7 +17,7 @@ public class SubCategory
   [Required(ErrorMessage = "مقدار {0} را وارد کنید")]
   public string Name { get; set; } = null!;
 
-
+  public long? CategoryId { get; set; }
   [Display(Name = "مقدار")]
   [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]
   [Required(ErrorMessage = "مقدار {0} را وارد کنید")]

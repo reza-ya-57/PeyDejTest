@@ -48,4 +48,6 @@ public partial class PeyDejContext : IdentityDbContext<PeyDejUser>
     public virtual DbSet<RepairUnitAgendumOrder> RepairUnitAgendumOrders { get; set; } = null!;
     public virtual DbSet<RepairUnitAgendumOrderActionType> RepairUnitAgendumOrderActionTypes { get; set; } = null!;
     public virtual DbSet<RepairReportSparePart> RepairReportSpareParts { get; set; } = null!;
+    public virtual DbSet<DailyDryProductIR> DailyDryProductIrs { get; set; } = null!;
+    public virtual DbSet<DailyWetProductIR> DailyWetProductIrs{ get; set; } = null!;
 }

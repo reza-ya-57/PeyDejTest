@@ -147,6 +147,22 @@
                         <a asp-action="Index" asp-controller="SparePart" class="collapse-item">قطعات یدکی</a>
                         <a asp-action="Index" asp-controller="Motor" class="collapse-item">موتورها</a>
                         <a asp-action="Index" asp-controller="Machine" class="collapse-item">ماشین آلات</a>
+                        <a asp-action="Index" asp-controller="Machine" class="collapse-item">محصول خشک روزانه</a>
+                        <a asp-action="Index" asp-controller="Machine" class="collapse-item">محصول مرطوب روزانه</a>
+                    </div>
+                </div>
+            </li>
+            <hr class="sidebar-divider">
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                    <i class="fas fa-fw fa-list-alt"></i>
+                    <span>سرپرست تولید</span>
+                </a>
+                <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a asp-action="Index" asp-controller="DailyDryProductIRs" class="collapse-item">خط خشک</a>
+                        <a asp-action="Index" asp-controller="DailyWetProductIRs" class="collapse-item">خط خیس</a>
                     </div>
                 </div>
             </li>

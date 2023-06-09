@@ -1,0 +1,76 @@
+﻿@using PeyDej.Tools
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model IEnumerable<PeyDej.Models.Report.DailyWetProductIR>
+@{
+    ViewData["Title"] = "لیست خط خیس";
+}
+
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+@functions {
+
+    private string? GetAntiXsrfRequestToken()
+    {
+        return Xsrf.GetAndStoreTokens(Context).RequestToken;
+    }
+}
+
+<div class="row">
+    <div class="col-12 offset-0">
+        <h3>@ViewData["Title"]</h3>
+        <hr />
+        <p>
+            <a class="btn btn-primary" asp-action="Create">جدید</a>
+        </p>
+        <hr />
+        <style>
+            .gCol {
+                text-align: center;
+            }
+        </style>
+        @(Html
+            .Grid(Model)
+            .Build(columns =>
+            {
+                columns.Add(model => model.TemperatureAndHumidityStatus).Titled(@Html.DisplayNameFor(model => model.TemperatureAndHumidityStatus));
+                columns.Add(model => model.TemplateNumber).Titled(@Html.DisplayNameFor(model => model.TemplateNumber));
+                columns.Add(model => model.BladeWeight).Titled(@Html.DisplayNameFor(model => model.BladeWeight));
+                columns.Add(model => model.SoilSpeed).Titled(@Html.DisplayNameFor(model => model.SoilSpeed));
+                columns.Add(model => model.VaciumDegree).Titled(@Html.DisplayNameFor(model => model.VaciumDegree));
+                columns.Add(model => model.BandStatus).Titled(@Html.DisplayNameFor(model => model.BandStatus));
+                columns.Add().Titled("ویرایش").Encoded(false).RenderedAs(model => PeyDejHelper.ActionLink("<i class=\"icon-edit\"></i>", "Edit", "DailyWetProductIRs", model.Id, "orange-text", "ویرایش"));
+                columns.Add().Titled("جزییات").Encoded(false).RenderedAs(model => PeyDejHelper.ActionLink("<i class=\"icon-info-sign\"></i>", "Details", "DailyWetProductIRs", model.Id, "green-text", "جزییات"));
+
+            })
+            .Empty("هیچ ایتمی وجود ندارد")
+            .Sortable()
+            .Filterable()
+            .Using(GridFilterMode.Row)
+            .Pageable(pager =>
+            {
+                pager.PageSizes = new Dictionary<Int32, String> { { 10, "10" }, { 20, "20" }, { 50, "50" }, { 0, "همه" } };
+                pager.ShowPageSizes = true;
+                pager.PagesToDisplay = 5;
+                pager.CurrentPage = 1;
+                pager.RowsPerPage = 20;
+            })
+            .Css("table table-bordered")
+            )
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    function DeleteItem (id) {
+        if (confirm("برای حذف این آیتم مطمئن هستید؟")) {
+            var token = "@GetAntiXsrfRequestToken()";
+            $.post("@Url.Action("Delete")", { id: id, __RequestVerificationToken: token },
+                function (data) {
+                    if (data.hasError == true) {
+                        alert(data.error);
+                    } else {
+                        location.reload();
+                    }
+                }, "JSON");
+        }
+    }
+</script>

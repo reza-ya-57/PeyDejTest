@@ -1,0 +1,175 @@
+﻿@using PeyDej.Service
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model PeyDej.Models.Report.DailyDryProductIR
+
+@{
+    ViewData["Title"] = "ویرایش خط خشک ";
+}
+<div class="row">
+    <div class="col-6 offset-3">
+        <div class="card">
+            <div class="card-header">
+                <h3 xmlns="http://www.w3.org/1999/html">@ViewData["Title"]</h3>
+            </div>
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="DateDto" class="control-label"></label>
+                                <input asp-for="DateDto" class="form-control" />
+                                <span asp-validation-for="DateDto" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="TemperatureAndHumidity" class="control-label"></label>
+                                <input asp-for="TemperatureAndHumidity" class="form-control" />
+                                <span asp-validation-for="TemperatureAndHumidity" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="DryerTemperature" class="control-label"></label>
+                                <input asp-for="DryerTemperature" class="form-control" />
+                                <span asp-validation-for="DryerTemperature" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+
+                            <div class="form-group">
+                                <label asp-for="BladeDimensionX" class="control-label"></label>
+                                <input asp-for="BladeDimensionX" class="form-control" />
+                                <span asp-validation-for="BladeDimensionX" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="BladeDimensionY" class="control-label"></label>
+                                <input asp-for="BladeDimensionY" class="form-control" />
+                                <span asp-validation-for="BladeDimensionY" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="NightShiftOperatorPersonId" class="col-form-label"></label>
+                                <select asp-for="NightShiftOperatorPersonId" asp-items="@SystemExtenstion.Select(Model.ShiftOperatorPerson,"Id","FullName")" class="form-control"></select>
+                                <span asp-validation-for="NightShiftOperatorPersonId" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="MorningShiftOperatorPersonId" class="col-form-label"></label>
+                                <select asp-for="MorningShiftOperatorPersonId" asp-items="@SystemExtenstion.Select(Model.ShiftOperatorPerson,"Id","FullName")" class="form-control"></select>
+                                <span asp-validation-for="MorningShiftOperatorPersonId" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="LipTwitchingStatus" class="control-label"></label>
+                                <input asp-for="LipTwitchingStatus" class="form-control" />
+                                <span asp-validation-for="LipTwitchingStatus" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="TemplateExternalCrackStatus" class="control-label"></label>
+                                <input asp-for="TemplateExternalCrackStatus" class="form-control" />
+                                <span asp-validation-for="TemplateExternalCrackStatus" class="text-danger"></span>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="DryerExternalCrackStatus" class="control-label"></label>
+                                <input asp-for="DryerExternalCrackStatus" class="form-control" />
+                                <span asp-validation-for="DryerExternalCrackStatus" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="ShelfNumberStart" class="control-label"></label>
+                                <input asp-for="ShelfNumberStart" class="form-control" />
+                                <span asp-validation-for="ShelfNumberStart" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="ShelfNumberEnd" class="control-label"></label>
+                                <input asp-for="ShelfNumberEnd" class="form-control" />
+                                <span asp-validation-for="ShelfNumberEnd" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="WetPalletCount" class="control-label"></label>
+                                <input asp-for="WetPalletCount" class="form-control" />
+                                <span asp-validation-for="WetPalletCount" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="WetShelfRange" class="control-label"></label>
+                                <input asp-for="WetShelfRange" class="form-control" />
+                                <span asp-validation-for="WetShelfRange" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <label asp-for="TemplateKindId" class="col-form-label"></label>
+                                    <select asp-for="TemplateKindId" asp-items="@SystemExtenstion.Select(Model.TemplateKindList,"Id","Value")" class="form-control"></select>
+                                    <span asp-validation-for="TemplateKindId" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="WetChannelNumber" class="control-label"></label>
+                                <input asp-for="WetChannelNumber" class="form-control" />
+                                <span asp-validation-for="WetChannelNumber" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="ذخیره" class="btn btn-primary" />
+                        <a asp-action="Index" class="btn btn-danger">بازگشت</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script type="text/javascript">
+        $(function () {
+            $('#DateDto,#StartRepairDateDto').datepicker({
+                isRTL: true,
+
+                dateFormat: "yy/mm/dd"
+            });
+        });
+
+    </script>
+}

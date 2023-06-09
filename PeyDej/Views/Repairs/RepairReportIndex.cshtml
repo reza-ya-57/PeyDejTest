@@ -1,8 +1,7 @@
-﻿@using PeyDej.Tools
+﻿@model IEnumerable<PeyDej.Models.Report.RepairReport>
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @using PeyDej.Data
 @inject PeyDejContext _context
-@model IEnumerable<PeyDej.Models.Report.RepairUnitAgendumOrder>
 
 @{
     ViewData["Title"] = "گزارش تعمیرات";
@@ -22,7 +21,6 @@
         <h3>@ViewData["Title"]</h3>
         <hr />
         <p>
-            <a class="btn btn-primary" asp-action="RequestCreate">درخواست گزارش تعمیر جدید</a>
             <a class="btn btn-success" target="_blank" asp-action="Print"> پرینت فرم تعمییرات</a>
         </p>
         <hr />
@@ -35,19 +33,11 @@
             .Grid(Model)
             .Build(columns =>
             {
-                columns.Add(model => _context.RepairRequests.FirstOrDefault(w => w.Id == model.RepairRequestId).Caption).Titled("شرح درخواست");
-
-                columns.Add(model => _context.SubCategories.FirstOrDefault(w => w.Id == model.ActionKindId).Value)
-                .Titled("نوع اقدام");
-
-                columns.Add(model => _context.SubCategories.FirstOrDefault(w => w.Id == model.LocationId).Value).Titled("محل تعمیر");
-
-
+                columns.Add(model => model.FaultCaption).Titled(@Html.DisplayNameFor(model => model.FaultCaption));
+                columns.Add(model => model.WorkDescription).Titled(@Html.DisplayNameFor(model => model.WorkDescription));
+                
                 columns.Add().Titled("ثبت گزارش تعمیر").Encoded(false).RenderedAs(model =>
-                Html.ActionLink("ثبت گزارش تعمیر", "CreateReport", "Repairs", new { id = model.Id },
-                         new { @class = "btn btn-warning btn-sm" })
-                     );
-
+                Html.ActionLink("ثبت گزارش تعمیر", "CreateReport", "Repairs", new { id = model.Id }, new { @class = "btn btn-warning btn-sm" }));
 
             })
             .Empty("هیچ ایتمی وجود ندارد")

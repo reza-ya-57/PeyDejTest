@@ -5,7 +5,7 @@
 @model IEnumerable<PeyDej.Models.Report.RepairRequest>
 
 @{
-    ViewData["Title"] = "درخواست ها";
+    ViewData["Title"] = "دستورات کار";
 }
 
 @inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
@@ -22,7 +22,7 @@
         <h3>@ViewData["Title"]</h3>
         <hr />
         <p>
-            <a class="btn btn-primary" asp-action="RequestCreate">درخواست تعمیر جدید</a>
+            <a class="btn btn-primary" asp-action="RequestCreate">ثبت دستورات کار جدید</a>
             <a class="btn btn-success" target="_blank" asp-action="Print"> پرینت فرم تعمییرات</a>
         </p>
         <hr />
@@ -37,9 +37,10 @@
             {
                 columns.Add(model => _context.Machines.FirstOrDefault(w => w.Id == model.MachineId).Name).Titled("ماشین");
                 columns.Add(model => model.Caption).Titled(@Html.DisplayNameFor(model => model.Caption));
-                columns.Add(model => model.Status == 1 ? "تایید شده" : "تاییید نشده").Titled("وضعیت");
-                columns.Add().Titled("تایید درخواست").Encoded(false).RenderedAs(model =>
-                PeyDejHelper.ActiveLinkAjax($"javascript:SetStatusRepairRequest('{model.Id}');", "تایید درخواست", "btn btn-success btn-sm"));
+                columns.Add(model => _context.RepairUnitAgendumOrders.Any(w => w.RepairRequestId == model.Id) ? "ثبت شده" : "ثبت نشده").Titled(" وضعیت دستور کار");
+                columns.Add().Titled("ثبت دستور کار").Encoded(false).RenderedAs(model =>
+                Html.ActionLink("ثبت دستور کار", "CreateRepairUnitAgendumOrders", "Repairs", new { id = model.Id },
+                new { @class = "btn btn-warning btn-sm" }));
             })
             .Empty("هیچ ایتمی وجود ندارد")
             .Sortable()

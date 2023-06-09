@@ -35,8 +35,24 @@ public class RepairUnitAgendumOrder
     public IQueryable<SubCategory>? Locations { get; set; }
 
     [Display(Name = "نام کاربر")]
-    public long? PersonId { get; set; }
+    [NotMapped]
+    public List<long> PersonList { get; set; }
+
+    public string? PersonIds { get; set; }
+
     [NotMapped]
     public IQueryable<Person>? Persons { get; set; }
 
+    [Display(Name = "نوع اقدام تعمییرات")]
+    [Required(ErrorMessage = "مقدار {0} را وارد کنید")]
+    [NotMapped]
+    public List<long> ActionTypes { get; set; }
+    //[NotMapped]
+    //public List<RepairReportSparePart> RepairReportSpareParts { get; set; }
+
+
+    public virtual ICollection<RepairReportSparePart> RepairReportSparePartCollection { get; set; }
+
+    [NotMapped]
+    public IQueryable<SubCategory>? ActionTypeList { get; set; }
 }

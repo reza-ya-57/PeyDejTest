@@ -4,6 +4,7 @@
 
 @{
     ViewData["Title"] = "درخواست تعمیر جدید";
+
 }
 
 <div class="row">
@@ -15,9 +16,9 @@
             <div class="card-body">
                 <form asp-action="CreateRepairUnitAgendumOrders">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input type="hidden" asp-for="RepairRequestId"/>
-                    
-                    
+                    <input type="hidden" asp-for="RepairRequestId" />
+
+
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
@@ -33,15 +34,24 @@
                                 <span asp-validation-for="LocationId" class="text-danger"></span>
                             </div>
                         </div>
-                    </div> 
+                    </div>
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label asp-for="PersonId" class="col-form-label"></label>
-                                <select asp-for="PersonId" asp-items="@SystemExtenstion.Select(Model.Persons,"Id","FullName")" class="form-control"></select>
-                                <span asp-validation-for="PersonId" class="text-danger"></span>
+                                <label asp-for="PersonList" class="col-form-label"></label>
+                                <select multiple asp-for="PersonList" asp-items="@SystemExtenstion.Select(Model.Persons,"Id","FullName")" class="form-control"></select>
+                                <span asp-validation-for="PersonList" class="text-danger"></span>
                             </div>
                         </div>
+
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="ActionTypes" class="col-form-label"></label>
+                                <select multiple asp-for="ActionTypes" asp-items="@SystemExtenstion.Select(Model.ActionTypeList,"Id","Value")" class="form-control"></select>
+                                <span asp-validation-for="ActionTypes" class="text-danger"></span>
+                            </div>
+                        </div>
+                        
                     </div>
 
                     <div class="row">
@@ -64,6 +74,8 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
     <script type="text/javascript">
+
+
         $(function () {
             $('#DateDto').datepicker({
                 isRTL: true,
@@ -71,5 +83,6 @@
             });
         });
 
+    
     </script>
 }

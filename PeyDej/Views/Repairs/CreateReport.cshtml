@@ -12,89 +12,78 @@
             </div>
             <div class="card-body">
                 <form asp-action="RequestCreate">
-                    <input type="hidden" asp-for="RepairRequestId" />
+                    <input type="hidden" asp-for="RepairUnitAgendumOrderId" />
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label asp-for="Caption" class="control-label"></label>
-                                <input asp-for="Caption" class="form-control" />
-                                <span asp-validation-for="Caption" class="text-danger"></span>
+                                <label asp-for="FaultCaption" class="control-label"></label>
+                                <input asp-for="FaultCaption" class="form-control" />
+                                <span asp-validation-for="FaultCaption" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label asp-for="PersonId" class="col-form-label"></label>
-                                <select asp-for="PersonId" class="form-control">
-                                    <option value="0" default="" selected="" >انتخاب</option>
-                                    @foreach (var item in Model.People)
-                                    {
-                                        <option name="@(item.FirstName  + " " + item.LastName)" value="@item.Id">@(item.FirstName + " " + item.LastName)</option>
-                                    }
-                                </select>
-                                <span asp-validation-for="PersonId" class="text-danger"></span>
+                                <label asp-for="WorkDescription" class="control-label"></label>
+                                <textarea asp-for="WorkDescription" class="form-control"></textarea>
+                                <span asp-validation-for="WorkDescription" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-4">
                             <div class="form-group">
-                                <label asp-for="EndDateDto" class="control-label"></label>
-                                <input asp-for="EndDateDto" class="form-control" />
-                                <span asp-validation-for="EndDateDto" class="text-danger"></span>
+                                <label asp-for="StartRepairDateDto" class="control-label"></label>
+                                <input asp-for="StartRepairDateDto" class="form-control" />
+                                <span asp-validation-for="StartRepairDateDto" class="text-danger"></span>
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-4">
                             <div class="form-group">
-                                <label asp-for="StartDateDto" class="control-label"></label>
-                                <input asp-for="StartDateDto" class="form-control" />
-                                <span asp-validation-for="StartDateDto" class="text-danger"></span>
+                                <label asp-for="StartRepairHour" class="control-label"></label>
+                                <input asp-for="StartRepairHour" class="form-control" />
+                                <span asp-validation-for="StartRepairHour" class="text-danger"></span>
                             </div>
                         </div>
-
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label asp-for="StartRepairMinute" class="control-label"></label>
+                                <input asp-for="StartRepairMinute" class="form-control" />
+                                <span asp-validation-for="StartRepairMinute" class="text-danger"></span>
+                            </div>
+                        </div>
                     </div>
+                
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-4">
                             <div class="form-group">
-                                <label asp-for="PartId" class="control-label"></label>
-                                <select asp-for="PartId" class="form-control select-v2" asp-items="ViewBag.Parts">
-                                    <option value="0" default="" selected="" >انتخاب</option>
-                                </select>
-                                <span asp-validation-for="PartId" class="text-danger"></span>
+                                <label asp-for="EndRepairDateDto" class="control-label"></label>
+                                <input asp-for="EndRepairDateDto" class="form-control" />
+                                <span asp-validation-for="EndRepairDateDto" class="text-danger"></span>
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-4">
                             <div class="form-group">
-                                <label asp-for="Description" class="control-label"></label>
-                                <textarea asp-for="Description" class="form-control" rows="3"></textarea>
-                                <span asp-validation-for="Description" class="text-danger"></span>
+                                <label asp-for="EndRepairHour" class="control-label"></label>
+                                <input asp-for="EndRepairHour" class="form-control" />
+                                <span asp-validation-for="EndRepairHour" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label asp-for="EndRepairMinute" class="control-label"></label>
+                                <input asp-for="EndRepairMinute" class="form-control" />
+                                <span asp-validation-for="EndRepairMinute" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
-
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label asp-for="UsedPart" class="control-label"></label>
-                                <textarea asp-for="UsedPart" class="form-control" rows="3"></textarea>
-                                <span asp-validation-for="UsedPart" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label asp-for="Accepted" class="control-label"></label>
-                                <textarea asp-for="Accepted" class="form-control" rows="3"></textarea>
-                                <span asp-validation-for="Accepted" class="text-danger"></span>
-                            </div>
-                        </div>
-
-                    </div>
+                
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
                                 <input type="submit" value="ذخیره" class="btn btn-primary" />
-                                <a asp-action="RequestIndex" class="btn btn-danger">بازگشت</a>
+                                <a asp-action="RepairReportIndex" class="btn btn-danger">بازگشت</a>
                             </div>
                         </div>
                         <div class="col-6">
@@ -111,9 +100,10 @@
     }
     <script type="text/javascript">
         $(function () {
-            $('#EndDateDto,#StartDateDto').datepicker({
+            $('#EndRepairDateDto,#StartRepairDateDto').datepicker({
                 isRTL: true,
-                dateFormat: "yy/mm/dd"
+                dateFormat: "yy/mm/dd",
+                
             });
         });
 

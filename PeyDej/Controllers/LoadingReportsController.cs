@@ -33,7 +33,7 @@ namespace PeyDej.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(LoadingReport loadingReport)
+        public IActionResult Create(LoadingReport loadingReport)
         {
             if (ModelState.IsValid)
             {
@@ -68,7 +68,7 @@ namespace PeyDej.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, LoadingReport loadingReport)
+        public IActionResult Edit(long id, LoadingReport loadingReport)
         {
             if (ModelState.IsValid)
             {
@@ -77,7 +77,7 @@ namespace PeyDej.Controllers
 
                     _context.LoadingReports.Update(loadingReport);
                     _context.SaveChanges();
-               
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -93,10 +93,9 @@ namespace PeyDej.Controllers
         // POST: LoadingReports/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(long id)
+        public IActionResult DeleteConfirmed(long id)
         {
-            var loadingReport = await _context.LoadingReports.FindAsync(id);
-
+            var loadingReport = _context.LoadingReports.Find(id);
             _context.LoadingReports.Remove(loadingReport);
             _context.SaveChanges();
             //return RedirectToAction(nameof(Index));

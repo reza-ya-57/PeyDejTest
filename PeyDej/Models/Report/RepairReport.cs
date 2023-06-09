@@ -1,55 +1,48 @@
-﻿using PeyDej.Models.Bases;
-
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PeyDej.Models.Report;
 
 [Table("RepairReport", Schema = "Report")]
-public partial class RepairReport
+public class RepairReport
 {
-    public RepairReport()
-    {
-        People = new List<Person>();
-    }
     public long Id { get; set; }
 
     public DateTime InsDate { get; set; }
 
-    public long RepairRequestId { get; set; }
+    public long RepairUnitAgendumOrderId { get; set; }
 
-    [Display(Name = "عنوان")]
-    public string? Caption { get; set; }
 
-    [Display(Name = "تاریخ شروع")]
-    public DateTime StartDate { get; set; }
+    [Display(Name = "تاریخ شروع کار")]
     [NotMapped]
-    [Display(Name = "تاریخ شروع")]
-    [Required(ErrorMessage = "مقدار {0} را وارد کنید")]
-    public string StartDateDto { get; set; }
+    public string StartRepairDateDto { get; set; }
+    public DateTime StartRepairDate { get; set; }
 
-    [Display(Name = "تاریخ پایان")]
-    public DateTime? EndDate { get; set; }
+    [Display(Name = "ساعت شروع کار")]
+    public long? StartRepairHour { get; set; }
+
+    [Display(Name = "دقیقه شروع کار")]
+    public long? StartRepairMinute { get; set; }
+
+
+    [Display(Name = "شرح ایراد")]
+    public string? FaultCaption { get; set; }
+
+    [Display(Name = "توضیحات ")]
+    public string? WorkDescription { get; set; }
+
+
+    [Display(Name = "تاریخ پایان تعمیر")]
     [NotMapped]
-    [Display(Name = "تاریخ پایان")]
-    public string EndDateDto { get; set; }
+    public string EndRepairDateDto { get; set; }
+    public DateTime EndRepairDate { get; set; }
 
-    [Display(Name = "کاربر")]
-    public long? PersonId { get; set; }
-    [Display(Name = "بخش")]
-    public long? PartId { get; set; }
+    [Display(Name = "ساعت پایان تعمیر")]
+    public long? EndRepairHour { get; set; }
 
-    [Display(Name = "شرح فعالیت انجام شده")]
-    public string Description { get; set; }
+    [Display(Name = "دقیقه پایان تعمیر")]
+    public long? EndRepairMinute { get; set; }
 
-    [Display(Name = "قطعات مصرفی")]
-    public string UsedPart { get; set; }
+    public List<RepairReport> Type { get; set; }
 
-    [Display(Name = "تایید واحد درخواست کننده")]
-    public string Accepted { get; set; }
-
-    [NotMapped]
-    public IEnumerable<Person> People { get; set; }
 }

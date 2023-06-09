@@ -1,0 +1,113 @@
+﻿@using PeyDej.Data
+@model PeyDej.Models.Report.DailyWetProductIR
+@inject PeyDejContext _Context
+@{
+    ViewData["Title"] = "خط خیس";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>خط خیس</h1>
+
+<div>
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TemperatureAndHumidityStatus)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TemperatureAndHumidityStatus)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BladeDimensionX)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BladeDimensionX)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BladeDimensionY)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BladeDimensionY)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TemplateNumber)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TemplateNumber)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BladeWeight)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BladeWeight)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MorningShiftOperatorPersonId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => _Context.Persons.Where(w => w.Id == model.MorningShiftOperatorPersonId).FirstOrDefault().FullName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NightShiftOperatorPersonId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => _Context.Persons.Where(w => w.Id == model.NightShiftOperatorPersonId).FirstOrDefault().FullName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SoilTypeId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => _Context.SubCategories.Where(w => w.CategoryId == model.SoilTypeId).FirstOrDefault().Value)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SoilSpeed)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SoilSpeed)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.VaciumDegree)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.VaciumDegree)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BandStatus)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BandStatus)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SoilCompoundRatio)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SoilCompoundRatio)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DaneBandiGarkId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => _Context.SubCategories.Where(w => w.CategoryId == model.DaneBandiGarkId).FirstOrDefault().Value)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TemplateKindId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => _Context.SubCategories.Where(w => w.CategoryId == model.TemplateKindId).FirstOrDefault().Value)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ShelfNumberStart)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ShelfNumberStart)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ShelfNumberEnd)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ShelfNumberEnd)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Index" class="btn btn-danger">بازگشت به لیست</a>
+</div>

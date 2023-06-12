@@ -31,7 +31,25 @@ namespace PeyDej.Controllers
 
         public IActionResult Index()
         {
-            return View(_context.Machines.Where(m => m.GeneralStatusId == GeneralStatus.Active).AsEnumerable());
+            List<Machine> MachinesResponse = new List<Machine> { };
+            var query = from Machine in _context.Set<Machine>()
+                        join SubCategory in _context.Set<SubCategory>()
+                            on (long)Machine.Department equals SubCategory.Id
+                        join SubCategory2 in _context.Set<SubCategory>()
+                            on (long)Machine.Process equals SubCategory2.Id
+                        select new {
+                           Machine,
+                           DepartmentCaption = SubCategory.Value,
+                           ProcessCaption = SubCategory2.Value
+                        };
+            foreach (var item in query)
+            {
+                item.Machine.DeparmentCaption = item.DepartmentCaption;
+                item.Machine.ProcessCaption = item.ProcessCaption;
+                MachinesResponse.Add(item.Machine);
+            }
+           //_context.SubCategories.Select(item => item.Id = )
+            return View(MachinesResponse);
         }
 
         public async Task<IActionResult> Details(long? id)
@@ -40,8 +58,23 @@ namespace PeyDej.Controllers
             {
                 return NotFound();
             }
-            var machine = await _context.Machines
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var query = (from Machine in _context.Set<Machine>().Where(x => x.Id == id)
+                         join SubCategory in _context.Set<SubCategory>()
+                             on (long)Machine.Department equals SubCategory.Id
+                         join SubCategory2 in _context.Set<SubCategory>()
+                             on (long)Machine.Process equals SubCategory2.Id
+                         select new
+                         {
+                             Machine,
+                             DepartmentCaption = SubCategory.Value,
+                             ProcessCaption = SubCategory2.Value
+                         }).FirstOrDefault();
+            query.Machine.DeparmentCaption = query.DepartmentCaption;
+            query.Machine.ProcessCaption = query.ProcessCaption;
+            var machine = query.Machine;
+            //var machine = await _context.Machines
+            //    .FirstOrDefaultAsync(m => m.Id == id);
+            
             ViewData["MotorsAll"] = _context.Motors.Where(w =>
                 _context.MachineMotors.Where(f => f.MachineId == machine.Id).Select(s => s.MotorId).ToList().Contains(w.Id)).AsEnumerable();
 

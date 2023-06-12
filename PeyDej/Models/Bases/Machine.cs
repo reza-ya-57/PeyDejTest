@@ -129,7 +129,8 @@ public class Machine
     public int? Process { get; set; }
     [NotMapped]
     public IEnumerable<CategoryDto> ProcessIds { get; set; }
-
+    [NotMapped]
+    public string? ProcessCaption { get; set; }
 
 
     [DisplayName("دپارتمان")]
@@ -139,7 +140,8 @@ public class Machine
 
     [NotMapped]
     public IEnumerable<CategoryDto> DepartmentIds { get; set; }
-
+    [NotMapped]
+    public string? DeparmentCaption { get; set; }
     [Required(ErrorMessage = "مقدار {0} را وارد کنید")]
     [Display(Name = "تاریخ شروع بازرسی")]
     public DateTime? InspectionStartDate { get; set; }

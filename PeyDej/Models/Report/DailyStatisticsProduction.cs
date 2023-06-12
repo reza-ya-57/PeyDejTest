@@ -1,8 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
-
-
 namespace PeyDej.Models.Report
 {
 
@@ -15,13 +12,17 @@ namespace PeyDej.Models.Report
         [Display(Name = "تاریخ")]
         [Required(ErrorMessage = "مقدار {0} الزامی می باشد")]
         public string Date { get; set; }
-
-        [Display(Name = "تعداد درگاه باز شده")]
+        
+        [Display(Name = "تعداد قفسه خیس")]
         [Required(ErrorMessage = "مقدار {0} الزامی می باشد")]
-        public long? OpenPortCount { get; set; }
+        public long? WetShelfCount { get; set; }
 
-        [Display(Name = "تعداد بارگیری")]
+        [Display(Name = "تعداد قفسه خشک")]
         [Required(ErrorMessage = "مقدار {0} الزامی می باشد")]
-        public long? LoadingCount { get; set; }
+        public long? DryShelfCount { get; set; }
+        [Display(Name = "ساعت توفقات")]
+        public int? StopHour { get; set; }
+        [Display(Name = "دقیقه توقفات")]
+        public int? StopMinute { get; set; }
     }
 }

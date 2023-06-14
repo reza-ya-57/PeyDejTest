@@ -119,6 +119,7 @@ namespace PeyDej.Controllers
                 return NotFound();
             }
             motor.SparePartIds = _context.SparePartMotors.Where(w => w.MotorId == id).Select(s => s.SparePartId).ToList();
+            motor.DepartmentIds = _context.SubCategories.Where(w => w.CategoryId == 2).Select(s => new CategoryDto() { Id = s.Id , Name = s.Value }).ToList();
             return View(motor);
         }
 

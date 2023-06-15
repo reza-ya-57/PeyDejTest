@@ -91,3 +91,7 @@ input[type="radio"] {
             left: 15px;
             right: auto;
         }
+
+.table-machine {
+    table-layout: fixed;
+}

@@ -34,9 +34,9 @@
             {
                 columns.Add(model => model.Name).Titled(@Html.DisplayNameFor(model => model.Name));
                 columns.Add(model => model.SerialNumber).Titled(@Html.DisplayNameFor(model => model.SerialNumber));
-                columns.Add(model => model.Type).Titled(@Html.DisplayNameFor(model => model.Type));
+                @*columns.Add(model => model.Type).Titled(@Html.DisplayNameFor(model => model.Type));*@
                 columns.Add(model => model.Emplacement).Titled(@Html.DisplayNameFor(model => model.Emplacement));
-                columns.Add(model => model.BeltCount).Titled(@Html.DisplayNameFor(model => model.BeltCount));
+                @*columns.Add(model => model.BeltCount).Titled(@Html.DisplayNameFor(model => model.BeltCount));*@
                 columns.Add().Titled("لیست قطعات").Encoded(false).RenderedAs(model => PeyDejHelper.ActionLink("<i class=\"icon-list\"></i>", "ListMotorReport", "Motor", model.Id, "orange-text", "لیست قطعات"));
 
                 columns.Add().Titled("ویرایش").Encoded(false).RenderedAs(model => PeyDejHelper.ActionLink("<i class=\"icon-edit\"></i>", "Edit", "Motor", model.Id, "orange-text", "ویرایش"));

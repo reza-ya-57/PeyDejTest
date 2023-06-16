@@ -6,12 +6,16 @@ namespace PeyDej.Models.Report;
 [Table("RepairReport", Schema = "Report")]
 public class RepairReport
 {
+    public RepairReport()
+    {
+        RepairRequest = default;
+        AgendumOrder = default;
+    }
     public long Id { get; set; }
 
     public DateTime InsDate { get; set; }
 
     public long RepairUnitAgendumOrderId { get; set; }
-
 
     [Display(Name = "تاریخ شروع کار")]
     [NotMapped]
@@ -43,6 +47,9 @@ public class RepairReport
     [Display(Name = "دقیقه پایان تعمیر")]
     public long? EndRepairMinute { get; set; }
 
-    public List<RepairReport> Type { get; set; }
+    [NotMapped]
+    public RepairRequest? RepairRequest { get; set; }
 
+    [NotMapped]
+    public RepairUnitAgendumOrder? AgendumOrder { get; set; }
 }

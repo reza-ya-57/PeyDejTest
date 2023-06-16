@@ -1,5 +1,6 @@
-﻿@model PeyDej.Models.Report.RepairReport
-
+﻿@using PeyDej.Data
+@model PeyDej.Models.Report.RepairReport
+@inject PeyDejContext _context
 @{
     ViewData["Title"] = "ثبت تعمیر";
 }
@@ -12,8 +13,70 @@
             </div>
             <div class="card-body">
                 <form asp-action="RequestCreate">
+                    <input type="hidden" asp-for="AgendumOrder" />
+                    <input type="hidden" asp-for="RepairRequest" />
                     <input type="hidden" asp-for="RepairUnitAgendumOrderId" />
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="form-group d-block">
+                                <label asp-for="RepairRequest.Status" class="control-label d-inline-block"></label> :
+                                <label class="control-label d-inline-block"> @(Model.RepairRequest.Status == 1 ? "رسیدگی شده" : "رسیدگی نشده")</label>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group d-block">
+                                <label asp-for="RepairRequest.Caption" class="control-label d-inline-block"></label> :
+                                <label class="control-label d-inline-block"> @Model.RepairRequest.Caption</label>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group d-block">
+                                <label asp-for="RepairRequest.MachineId" class="control-label d-inline-block"></label> :
+                                <label class="control-label d-inline-block"> @(_context.Machines.Where(w => w.Id == Model.RepairRequest.MachineId).FirstOrDefault().Name)</label>
+                            </div>
+                        </div>
+
+                        <div class="col-3">
+                            <div class="form-group d-block">
+                                <label asp-for="AgendumOrder.ActionTypes" class="control-label d-inline-block"></label> :
+                                @foreach (var user in Model.AgendumOrder.ActionTypeList)
+                                {
+                                    <label class="control-label d-inline-block">@user.Value</label>
+                                    <br />
+                                }
+
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group d-block">
+                                <label asp-for="AgendumOrder.ActionKindId" class="control-label d-inline-block"></label> :
+                                <label class="control-label d-inline-block"> @(_context.SubCategories.Where(w => w.Id == Model.AgendumOrder.ActionKindId).FirstOrDefault().Value)</label>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group d-block">
+                                <label asp-for="AgendumOrder.LocationId" class="control-label d-inline-block"></label> :
+                                <label class="control-label d-inline-block"> @(_context.SubCategories.Where(w => w.Id == Model.AgendumOrder.LocationId).FirstOrDefault().Value)</label>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group d-block">
+                                <label asp-for="AgendumOrder.PersonList" class="control-label d-inline-block"></label> :
+                                @if (Model.AgendumOrder.PersonIds != null)
+                                {
+                                    @foreach (var user in Model.AgendumOrder.PersonIds?.Split(','))
+                                    {
+                                        <label class="control-label d-inline-block">
+                                            @_context.Persons.Where(w => w.Id == long.Parse(user)).FirstOrDefault().FullName
+                                        </label>
+                                        <br />
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                     <hr/>
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
@@ -54,7 +117,7 @@
                             </div>
                         </div>
                     </div>
-                
+
                     <div class="row">
                         <div class="col-4">
                             <div class="form-group">
@@ -78,7 +141,7 @@
                             </div>
                         </div>
                     </div>
-                
+
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
@@ -103,7 +166,7 @@
             $('#EndRepairDateDto,#StartRepairDateDto').datepicker({
                 isRTL: true,
                 dateFormat: "yy/mm/dd",
-                
+
             });
         });
 

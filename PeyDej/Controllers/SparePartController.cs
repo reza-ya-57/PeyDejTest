@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,12 +8,11 @@ using PeyDej.Models;
 using PeyDej.Models.Bases;
 using PeyDej.Service.File;
 
-using System.Reflection.PortableExecutable;
 using System.Security.Claims;
 
 namespace PeyDej.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class SparePartController : Controller
     {
         private readonly PeyDejContext _context;

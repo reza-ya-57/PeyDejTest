@@ -1,14 +1,13 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 using PeyDej.Data;
-using PeyDej.Models.Bases.Views;
-using PeyDej.Models.Dtos;
 using PeyDej.Models.Report;
 
 namespace PeyDej.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class LoadingReportsController : Controller
     {
         private readonly PeyDejContext _context;

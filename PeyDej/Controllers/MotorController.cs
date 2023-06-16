@@ -11,12 +11,11 @@ using PeyDej.Models.Dtos;
 using PeyDej.Services.Pagination;
 using PeyDej.Tools;
 
-using System.Reflection.PortableExecutable;
 using System.Security.Claims;
 
 namespace PeyDej.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class MotorController : Controller
     {
         private readonly PeyDejContext _context;

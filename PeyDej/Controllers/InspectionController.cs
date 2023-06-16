@@ -11,18 +11,14 @@ using PeyDej.Data;
 using PeyDej.Models;
 using PeyDej.Models.Bases;
 using PeyDej.Models.Dtos;
-using PeyDej.Models.Parameters;
 using PeyDej.Services.Pagination;
 using PeyDej.Tools;
 
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Configuration;
 using System.Data;
 
 namespace PeyDej.Controllers;
 
-[Authorize]
+[Authorize(Roles = "Admin")]
 public class InspectionController : Controller
 {
     private readonly PeyDejContext _context;

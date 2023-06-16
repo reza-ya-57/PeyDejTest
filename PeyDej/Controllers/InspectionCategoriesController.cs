@@ -1,15 +1,21 @@
 
 using Ccms.Common.Utilities;
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+
 using PeyDej.Data;
 using PeyDej.Models;
 using PeyDej.Models.Parameters;
 using PeyDej.Tools;
 
+using System.Data;
+
 namespace PeyDej.Controllers;
 
+[Authorize(Roles = "Admin")]
 public class InspectionCategoriesController : Controller
 {
     private readonly PeyDejContext _context;

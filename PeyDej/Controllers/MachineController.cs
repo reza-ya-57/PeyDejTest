@@ -1,24 +1,26 @@
-﻿using System.Data;
-using System.Security.Claims;
-using Ccms.Common.Utilities;
+﻿using Ccms.Common.Utilities;
+
+using Dapper;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Dapper;
+
 using PeyDej.Data;
 using PeyDej.Models;
 using PeyDej.Models.Bases;
 using PeyDej.Models.Dtos;
+using PeyDej.Models.Inspection;
 using PeyDej.Services.Pagination;
 using PeyDej.Tools;
-using PeyDej.Models.Inspection;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+
+using System.Data;
+using System.Security.Claims;
 
 namespace PeyDej.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class MachineController : Controller
     {
         private readonly PeyDejContext _context;

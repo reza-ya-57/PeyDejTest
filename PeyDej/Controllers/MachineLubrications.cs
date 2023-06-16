@@ -1,13 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 using PeyDej.Data;
-using PeyDej.Models;
 
 using PeyDej.Tools;
 
+using System.Data;
+
 namespace PeyDej.Controllers
 {
+    [Authorize(Roles = "Admin,Lubricator")]
     public class MachineLubrications : Controller
     {
         public PeyDejContext _context { get; }

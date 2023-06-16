@@ -1,18 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+
 using PeyDej.Data;
 using PeyDej.Models;
 using PeyDej.Models.Bases;
 
 namespace PeyDej.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class InspectionSubCategoryController : Controller
     {
         private readonly PeyDejContext _context;

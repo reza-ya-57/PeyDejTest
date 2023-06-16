@@ -1,5 +1,3 @@
-using System.Security.Claims;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +7,6 @@ using PeyDej.Models.Users;
 
 namespace PeyDej.Controllers;
 
-[Authorize]
 public class UserController : Controller
 {
     private readonly PeyDejContext _context;
@@ -46,13 +43,14 @@ public class UserController : Controller
         //    PeyDejUser tblUser = new PeyDejUser()
         //    {
         //        FirstName = "کاربر",
-        //        LastName = "ارشد",
-        //        UserName = "admin",
-        //        Email = "admin@localhost.local",
+        //        LastName = "سرپرست تولید",
+        //        UserName = "Production",
+        //        Email = "Production@localhost.local",
         //        Department = "فناوری اطلاعات",
         //        Enable = true,
         //    };
         //    var resultUser = _userManage.CreateAsync(tblUser, "Admin@123");
+        //    var role = _userManage.AddToRoleAsync(tblUser, "Production");
         //    if (resultUser.Result != IdentityResult.Success)
         //    {
         //        ModelState.AddModelError("", "خطا در ایجاد کاربر");
@@ -60,7 +58,7 @@ public class UserController : Controller
 
         //    await _userManage.AddClaimAsync(tblUser, new Claim(ClaimTypes.Role, "Admin"));
         //}
-       
+
         if (ModelState.IsValid)
         {
             var result =

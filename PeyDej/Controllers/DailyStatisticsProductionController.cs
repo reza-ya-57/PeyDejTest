@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+
 using PeyDej.Data;
-using PeyDej.Models;
-using PeyDej.Models.Bases.Views;
 using PeyDej.Models.Report;
-using PeyDej.Tools;
+
+using System.Data;
 
 namespace PeyDej.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class DailyStatisticsProductionController : Controller
     {
         private readonly PeyDejContext _context;

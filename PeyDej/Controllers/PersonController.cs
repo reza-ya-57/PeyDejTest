@@ -11,7 +11,7 @@ using System.Security.Claims;
 
 namespace PeyDej.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class PersonController : Controller
     {
         private readonly PeyDejContext _context;

@@ -2,14 +2,10 @@
 
 using Dapper;
 
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.Extensions.Primitives;
 
 using PeyDej.Data;
 using PeyDej.Models;
@@ -19,17 +15,14 @@ using PeyDej.Models.Parameters;
 using PeyDej.Servive;
 using PeyDej.Tools;
 
-using System;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Configuration;
 using System.Data;
 using System.Text.Json;
-
+using Microsoft.AspNetCore.Authorization;
 using static Dapper.SqlMapper;
 
 namespace PeyDej.Controllers;
 
+[Authorize(Roles = "Admin")]
 public class InspectionCriteriaCategory : Controller
 {
     private PeyDejContext _context;

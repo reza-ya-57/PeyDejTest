@@ -1,24 +1,21 @@
 using Ccms.Common.Utilities;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 
 using PeyDej.Data;
 using PeyDej.Models;
-using PeyDej.Models.ActiveModels;
+using PeyDej.Models.Bases;
 using PeyDej.Models.Dtos;
 using PeyDej.Models.Parameters;
 
-using System;
-using System.Linq.Expressions;
-using PeyDej.Models.Bases;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Data;
 
 namespace PeyDej.Controllers;
 
-// [Authorize]
+[Authorize(Roles = "Admin,Lubricator")]
 public class InspectionReportController : Controller
 {
     private readonly PeyDejContext _context;
@@ -202,7 +199,7 @@ public class InspectionReportController : Controller
                     Model = m.Machine.Model,
                 }).ToList();
         var machineIrs = _context.MachineIRs.Where(m => listId.Any() || listId.Contains(m.Id)).ToList();
-        for (int i = 0;i < data2.Count;i++)
+        for (int i = 0; i < data2.Count; i++)
         {
             var machineIr = machineIrs.FirstOrDefault(f => f.MachineInspectionId == data2[i].MachineId);
             data2[i].Status = machineIr.Status;

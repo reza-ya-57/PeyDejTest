@@ -1,17 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+
 using PeyDej.Data;
 using PeyDej.Models.Bases;
 
 namespace PeyDej.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class InspectionCategoryController : Controller
     {
         private readonly PeyDejContext _context;
@@ -110,14 +106,14 @@ namespace PeyDej.Controllers
             {
                 _context.InspectionCategories.Remove(inspectionCategory);
             }
-            
+
             await _context.SaveChangesAsync();
             return Json(new { hasError = false, message = "" });
         }
 
         private bool InspectionCategoryExists(long id)
         {
-          return (_context.InspectionCategories?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.InspectionCategories?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

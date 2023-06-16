@@ -7,7 +7,7 @@ using PeyDej.Models.Bases;
 
 namespace PeyDej.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class CategoryController : Controller
     {
         private readonly PeyDejContext _context;

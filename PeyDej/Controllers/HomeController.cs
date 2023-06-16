@@ -28,6 +28,7 @@ public class HomeController : Controller
         return View();
     }
 
+    [Authorize(Roles = "Admin")]
     [Route("/H/D/{Id:guid}")]
     public FileResult? Download(Guid Id)
     {

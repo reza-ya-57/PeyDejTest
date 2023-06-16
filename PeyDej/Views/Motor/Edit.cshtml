@@ -10,7 +10,9 @@
         <hr/>
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="InsDate"/>
+
+            <input type="hidden" asp-for="CreatorUserId" />
+            <input type="hidden" asp-for="InsDate" />
             <div class="row">
                 <div class="col-12">
                     <div class="form-group">

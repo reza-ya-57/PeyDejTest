@@ -1,17 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+
 using PeyDej.Data;
 using PeyDej.Models.Bases;
 
 namespace PeyDej.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class SubCategoryController : Controller
     {
         private readonly PeyDejContext _context;
@@ -24,9 +20,9 @@ namespace PeyDej.Controllers
         // GET: SubCategory
         public async Task<IActionResult> Index()
         {
-              return _context.SubCategories != null ? 
-                          View(await _context.SubCategories.ToListAsync()) :
-                          Problem("Entity set 'PeyDejContext.SubCategories'  is null.");
+            return _context.SubCategories != null ?
+                        View(await _context.SubCategories.ToListAsync()) :
+                        Problem("Entity set 'PeyDejContext.SubCategories'  is null.");
         }
 
         // GET: SubCategory/Details/5
@@ -152,14 +148,14 @@ namespace PeyDej.Controllers
             {
                 _context.SubCategories.Remove(subCategory);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool SubCategoryExists(long id)
         {
-          return (_context.SubCategories?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.SubCategories?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

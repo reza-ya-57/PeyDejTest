@@ -1,5 +1,6 @@
 ﻿using Ccms.Common.Utilities;
-using DNTPersianUtils.Core;
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,8 +9,11 @@ using PeyDej.Models;
 using PeyDej.Models.Report;
 using PeyDej.Tools;
 
+using System.Data;
+
 namespace PeyDej.Controllers
 {
+    [Authorize(Roles = "Admin,Production")]
     public class DailyDryProductIRsController : Controller
     {
         private readonly PeyDejContext _context;

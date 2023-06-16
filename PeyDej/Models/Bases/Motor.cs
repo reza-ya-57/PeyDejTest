@@ -96,7 +96,8 @@ public class Motor
     [Display(Name = "تاریخ شروع بازرسی")]
     [NotMapped]
     public string? InspectionStartDateDto { get; set; }
-
+    [DisplayName("دور موتور")]
+    public int? Speed { get; set; }
     public GeneralStatus GeneralStatusId { get; set; } = GeneralStatus.Active;
     public string? CreatorUserId { get; set; }
     public string? LastEditorUserId { get; set; }

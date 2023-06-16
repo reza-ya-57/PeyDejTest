@@ -1,4 +1,5 @@
-﻿using PeyDej.Models.Dtos;
+﻿using PeyDej.Attributes;
+using PeyDej.Models.Dtos;
 
 using System;
 using System.Collections.Generic;
@@ -124,20 +125,23 @@ public class Machine
 
 
     [Display(Name = "فرآیند")]
+    [NotZero(ErrorMessage = "مقدار {0} را وارد کنید")]
     public int? Process { get; set; }
-
     [NotMapped]
     public IEnumerable<CategoryDto> ProcessIds { get; set; }
-
+    [NotMapped]
+    public string? ProcessCaption { get; set; }
 
 
     [DisplayName("دپارتمان")]
+    [NotZero(ErrorMessage = "مقدار {0} را وارد کنید")]
     [Required(ErrorMessage = "مقدار {0} را وارد کنید")]
     public int? Department { get; set; }
 
     [NotMapped]
     public IEnumerable<CategoryDto> DepartmentIds { get; set; }
-
+    [NotMapped]
+    public string? DeparmentCaption { get; set; }
     [Required(ErrorMessage = "مقدار {0} را وارد کنید")]
     [Display(Name = "تاریخ شروع بازرسی")]
     public DateTime? InspectionStartDate { get; set; }
@@ -155,6 +159,7 @@ public class Machine
     public string? LubricationStartDateDto { get; set; }
 
     [Display(Name = "نوع بازرسی")]
+    [NotZero(ErrorMessage = "مقدار {0} را وارد کنید")]
     [Required(ErrorMessage = "مقدار {0} را وارد کنید")]
     public long? MachineInspectionTypeCategoryId { get; set; }
 

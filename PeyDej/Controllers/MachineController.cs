@@ -33,7 +33,25 @@ namespace PeyDej.Controllers
 
         public IActionResult Index()
         {
-            return View(_context.Machines.Where(m => m.GeneralStatusId == GeneralStatus.Active).AsEnumerable());
+            List<Machine> MachinesResponse = new List<Machine> { };
+            var query = from Machine in _context.Set<Machine>()
+                        join SubCategory in _context.Set<SubCategory>()
+                            on (long)Machine.Department equals SubCategory.Id
+                        join SubCategory2 in _context.Set<SubCategory>()
+                            on (long)Machine.Process equals SubCategory2.Id
+                        select new {
+                           Machine,
+                           DepartmentCaption = SubCategory.Value,
+                           ProcessCaption = SubCategory2.Value
+                        };
+            foreach (var item in query)
+            {
+                item.Machine.DeparmentCaption = item.DepartmentCaption;
+                item.Machine.ProcessCaption = item.ProcessCaption;
+                MachinesResponse.Add(item.Machine);
+            }
+           //_context.SubCategories.Select(item => item.Id = )
+            return View(MachinesResponse);
         }
 
         public async Task<IActionResult> Details(long? id)
@@ -42,8 +60,23 @@ namespace PeyDej.Controllers
             {
                 return NotFound();
             }
-            var machine = await _context.Machines
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var query = (from Machine in _context.Set<Machine>().Where(x => x.Id == id)
+                         join SubCategory in _context.Set<SubCategory>()
+                             on (long)Machine.Department equals SubCategory.Id
+                         join SubCategory2 in _context.Set<SubCategory>()
+                             on (long)Machine.Process equals SubCategory2.Id
+                         select new
+                         {
+                             Machine,
+                             DepartmentCaption = SubCategory.Value,
+                             ProcessCaption = SubCategory2.Value
+                         }).FirstOrDefault();
+            query.Machine.DeparmentCaption = query.DepartmentCaption;
+            query.Machine.ProcessCaption = query.ProcessCaption;
+            var machine = query.Machine;
+            //var machine = await _context.Machines
+            //    .FirstOrDefaultAsync(m => m.Id == id);
+            
             ViewData["MotorsAll"] = _context.Motors.Where(w =>
                 _context.MachineMotors.Where(f => f.MachineId == machine.Id).Select(s => s.MotorId).ToList().Contains(w.Id)).AsEnumerable();
 
@@ -289,33 +322,34 @@ namespace PeyDej.Controllers
                 var l = _context.Machines.AsNoTracking().Where(w => w.Id == machine.Id).FirstOrDefault();
                 DateTime? oldMachineInspectionStartDate = l?.InspectionStartDate;
                 DateTime? oldMachineLubricationStartDate = l?.LubricationStartDate;
-                if (machine.LubricationStartDate == null && oldMachineLubricationStartDate != null)
-                {
-                    ModelState.AddModelError("LubricationStartDate", "تاریخ شروع روغن کاری اشتباه است");
+                //if (machine.LubricationStartDate == null && oldMachineLubricationStartDate != null)
+                //{
+                //    ModelState.AddModelError("LubricationStartDate", "تاریخ شروع روغن کاری اشتباه است");
 
-                    machine.DepartmentIds = _context.VwCategories.Where(w => w.CategoryId == 2).Select(s => new CategoryDto()
-                    {
-                        Id = s.SubCategoryId,
-                        Name = s.SubCategoryCaption
-                    }).AsEnumerable();
-                    machine.ProcessIds = _context.VwCategories.Where(w => w.CategoryId == 3).Select(s => new CategoryDto()
-                    {
-                        Id = s.SubCategoryId,
-                        Name = s.SubCategoryCaption
-                    }).AsEnumerable();
+                //    machine.DepartmentIds = _context.VwCategories.Where(w => w.CategoryId == 2).Select(s => new CategoryDto()
+                //    {
+                //        Id = s.SubCategoryId,
+                //        Name = s.SubCategoryCaption
+                //    }).AsEnumerable();
+                //    machine.ProcessIds = _context.VwCategories.Where(w => w.CategoryId == 3).Select(s => new CategoryDto()
+                //    {
+                //        Id = s.SubCategoryId,
+                //        Name = s.SubCategoryCaption
+                //    }).AsEnumerable();
 
-                    machine.MachineCheckListCategoryList =
-                        await connectionDb.QueryAsync<CategoryResutl>("Base.GetMachineInspectionTypes",
-                            commandType: CommandType.StoredProcedure);
+                //    machine.MachineCheckListCategoryList =
+                //        await connectionDb.QueryAsync<CategoryResutl>("Base.GetMachineInspectionTypes",
+                //            commandType: CommandType.StoredProcedure);
 
-                    return View(machine);
-                }
+                //    return View(machine);
+                //}
                 try
                 {
                     machine.LastEditorUserId = User.Claims.Where(w => w.Type == ClaimTypes.Sid).FirstOrDefault().Value;
                     machine.LastEditDate = DateTime.Now;
                     _context.Update(machine);
                     await _context.SaveChangesAsync();
+                    
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -335,21 +369,21 @@ namespace PeyDej.Controllers
                     // if old value of InspectionStartDate equal to new value then we should not update Inspection.MachineIS
                     // it mean that user do not edite InspectionStartDate of machine 
                     // get machine Inspection that not completed yet
-                    var MachineIS = _context.MachineISs.Where(m => m.MachineId == machine.Id && m.Status == 0).FirstOrDefault();
-                    var MachineLubricationIS = _context.MachineLubrications.Where(m => m.MachineId == machine.Id && m.Status == 0).FirstOrDefault();
-                    if (!DateTime.Equals(oldMachineInspectionStartDate, machine.InspectionStartDate))
-                    {
-                        var newInspectionDate = machine.InspectionStartDateDto.ToGregorianDateTime(false, 1200);
-                        MachineIS.InspectionDate = (DateTime)(newInspectionDate);
-                        _context.SaveChanges();
-                    }
-                    // do the same as above for lubrication
-                    if (!DateTime.Equals(oldMachineLubricationStartDate, machine.LubricationStartDate))
-                    {
-                        var newLubricationDate = machine.LubricationStartDateDto.ToGregorianDateTime(false, 1200);
-                        MachineLubricationIS.InspectionDate = (DateTime)(newLubricationDate);
-                        _context.SaveChanges();
-                    }
+                    //var MachineIS = _context.MachineISs.Where(m => m.MachineId == machine.Id && m.Status == 0).FirstOrDefault();
+                    //var MachineLubricationIS = _context.MachineLubrications.Where(m => m.MachineId == machine.Id && m.Status == 0).FirstOrDefault();
+                    //if (!DateTime.Equals(oldMachineInspectionStartDate, machine.InspectionStartDate))
+                    //{
+                    //    var newInspectionDate = machine.InspectionStartDateDto.ToGregorianDateTime(false, 1200);
+                    //    MachineIS.InspectionDate = (DateTime)(newInspectionDate);
+                    //    _context.SaveChanges();
+                    //}
+                    //// do the same as above for lubrication
+                    //if (!DateTime.Equals(oldMachineLubricationStartDate, machine.LubricationStartDate))
+                    //{
+                    //    var newLubricationDate = machine.LubricationStartDateDto.ToGregorianDateTime(false, 1200);
+                    //    MachineLubricationIS.InspectionDate = (DateTime)(newLubricationDate);
+                    //    _context.SaveChanges();
+                    //}
 
 
                 }

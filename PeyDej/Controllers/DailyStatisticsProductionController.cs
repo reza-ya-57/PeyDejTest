@@ -55,12 +55,13 @@ namespace PeyDej.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Date,LoadingCount,OpenPortCount")] DailyStatisticsProduction dailyStatisticsProduction)
+        public async Task<IActionResult> Create([Bind("Date,WetShelfCount,DryShelfCount,StopHour,StopMinute")] 
+                                                 DailyStatisticsProduction dailyStatisticsProduction)
         {
             if (ModelState.IsValid)
             {
                 var checkDate = _context.DailyStatisticsProduction.ToList().Exists(m => m.Date == dailyStatisticsProduction.Date);
-                var result = _context.DailyStatisticsProduction.Select(m => m.Date == dailyStatisticsProduction.Date).ToList();
+                //var result = _context.DailyStatisticsProduction.Select(m => m.Date == dailyStatisticsProduction.Date).ToList();
                 if (checkDate == true)
                 {
                     ViewBag.ErrorMessage = "این تاریخ قبلا وارد شده است";
@@ -91,9 +92,9 @@ namespace PeyDej.Controllers
                 return NotFound();
             }
 
-            ViewBag.departments = departments();
-            ViewBag.shifts = shifts();
-            ViewBag.dailyStatisticsId = dailyStatisticsId;
+            //ViewBag.departments = departments();
+            //ViewBag.shifts = shifts();
+            //ViewBag.dailyStatisticsId = dailyStatisticsId;
             return View(dailyProductionStatistic);
         }
 
@@ -103,7 +104,7 @@ namespace PeyDej.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(long id, long dailyStatisticsId,
-            [Bind("Id,InsDate,ShiftId,DepartmentId,ProductionCount,StopsHour,DailyStatisticsId")]
+            [Bind("Id,Date,WetShelfCount,DryShelfCount,StopHour,StopMinute")]
             DailyStatisticsProduction dailyProductionStatistic)
         {
             if (id != dailyProductionStatistic.Id)

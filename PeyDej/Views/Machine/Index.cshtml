@@ -40,8 +40,8 @@
             {
                 columns.Add(model => model.Name).Titled(@Html.DisplayNameFor(model => model.Name));
                 columns.Add(model => model.SerialNumber).Titled(@Html.DisplayNameFor(model => model.SerialNumber));
-                columns.Add(model => model.Company).Titled(@Html.DisplayNameFor(model => model.Company));
-                columns.Add(model => model.EnergyType).Titled(@Html.DisplayNameFor(model => model.EnergyType));
+                columns.Add(model => model.DeparmentCaption).Titled(@Html.DisplayNameFor(model => model.Department));
+                columns.Add(model => model.ProcessCaption).Titled(@Html.DisplayNameFor(model => model.Process));
                 columns.Add().Titled("لیست قطعات").Encoded(false).RenderedAs(model => PeyDejHelper.ActionLink("<i class=\"icon-list\"></i>", "ListMachineReport", "Machine", model.Id, "orange-text", "لیست قطعات"));
 
                 columns.Add().Titled("ویرایش").Encoded(false).RenderedAs(model => PeyDejHelper.ActionLink("<i class=\"icon-edit\"></i>", "Edit", "Machine", model.Id, "orange-text", "ویرایش"));
@@ -60,7 +60,7 @@
                 pager.CurrentPage = 1;
                 pager.RowsPerPage = 20;
             })
-            .Css("table table-bordered")
+            .Css("table table-bordered table-machine")
             )
     </div>
 </div>

@@ -32,9 +32,9 @@
             {
                 columns.Add(model => model.Date).Titled(@Html.DisplayNameFor(model => model.Date));
                 @*columns.Add(model => model.Week).Titled(@Html.DisplayNameFor(model => model.Week));*@
-                columns.Add(model => model.LoadingCount).Titled(@Html.DisplayNameFor(model => model.LoadingCount));
-                columns.Add(model => model.OpenPortCount).Titled(@Html.DisplayNameFor(model => model.OpenPortCount));
-                columns.Add().Titled("ویرایش").Encoded(false).RenderedAs(model => PeyDejHelper.ActionLink("<i class=\"icon-edit\"></i>", "Edit", "Statistic", model.Id, "orange-text", "ویرایش"));
+                columns.Add(model => model.WetShelfCount).Titled(@Html.DisplayNameFor(model => model.WetShelfCount));
+                columns.Add(model => model.DryShelfCount).Titled(@Html.DisplayNameFor(model => model.DryShelfCount));
+                columns.Add().Titled("ویرایش").Encoded(false).RenderedAs(model => PeyDejHelper.ActionLink("<i class=\"icon-edit\"></i>", "Edit", "DailyStatisticsProduction", model.Id, "orange-text", "ویرایش"));
     @*            columns.Add().Titled("حذف").Encoded(false).RenderedAs(model => PeyDejHelper.ActiveLinkAjax($"javascript:DeleteItem('{model.Id}');", "<i class=\"icon-trash\"></i>", "red-text", "حذف"));*@
             })
             .Empty("هیچ ایتمی وجود ندارد")

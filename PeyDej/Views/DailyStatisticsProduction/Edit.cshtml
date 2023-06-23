@@ -25,29 +25,46 @@
                         <span asp-validation-for="Date" class="text-danger"></span>
                     </div>
                 </div>
+            </div>
 
+
+            <div class="row">
+                <div class="form-group col-md-5">
+                    <label asp-for="WetShelfCount" class="control-label"></label>
+                    <input id="WetShelfCount" asp-for="WetShelfCount" class="form-control text-center" />
+                    <span asp-validation-for="WetShelfCount" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-5">
+                    <label asp-for="DryShelfCount" class="control-label"></label>
+                    <input id="DryShelfCount" asp-for="DryShelfCount" class="form-control text-center" />
+                    <span asp-validation-for="DryShelfCount" class="text-danger"></span>
+                </div>
+            </div>
+
+
+            <div class="row">
                 <div class="col-md-5">
-                    <div class="form-group">
-                        <label asp-for="WetShelfCount" class="control-label"></label>
-                        <input id="date" asp-for="WetShelfCount" class="form-control text-center" />
-                        <span asp-validation-for="WetShelfCount" class="text-danger"></span>
+                    <div class="form-group col-md-6">
+                        <label asp-for="WetStopHour" class="control-label"></label>
+                        <input id="WetStopHour" asp-for="WetStopHour" class="form-control text-center" />
+                        <span asp-validation-for="WetStopHour" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
-                        <label asp-for="DryShelfCount" class="control-label"></label>
-                        <input id="date" asp-for="DryShelfCount" class="form-control text-center" />
-                        <span asp-validation-for="DryShelfCount" class="text-danger"></span>
+                    <div class="form-group col-md-6">
+                        <label asp-for="WetStopMinute" class="control-label"></label>
+                        <input id="WetStopMinute" asp-for="WetStopMinute" class="form-control text-center" />
+                        <span asp-validation-for="WetStopMinute" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-md-5">
-                    <div class="form-group">
-                        <label asp-for="StopHour" class="control-label"></label>
-                        <input id="date" asp-for="StopHour" class="form-control text-center" />
-                        <span asp-validation-for="StopHour" class="text-danger"></span>
+                    <div class="form-group col-md-6">
+                        <label asp-for="DryStopHour" class="control-label"></label>
+                        <input id="DryStopHour" asp-for="DryStopHour" class="form-control text-center" />
+                        <span asp-validation-for="DryStopHour" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
-                        <label asp-for="StopMinute" class="control-label"></label>
-                        <input id="date" asp-for="StopMinute" class="form-control text-center" />
-                        <span asp-validation-for="StopMinute" class="text-danger"></span>
+                    <div class="form-group col-md-6">
+                        <label asp-for="DryStopMinute" class="control-label"></label>
+                        <input id="DryStopMinute" asp-for="DryStopMinute" class="form-control text-center" />
+                        <span asp-validation-for="DryStopMinute" class="text-danger"></span>
                     </div>
                 </div>
             </div>

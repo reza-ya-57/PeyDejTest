@@ -40,12 +40,12 @@ public class Motor
     public string? Manufacturer { get; set; }
 
     [Display(Name = "توان مصرفی(KW)")]
-    [Range(typeof(long), "0", "65536", ErrorMessage = "مقدار {0} باید بین {1} تا این {2} باشد")]
-    public long? Kw { get; set; }
+    //[Range(typeof(float), "0", "65536", ErrorMessage = "مقدار {0} باید بین {1} تا این {2} باشد")]
+    public float? Kw { get; set; }
 
     [Display(Name = "ولتاژ مصرفی(V)")]
-    [Range(typeof(long), "0", "65536", ErrorMessage = "مقدار {0} باید بین {1} تا این {2} باشد")]
-    public long? V { get; set; }
+    //[Range(typeof(long), "0", "65536", ErrorMessage = "مقدار {0} باید بین {1} تا این {2} باشد")]
+    public float? V { get; set; }
 
     [Display(Name = "شماره تسمه")]
     [MaxLength(1024, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]

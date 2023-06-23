@@ -55,7 +55,7 @@ namespace PeyDej.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Date,WetShelfCount,DryShelfCount,StopHour,StopMinute")] 
+        public async Task<IActionResult> Create([Bind("Date,WetShelfCount,DryShelfCount,WetStopHour,WetStopMinute,DryStopHour,DryStopMinute")] 
                                                  DailyStatisticsProduction dailyStatisticsProduction)
         {
             if (ModelState.IsValid)
@@ -104,7 +104,7 @@ namespace PeyDej.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(long id, long dailyStatisticsId,
-            [Bind("Id,Date,WetShelfCount,DryShelfCount,StopHour,StopMinute")]
+            [Bind("Id,Date,WetShelfCount,DryShelfCount,WetStopHour,WetStopMinute,DryStopHour,DryStopMinute")]
             DailyStatisticsProduction dailyProductionStatistic)
         {
             if (id != dailyProductionStatistic.Id)

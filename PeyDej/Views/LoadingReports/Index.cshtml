@@ -37,6 +37,7 @@
             {
                 columns.Add(model => model.Date).Titled(@Html.DisplayNameFor(model => model.Date));
                 columns.Add(model => model.LoadingCount).Titled(@Html.DisplayNameFor(model => model.LoadingCount));
+                columns.Add(model => model.OpenGateCount).Titled(@Html.DisplayNameFor(model => model.OpenGateCount));
                 @*columns.Add(model => _context.VwCategories.FirstOrDefault(m => m.SubCategoryId == model.LoadingIntervalId)!.SubCategoryCaption).Titled(@Html.DisplayNameFor(model => model.LoadingIntervalId));
                 columns.Add(model => model.Description).Titled(@Html.DisplayNameFor(model => model.Description));*@
                 columns.Add().Titled("ویرایش").Encoded(false).RenderedAs(model => Html.ActionLink("ویرایش", "Edit", new { Id = model.Id }));

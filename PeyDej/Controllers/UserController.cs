@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using PeyDej.Data;
 using PeyDej.Models.Users;
+using System.Security.Claims;
 
 namespace PeyDej.Controllers;
 
@@ -55,8 +56,9 @@ public class UserController : Controller
         //    {
         //        ModelState.AddModelError("", "خطا در ایجاد کاربر");
         //    }
-
-        //    await _userManage.AddClaimAsync(tblUser, new Claim(ClaimTypes.Role, "Admin"));
+        //var tblUser = await _userManage.FindByIdAsync("24fe883f-1284-41e4-ab7f-58012c80bc5c");
+        //await _userManage.AddClaimAsync(tblUser, new Claim(ClaimTypes.Role, "Admin"));
+        //await _userManage.AddClaimAsync(tblUser, new Claim(ClaimTypes.Sid, "24fe883f-1284-41e4-ab7f-58012c80bc5c"));
         //}
 
         if (ModelState.IsValid)

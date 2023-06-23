@@ -34,16 +34,17 @@ namespace PeyDej.Controllers
         public IActionResult Index()
         {
             List<Machine> MachinesResponse = new List<Machine> { };
-            var query = from Machine in _context.Set<Machine>()
-                        join SubCategory in _context.Set<SubCategory>()
-                            on (long)Machine.Department equals SubCategory.Id
-                        join SubCategory2 in _context.Set<SubCategory>()
-                            on (long)Machine.Process equals SubCategory2.Id
-                        select new {
-                           Machine,
-                           DepartmentCaption = SubCategory.Value,
-                           ProcessCaption = SubCategory2.Value
-                        };
+            var query = (from Machine in _context.Set<Machine>()
+                         join SubCategory in _context.Set<SubCategory>()
+                             on (long)Machine.Department equals SubCategory.Id
+                         join SubCategory2 in _context.Set<SubCategory>()
+                             on (long)Machine.Process equals SubCategory2.Id
+                         select new
+                         {
+                             Machine,
+                             DepartmentCaption = SubCategory.Value,
+                             ProcessCaption = SubCategory2.Value
+                         }).OrderByDescending(x => x.Machine.Id).ToList();
             foreach (var item in query)
             {
                 item.Machine.DeparmentCaption = item.DepartmentCaption;

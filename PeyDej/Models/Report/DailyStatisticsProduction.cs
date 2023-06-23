@@ -20,9 +20,13 @@ namespace PeyDej.Models.Report
         [Display(Name = "تعداد قفسه خشک")]
         [Required(ErrorMessage = "مقدار {0} الزامی می باشد")]
         public long? DryShelfCount { get; set; }
-        [Display(Name = "ساعت توفقات")]
-        public int? StopHour { get; set; }
-        [Display(Name = "دقیقه توقفات")]
-        public int? StopMinute { get; set; }
+        [Display(Name = "ساعت توفقات خیس")]
+        public int? WetStopHour { get; set; }
+        [Display(Name = "دقیقه توقفات خیس")]
+        public int? WetStopMinute { get; set; }
+        [Display(Name = "ساعت توفقات خشک")]
+        public int? DryStopHour { get; set; }
+        [Display(Name = "دقیقه توقفات خشک")]
+        public int? DryStopMinute { get; set; }
     }
 }

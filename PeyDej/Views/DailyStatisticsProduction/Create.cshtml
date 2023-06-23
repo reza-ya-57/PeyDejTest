@@ -39,15 +39,29 @@
 
 
                 <div class="row">
-                    <div class="form-group col-md-2">
-                        <label asp-for="StopHour" class="control-label"></label>
-                    <input id="StopHour" asp-for="StopHour" class="form-control text-center" />
-                        <span asp-validation-for="StopHour" class="text-danger"></span>
+                <div class="col-md-5">
+                        <div class="form-group col-md-6">
+                            <label asp-for="WetStopHour" class="control-label"></label>
+                            <input id="WetStopHour" asp-for="WetStopHour" class="form-control text-center" />
+                            <span asp-validation-for="WetStopHour" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="WetStopMinute" class="control-label"></label>
+                            <input id="WetStopMinute" asp-for="WetStopMinute" class="form-control text-center" />
+                            <span asp-validation-for="WetStopMinute" class="text-danger"></span>
+                        </div>
                     </div>
-                    <div class="form-group col-md-2">
-                        <label asp-for="StopMinute" class="control-label"></label>
-                        <input id="StopMinute" asp-for="StopMinute" class="form-control text-center" />
-                        <span asp-validation-for="StopMinute" class="text-danger"></span>
+                <div class="col-md-5">
+                        <div class="form-group col-md-6">
+                            <label asp-for="DryStopHour" class="control-label"></label>
+                            <input id="DryStopHour" asp-for="DryStopHour" class="form-control text-center" />
+                            <span asp-validation-for="DryStopHour" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="DryStopMinute" class="control-label"></label>
+                            <input id="DryStopMinute" asp-for="DryStopMinute" class="form-control text-center" />
+                            <span asp-validation-for="DryStopMinute" class="text-danger"></span>
+                        </div>
                     </div>
                 </div>
 

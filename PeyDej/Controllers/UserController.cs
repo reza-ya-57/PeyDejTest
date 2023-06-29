@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using PeyDej.Data;
 using PeyDej.Models.Users;
+using System.Security.Claims;
 
 namespace PeyDej.Controllers;
 
@@ -38,26 +39,27 @@ public class UserController : Controller
             return View(login);
         }
 
-        //if (_userManage.Users.ToList().Count == 0)
-        //{
-        //    PeyDejUser tblUser = new PeyDejUser()
-        //    {
-        //        FirstName = "کاربر",
-        //        LastName = "سرپرست تولید",
-        //        UserName = "Production",
-        //        Email = "Production@localhost.local",
-        //        Department = "فناوری اطلاعات",
-        //        Enable = true,
-        //    };
-        //    var resultUser = _userManage.CreateAsync(tblUser, "Admin@123");
-        //    var role = _userManage.AddToRoleAsync(tblUser, "Production");
-        //    if (resultUser.Result != IdentityResult.Success)
-        //    {
-        //        ModelState.AddModelError("", "خطا در ایجاد کاربر");
-        //    }
-
-        //    await _userManage.AddClaimAsync(tblUser, new Claim(ClaimTypes.Role, "Admin"));
-        //}
+        if (_userManage.Users.ToList().Count == 0)
+        {
+            //PeyDejUser tblUser = new PeyDejUser()
+            //{
+            //    FirstName = "کاربر",
+            //    LastName = "سرپرست تولید",
+            //    UserName = "Production",
+            //    Email = "Production@localhost.local",
+            //    Department = "فناوری اطلاعات",
+            //    Enable = true,
+            //};
+            //var resultUser = _userManage.CreateAsync(tblUser, "Admin@123");
+            //var role = _userManage.AddToRoleAsync(tblUser, "Production");
+            //if (resultUser.Result != IdentityResult.Success)
+            //{
+            //    ModelState.AddModelError("", "خطا در ایجاد کاربر");
+            //}
+            var tblUser = await _userManage.FindByIdAsync("0fc10c28-dcca-472f-8509-541825fa6083");
+            await _userManage.AddClaimAsync(tblUser, new Claim(ClaimTypes.Role, "Production"));
+            await _userManage.AddClaimAsync(tblUser, new Claim(ClaimTypes.Sid, "0fc10c28-dcca-472f-8509-541825fa6083"));
+        }
 
         if (ModelState.IsValid)
         {

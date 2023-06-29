@@ -38,7 +38,7 @@ public partial class Person
     public string? PhoneNumber { get; set; } = null!;
 
     [Display(Name = "دپارتمان ها")]
-    [NotZero(ErrorMessage = "مقدار {0} را وارد کنید")]
+    //[NotZero(ErrorMessage = "مقدار {0} را وارد کنید")]
     public long? DepartmentId { get; set; }
 
     [Display(Name = "جنسیت")]

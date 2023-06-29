@@ -113,7 +113,7 @@
                     </div>
                 </li>
             }
-          @*  <li class="nav-item">
+            <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#accordionRepairs" aria-expanded="true" aria-controls="accordionRepairs">
                     <i class="fas fa-fw fa-list-alt"></i>
                     <span>تعمیرات</span>
@@ -132,7 +132,7 @@
                         <a asp-action="RequestIndex" asp-controller="Repairs" class="collapse-item">درخواست تعمیرات</a>
                     </div>
                 </div>
-            </li>*@
+            </li>
             @if (User.IsInRole("Admin"))
             {
                 <li class="nav-item">

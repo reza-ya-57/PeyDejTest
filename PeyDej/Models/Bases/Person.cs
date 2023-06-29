@@ -28,7 +28,7 @@ public partial class Person
     public string LastName { get; set; } = null!;
 
     [Display(Name = "کد ملی")]
-    [Required(ErrorMessage = "مقدار {0} را وارد کنید")]
+    //[Required(ErrorMessage = "مقدار {0} را وارد کنید")]
     [MaxLength(10, ErrorMessage = "مقدار {0} باید حداکثر {1} کاراکتر باشد")]
     public string? NationalCode { get; set; } = null!;
 

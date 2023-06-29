@@ -91,8 +91,8 @@ namespace PeyDej.Controllers
                 _ = person.DepartmentId == 0 ? person.DepartmentId = null : person.DepartmentId = person.DepartmentId;
 
                 person.CreatorUserId = User.Claims.Where(w => w.Type == ClaimTypes.Sid)?.FirstOrDefault()?.Value;
-                //_context.Add(person);
-                //await _context.SaveChangesAsync();
+                _context.Add(person);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewBag.Gender = this.Gender();

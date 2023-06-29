@@ -23,14 +23,14 @@ public class DailyWetProductIR
     [Display(Name = "تاریخ")]
     public string DateDto { get; set; }
 
-    [Display(Name = "دما و رطوبت")]
-    public int? TemperatureAndHumidityStatus { get; set; }
+    //[Display(Name = "دما و رطوبت")]
+    //public int? TemperatureAndHumidityStatus { get; set; }
 
     [Display(Name = "ابعاد تیغه")]
     public long? BladeDimensionX { get; set; }
 
-    [Display(Name = "ابعاد تیغه")]
-    public long? BladeDimensionY { get; set; }
+    //[Display(Name = "ابعاد تیغه")]
+    //public long? BladeDimensionY { get; set; }
 
     [Display(Name = "شماره قالب")]
     public long? TemplateNumber { get; set; }

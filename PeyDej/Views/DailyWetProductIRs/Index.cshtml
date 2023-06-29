@@ -2,7 +2,7 @@
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model IEnumerable<PeyDej.Models.Report.DailyWetProductIR>
 @{
-    ViewData["Title"] = "لیست خط خیس";
+    ViewData["Title"] = "چک لیست خط خیس";
 }
 
 @inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
@@ -31,7 +31,7 @@
             .Grid(Model)
             .Build(columns =>
             {
-                columns.Add(model => model.TemperatureAndHumidityStatus).Titled(@Html.DisplayNameFor(model => model.TemperatureAndHumidityStatus));
+                @*columns.Add(model => model.TemperatureAndHumidityStatus).Titled(@Html.DisplayNameFor(model => model.TemperatureAndHumidityStatus));*@
                 columns.Add(model => model.TemplateNumber).Titled(@Html.DisplayNameFor(model => model.TemplateNumber));
                 columns.Add(model => model.BladeWeight).Titled(@Html.DisplayNameFor(model => model.BladeWeight));
                 columns.Add(model => model.SoilSpeed).Titled(@Html.DisplayNameFor(model => model.SoilSpeed));

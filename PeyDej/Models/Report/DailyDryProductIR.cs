@@ -20,14 +20,14 @@ public class DailyDryProductIR
     [NotMapped]
     [Display(Name = "تاریخ")]
     public string DateDto { get; set; }
-    [Display(Name = "دما و رطوبت")]
+    [Display(Name = "دمای محیط")]
     public float? TemperatureAndHumidity { get; set; }
     [Display(Name = "دمای خشک کن")]
     public float? DryerTemperature { get; set; }
     [Display(Name = "ابعاد تیغه")]
     public long? BladeDimensionX { get; set; }
-    [Display(Name = "ابعاد تیغه")]
-    public long? BladeDimensionY { get; set; }
+    //[Display(Name = "ابعاد تیغه")]
+    //public long? BladeDimensionY { get; set; }
 
 
     [Display(Name = "نام پرستار شیفت روز")]

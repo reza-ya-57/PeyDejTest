@@ -2,7 +2,7 @@
 @model PeyDej.Models.Report.DailyDryProductIR
 @inject PeyDejContext _Context
 @{
-    ViewData["Title"] = "خط خیس";
+    ViewData["Title"] = "گزارش چک لیست خط خشک";
 }
 
 <h1>خط خیس</h1>
@@ -10,10 +10,10 @@
 <div>
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TemperatureAndHumidity)
+            @Html.DisplayNameFor(model => model.EnvironmentTemperature)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TemperatureAndHumidity)
+            @Html.DisplayFor(model => model.EnvironmentTemperature)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.DryerTemperature)
@@ -39,7 +39,13 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.LipTwitchingStatus)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ShiftOperatorPersonId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => _Context.Persons.Where(w => w.Id == model.ShiftOperatorPersonId).FirstOrDefault().FullName)
+        </dd>
+        @*<dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.MorningShiftOperatorPersonId)
         </dt>
         <dd class="col-sm-10">
@@ -50,7 +56,7 @@
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => _Context.Persons.Where(w => w.Id == model.NightShiftOperatorPersonId).FirstOrDefault().FullName)
-        </dd>
+        </dd>*@
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.TemplateKindId)
         </dt>

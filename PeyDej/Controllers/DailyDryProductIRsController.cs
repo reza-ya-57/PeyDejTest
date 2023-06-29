@@ -26,7 +26,12 @@ namespace PeyDej.Controllers
         // GET: DailyDryProductIrs
         public async Task<IActionResult> Index()
         {
-            return View(await _context.DailyDryProductIrs.Where(w => w.GeneralStatusId == GeneralStatus.Active).ToListAsync());
+            var result = await _context.DailyDryProductIrs.Where(w => w.GeneralStatusId == GeneralStatus.Active).ToListAsync();
+            foreach(var item in result)
+            {
+                item.DateDto = item.Date.ToShamsi().Split(' ')[0];
+            }
+            return View(result);
         }
 
         // GET: DailyDryProductIrs/Details/5
@@ -39,6 +44,7 @@ namespace PeyDej.Controllers
 
             var dailyDryProductIR = await _context.DailyDryProductIrs
                 .FirstOrDefaultAsync(m => m.Id == id);
+            dailyDryProductIR.ShiftOperatorPersonName = _context.Persons.Where(person => person.Id == dailyDryProductIR.ShiftOperatorPersonId).Select(person => person.FullName).FirstOrDefault();
             if (dailyDryProductIR == null)
             {
                 return NotFound();
@@ -53,7 +59,7 @@ namespace PeyDej.Controllers
             DailyDryProductIR dailyWetProductIr = new()
             {
                 TemplateKindList = _context.SubCategories.Where(w => w.CategoryId == 21),
-                ShiftOperatorPerson = _context.Persons.Where(w => w.GeneralStatusId == GeneralStatus.Active)
+                ShiftOperatorPersons = _context.Persons.Where(w => w.GeneralStatusId == GeneralStatus.Active)
             };
             return View(dailyWetProductIr);
         }
@@ -74,7 +80,7 @@ namespace PeyDej.Controllers
             }
 
             dailyDryProductIR.TemplateKindList = _context.SubCategories.Where(w => w.CategoryId == 21);
-            dailyDryProductIR.ShiftOperatorPerson = _context.Persons.Where(w => w.GeneralStatusId == GeneralStatus.Active);
+            dailyDryProductIR.ShiftOperatorPersons = _context.Persons.Where(w => w.GeneralStatusId == GeneralStatus.Active);
             return View(dailyDryProductIR);
         }
 
@@ -87,14 +93,14 @@ namespace PeyDej.Controllers
             }
 
             var dailyDryProductIR = await _context.DailyDryProductIrs.FindAsync(id);
-            dailyDryProductIR.ShiftOperatorPerson = _context.Persons.Where(w => w.GeneralStatusId == GeneralStatus.Active);
+            dailyDryProductIR.ShiftOperatorPersons = _context.Persons.Where(w => w.GeneralStatusId == GeneralStatus.Active);
             dailyDryProductIR.DateDto = dailyDryProductIR.Date.ToShamsi().Split(' ')[0];
             if (dailyDryProductIR == null)
             {
                 return NotFound();
             }
             dailyDryProductIR.TemplateKindList = _context.SubCategories.Where(w => w.CategoryId == 21);
-            dailyDryProductIR.ShiftOperatorPerson = _context.Persons.Where(w => w.GeneralStatusId == GeneralStatus.Active);
+            dailyDryProductIR.ShiftOperatorPersons = _context.Persons.Where(w => w.GeneralStatusId == GeneralStatus.Active);
             return View(dailyDryProductIR);
         }
 
@@ -132,7 +138,7 @@ namespace PeyDej.Controllers
                 return RedirectToAction(nameof(Index));
             }
             dailyDryProductIR.TemplateKindList = _context.SubCategories.Where(w => w.CategoryId == 21);
-            dailyDryProductIR.ShiftOperatorPerson = _context.Persons.Where(w => w.GeneralStatusId == GeneralStatus.Active);
+            dailyDryProductIR.ShiftOperatorPersons = _context.Persons.Where(w => w.GeneralStatusId == GeneralStatus.Active);
             return View(dailyDryProductIR);
         }
 

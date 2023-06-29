@@ -24,9 +24,9 @@
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label asp-for="TemperatureAndHumidity" class="control-label"></label>
-                                <input asp-for="TemperatureAndHumidity" class="form-control" />
-                                <span asp-validation-for="TemperatureAndHumidity" class="text-danger"></span>
+                                <label asp-for="EnvironmentTemperature" class="control-label"></label>
+                                <input asp-for="EnvironmentTemperature" class="form-control" />
+                                <span asp-validation-for="EnvironmentTemperature" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
@@ -58,6 +58,20 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
+                                <label asp-for="ShiftOperatorPersonId" class="col-form-label"></label>
+                                <select required asp-for="ShiftOperatorPersonId" class="form-control">
+                                    <option value="" default="" selected="">انتخاب</option>
+                                    @foreach (var item in Model.ShiftOperatorPersons)
+                                    {
+                                        @*var item = (Model.ShiftOperatorPersons)[i];*@
+                                        <option name="@item.FullName" value="@item.Id">@item.FullName</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="ShiftOperatorPersonId" class="text-danger"></span>
+                            </div>
+                        </div>
+@*                        <div class="col-6">
+                            <div class="form-group">
                                 <label asp-for="NightShiftOperatorPersonId" class="col-form-label"></label>
                                 <select asp-for="NightShiftOperatorPersonId" asp-items="@SystemExtenstion.Select(Model.ShiftOperatorPerson,"Id","FullName")" class="form-control"></select>
                                 <span asp-validation-for="NightShiftOperatorPersonId" class="text-danger"></span>
@@ -69,7 +83,7 @@
                                 <select asp-for="MorningShiftOperatorPersonId" asp-items="@SystemExtenstion.Select(Model.ShiftOperatorPerson,"Id","FullName")" class="form-control"></select>
                                 <span asp-validation-for="MorningShiftOperatorPersonId" class="text-danger"></span>
                             </div>
-                        </div>
+                        </div>*@
                     </div>
 
                     <div class="row">

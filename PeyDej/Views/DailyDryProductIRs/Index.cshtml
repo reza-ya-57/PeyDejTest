@@ -31,12 +31,12 @@
             .Grid(Model)
             .Build(columns =>
             {
-                columns.Add(model => model.DryerExternalCrackStatus).Titled(@Html.DisplayNameFor(model => model.DryerExternalCrackStatus));
-                columns.Add(model => model.TemperatureAndHumidity).Titled(@Html.DisplayNameFor(model => model.TemperatureAndHumidity));
-                columns.Add(model => model.DryerTemperature).Titled(@Html.DisplayNameFor(model => model.DryerTemperature));
+                columns.Add(model => model.DateDto).Titled(@Html.DisplayNameFor(model => model.DateDto));
+                columns.Add(model => model.EnvironmentTemperature).Titled(@Html.DisplayNameFor(model => model.EnvironmentTemperature));
+                @*columns.Add(model => model.DryerTemperature).Titled(@Html.DisplayNameFor(model => model.DryerTemperature));
                 columns.Add(model => model.LipTwitchingStatus).Titled(@Html.DisplayNameFor(model => model.LipTwitchingStatus));
                 columns.Add(model => model.InternalCrackStatus).Titled(@Html.DisplayNameFor(model => model.InternalCrackStatus));
-                columns.Add(model => model.WetPalletCount).Titled(@Html.DisplayNameFor(model => model.InternalCrackStatus));
+                columns.Add(model => model.WetPalletCount).Titled(@Html.DisplayNameFor(model => model.InternalCrackStatus));*@
                 columns.Add().Titled("ویرایش").Encoded(false).RenderedAs(model => PeyDejHelper.ActionLink("<i class=\"icon-edit\"></i>", "Edit", "DailyDryProductIRs", model.Id, "orange-text", "ویرایش"));
                 columns.Add().Titled("جزییات").Encoded(false).RenderedAs(model => PeyDejHelper.ActionLink("<i class=\"icon-info-sign\"></i>", "Details", "DailyDryProductIRs", model.Id, "green-text", "جزییات"));
 

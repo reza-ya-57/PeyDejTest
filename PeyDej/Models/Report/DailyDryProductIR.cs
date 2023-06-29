@@ -1,4 +1,5 @@
-﻿using PeyDej.Models.Bases;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using PeyDej.Models.Bases;
 
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -10,7 +11,7 @@ public class DailyDryProductIR
 {
     public DailyDryProductIR()
     {
-        ShiftOperatorPerson = default;
+        ShiftOperatorPersons = default;
         TemplateKindList = default;
         GeneralStatusId = GeneralStatus.Active;
     }
@@ -21,7 +22,7 @@ public class DailyDryProductIR
     [Display(Name = "تاریخ")]
     public string DateDto { get; set; }
     [Display(Name = "دمای محیط")]
-    public float? TemperatureAndHumidity { get; set; }
+    public float? EnvironmentTemperature { get; set; }
     [Display(Name = "دمای خشک کن")]
     public float? DryerTemperature { get; set; }
     [Display(Name = "ابعاد تیغه")]
@@ -29,17 +30,23 @@ public class DailyDryProductIR
     //[Display(Name = "ابعاد تیغه")]
     //public long? BladeDimensionY { get; set; }
 
-
-    [Display(Name = "نام پرستار شیفت روز")]
-    public long? MorningShiftOperatorPersonId { get; set; }
-    [Display(Name = "نام پرستار شیفت شب")]
-    public long? NightShiftOperatorPersonId { get; set; }
+    [Display(Name = "اپراتور شیفت")]
+    public long? ShiftOperatorPersonId { get; set; }
+    [ValidateNever]
     [NotMapped]
-    [Display(Name = "نام پرستار شیفت روز")]
-    public IQueryable<Person>? ShiftOperatorPerson { get; set; }
+    public IQueryable<Person>? ShiftOperatorPersons { get; set; }
+    [NotMapped]
+    public string? ShiftOperatorPersonName { get; set; }
+    //[Display(Name = "نام پرستار شیفت روز")]
+    //public long? MorningShiftOperatorPersonId { get; set; }
+    //[Display(Name = "نام پرستار شیفت شب")]
+    //public long? NightShiftOperatorPersonId { get; set; }
+    //[NotMapped]
+    //[Display(Name = "نام پرستار شیفت روز")]
+    //public IQueryable<Person>? ShiftOperatorPerson { get; set; }
 
 
-    [Display(Name = "لب پریدگی")]
+    [Display(Name = "لب پریدگی")]   
     public int? LipTwitchingStatus { get; set; }
     [Display(Name = "ترک داخلی")]
     public int? InternalCrackStatus { get; set; }

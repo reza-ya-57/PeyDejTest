@@ -96,13 +96,16 @@
                     </div>
 
                     <div class="row">
-                        @*<div class="col-6">
+                        <div class="col-6">
                             <div class="form-group">
                                 <label asp-for="LipTwitchingStatus" class="control-label"></label>
-                                <input asp-for="LipTwitchingStatus" class="form-control" />
+                                <td>
+                                    <label class="m-2"><input name="LipTwitchingStatus" value="1" type="radio" />&nbsp;&nbsp;دارد</label>
+                                    <label class="m-2"><input name="LipTwitchingStatus" value="0" type="radio" />&nbsp;&nbsp;ندارد</label>
+                                </td>
                                 <span asp-validation-for="LipTwitchingStatus" class="text-danger"></span>
                             </div>
-                        </div>*@
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-6">

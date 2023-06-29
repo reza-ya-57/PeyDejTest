@@ -46,8 +46,8 @@ public class DailyDryProductIR
     //public IQueryable<Person>? ShiftOperatorPerson { get; set; }
 
 
-    //[Display(Name = "لب پریدگی")]   
-    //public int? LipTwitchingStatus { get; set; }
+    [Display(Name = "لب پریدگی")]   
+    public int? LipTwitchingStatus { get; set; }
     [Display(Name = "ترک داخلی")]
     public int? InternalCrackStatus { get; set; }
     [Display(Name = "ترک خارجی")]

@@ -51,9 +51,15 @@ public class DailyDryProductIR
     [Display(Name = "ترک داخلی")]
     public int? InternalCrackStatus { get; set; }
     [Display(Name = "ترک خارجی")]
-    public int? TemplateExternalCrackStatus { get; set; }
-    [Display(Name = "وضعیت ترک خارجی")]
-    public int? DryerExternalCrackStatus { get; set; }
+    public int? ExternalCrackStatus { get; set; }
+    [Display(Name = "نوع ترک خارجی")]
+    public long? ExternalCrackKindId { get; set; }
+    [NotMapped]
+    public string? ExternalCrackStatusKindCaption { get; set; }
+    //[Display(Name = "ترک خارجی")]
+    //public int? TemplateExternalCrackStatus { get; set; }
+    //[Display(Name = "وضعیت ترک خارجی")]
+    //public int? DryerExternalCrackStatus { get; set; }
 
     [Display(Name = "نوع قالب")]
     public long? TemplateKindId { get; set; }

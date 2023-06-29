@@ -71,14 +71,6 @@
                                 <span asp-validation-for="ShiftOperatorPersonId" class="text-danger"></span>
                             </div>
                         </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label asp-for="TemplateExternalCrackStatus" class="control-label"></label>
-                                <input asp-for="TemplateExternalCrackStatus" class="form-control" />
-                                <span asp-validation-for="TemplateExternalCrackStatus" class="text-danger"></span>
-
-                            </div>
-                        </div>
                         @*<div class="col-6">
                             <div class="form-group">
                                 <label asp-for="NightShiftOperatorPersonIdPersonId" class="col-form-label"></label>
@@ -98,6 +90,20 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
+                                <label asp-for="ExternalCrackStatus" class="control-label"></label>
+                                <td>
+                                    <label class="m-2"><input name="ExternalCrackStatus" value="1" type="radio" />&nbsp;&nbsp;دارد</label>
+                                    <label class="m-2"><input name="ExternalCrackStatus" value="0" type="radio" />&nbsp;&nbsp;ندارد</label>
+                                </td>
+                                <span asp-validation-for="ExternalCrackStatus" class="text-danger"></span>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
                                 <label asp-for="LipTwitchingStatus" class="control-label"></label>
                                 <td>
                                     <label class="m-2"><input name="LipTwitchingStatus" value="1" type="radio" />&nbsp;&nbsp;دارد</label>
@@ -108,13 +114,13 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-6">
+                       @* <div class="col-6">
                             <div class="form-group">
                                 <label asp-for="DryerExternalCrackStatus" class="control-label"></label>
                                 <input asp-for="DryerExternalCrackStatus" class="form-control" />
                                 <span asp-validation-for="DryerExternalCrackStatus" class="text-danger"></span>
                             </div>
-                        </div>
+                        </div>*@
                         <div class="col-6">
                             <div class="form-group">
                                 <label asp-for="ShelfNumberStart" class="control-label"></label>

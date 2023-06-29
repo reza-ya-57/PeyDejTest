@@ -157,7 +157,8 @@ namespace PeyDej.Controllers
                 return NotFound();
             }
 
-            return View(dailyWetProductIR);
+            return Ok();
+            // return View(dailyWetProductIR);
         }
 
         // POST: LoadingReports/Delete/5

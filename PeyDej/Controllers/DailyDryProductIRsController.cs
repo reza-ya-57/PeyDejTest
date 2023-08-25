@@ -54,7 +54,6 @@ namespace PeyDej.Controllers
         // GET: DailyDryProductIrs/Create
         public IActionResult Create()
         {
-            var query = "SELECT * FROM ";
             DailyDryProductIR dailyWetProductIr = new()
             {
                 TemplateKindList = _context.SubCategories.Where(w => w.CategoryId == 21),
